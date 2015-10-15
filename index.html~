@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Lucky Numbers</title>
+    <script src="js/phaser.js"></script>
+    <script src="js/main.js"></script>
+
+<style>
+body
+{
+    color: #777;
+    font-family: "Avenir", Verdana, sans-serif;
+}
+#readme
+{
+    margin-top: 10px;
+}
+</style>
+
+</head>
+<body>
+<div id="game"></div>
+<div id="readme">
+<h2>Lucky Numbers!</h2>
+<ul>
+
+<li><strong>Use QWERTY in place of 123456</strong> </li>
+<li></li>
+
+<li><strong>High Concept:</strong>
+Guessthe four-digit number based on clues given after each guess.
+</li>
+
+<li><strong>Player Experience Goals:</strong>
+I want the player to feel frustration or determination.
+</li>
+
+<li><strong>Genre:</strong>
+Arcade puzzle game!
+</li>
+
+<li><strong>Game play:</strong>
+Choose numbers 1-6 using the QWERTY keys. After four numbers have been entered,
+a hint will appear telling you how close your guess is to the right answer.
+</li>
+
+<li><strong>Prototype goal:</strong>
+To figure out more about keyboard input reading as well as printing sprites
+rather than text. 
+</li>
+
+<li><strong>Features:</strong>
+The goal of figuring out the winning numbers the hacker's way.
+</li>
+
+<li><strong>Setting/Premise:</strong>
+You are hacking the Lottery Company's database.
+</li>
+
+<li><strong>Story:</strong>
+You are a troublemaking young adult that suddenly decides to have lots of money.
+So, using your hacking skills, you break into the Lottery Company's database
+and try to figure out the winning numbers before the security system notices you.
+</li>
+
+<li><strong>Target Audience:</strong>
+People who like puzzle games.
+</li>
+
+<li><strong>Play time:</strong>
+About five minutes.
+</li>
+
+<li><strong>Strategies:</strong>
+Look for patterns in the hints that you recieve.
+</li>
+
+<li><strong>Prototype Assets:</strong>
+All original.
+</li>
+
+<li><strong>Prototype Closest Other Game:</strong>
+Mastermind.
+</li>
+
+</ul>
+</div>
+</body>
+</html>
