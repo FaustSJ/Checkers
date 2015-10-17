@@ -43,9 +43,9 @@ function create() {
 	board = game.add.sprite(0, 0, 'CheckerBoard');
 	game.physics.startSystem(Phaser.Physics.BOX2D);
 	game.physics.box2d.setBoundsToWorld();
-	game.input.onDown.add(mouseDragStart, this);
-	game.input.addMoveCallback(mouseDragMove, this);
-	game.input.onUp.add(mouseDragEnd, this);
+//	game.input.onDown.add(mouseDragStart, this);
+//	game.input.addMoveCallback(mouseDragMove, this);
+//	game.input.onUp.add(mouseDragEnd, this);
 	
 //What the player clicks
 	red1 = game.add.sprite(100, 0, 'RedPiece');
