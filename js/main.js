@@ -1,4 +1,4 @@
-//http://wonderdeep.github.io/ManlyDressUp/index.html
+//http://wonderdeep.github.io/Checkers/index.html
 var game = new Phaser.Game(800, 800, Phaser.CANVAS, 'game', { preload: preload, create: create, update: update, render: render });
 
 function preload() {
@@ -40,7 +40,7 @@ var black12;
 
 function create() {
 //sets up the board and the mouse input
-	board = game.add.sprite(0, 0, 'CheckerBoard');
+	board = game.add.sprite(0, 0, 'RedPiece');
 	game.physics.startSystem(Phaser.Physics.BOX2D);
 	game.physics.box2d.setBoundsToWorld();
 	game.input.onDown.add(mouseDragStart, this);
@@ -124,32 +124,37 @@ function create() {
 
 }
 ////////////////////////////////////////////////////////////////////////////////
-function mouseDragStart() {
+function mouseDragStart() 
+{
     
     game.physics.box2d.mouseDragStart(game.input.mousePointer);
     
 }
 
-function mouseDragMove() {
+function mouseDragMove() 
+{
     
     game.physics.box2d.mouseDragMove(game.input.mousePointer);
     
 }
 
-function mouseDragEnd() {
+function mouseDragEnd() 
+{
     
     game.physics.box2d.mouseDragEnd();
     
 }
 ////////////////////////////////////////////////////////////////////////////////
-function update() {
+function update() 
+{
 //These summon a function from above depending on what the player picks.
 
 }
 ////////////////////////////////////////////////////////////////////////////////
 
 
-function render() {
+function render()
+{
 
 }
 
