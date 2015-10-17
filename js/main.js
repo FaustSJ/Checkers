@@ -40,7 +40,7 @@ var black12;
 
 function create() {
 //sets up the board and the mouse input
-	board = game.add.sprite(0, 0, 'RedPiece');
+	board = game.add.sprite(0, 0, 'CheckerBoard');
 	game.physics.startSystem(Phaser.Physics.BOX2D);
 	game.physics.box2d.setBoundsToWorld();
 	game.input.onDown.add(mouseDragStart, this);
@@ -85,40 +85,40 @@ function create() {
 	red12.inputenabled = true;
 	game.physics.box2d.enable(red12);
 	
-	black1 = game.add.sprite(0, 500, 'RedPiece');
+	black1 = game.add.sprite(0, 500, 'BlackPiece');
 	black1.inputenabled = true;
 	game.physics.box2d.enable(black1);
-	black2 = game.add.sprite(200, 500, 'RedPiece');
+	black2 = game.add.sprite(200, 500, 'BlackPiece');
 	black2.inputenabled = true;
 	game.physics.box2d.enable(black2);
-	black3 = game.add.sprite(400, 500, 'RedPiece');
+	black3 = game.add.sprite(400, 500, 'BlackPiece');
 	black3.inputenabled = true;
 	game.physics.box2d.enable(black3);
-	black4 = game.add.sprite(600, 500, 'RedPiece');
+	black4 = game.add.sprite(600, 500, 'BlackPiece');
 	black4.inputenabled = true;
 	game.physics.box2d.enable(black4);
-	black5 = game.add.sprite(100, 600, 'RedPiece');
+	black5 = game.add.sprite(100, 600, 'BlackPiece');
 	black5.inputenabled = true;
 	game.physics.box2d.enable(black5);
-	black6 = game.add.sprite(300, 600, 'RedPiece');
+	black6 = game.add.sprite(300, 600, 'BlackPiece');
 	black6.inputenabled = true;
 	game.physics.box2d.enable(black6);
-	black7 = game.add.sprite(500, 600, 'RedPiece');
+	black7 = game.add.sprite(500, 600, 'BlackPiece');
 	black7.inputenabled = true;
 	game.physics.box2d.enable(black7);
-	black8 = game.add.sprite(700, 600, 'RedPiece');
+	black8 = game.add.sprite(700, 600, 'BlackPiece');
 	black8.inputenabled = true;
 	game.physics.box2d.enable(black8);
-	black9 = game.add.sprite(0, 700, 'RedPiece');
+	black9 = game.add.sprite(0, 700, 'BlackPiece');
 	black9.inputenabled = true;
 	game.physics.box2d.enable(black9);
-	black10 = game.add.sprite(200, 700, 'RedPiece');
+	black10 = game.add.sprite(200, 700, 'BlackPiece');
 	black10.inputenabled = true;
 	game.physics.box2d.enable(black10);
-	black11 = game.add.sprite(400, 700, 'RedPiece');
+	black11 = game.add.sprite(400, 700, 'BlackPiece');
 	black11.inputenabled = true;
 	game.physics.box2d.enable(black11);
-	black12 = game.add.sprite(600, 700, 'RedPiece');
+	black12 = game.add.sprite(600, 700, 'BlackPiece');
 	black12.inputenabled = true;
 	game.physics.box2d.enable(black12);
 
