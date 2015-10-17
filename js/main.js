@@ -40,8 +40,8 @@ var black12;
 
 function create() {
 //sets up the board and the mouse input
-//	board = game.add.sprite(0, 0, 'CheckerBoard');
-//	game.physics.startSystem(Phaser.Physics.BOX2D);
+	board = game.add.sprite(0, 0, 'CheckerBoard');
+	game.physics.startSystem(Phaser.Physics.BOX2D);
 //	game.physics.box2d.setBoundsToWorld();
 //	game.input.onDown.add(mouseDragStart, this);
 //	game.input.addMoveCallback(mouseDragMove, this);
