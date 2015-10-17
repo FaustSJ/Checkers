@@ -24,8 +24,12 @@ function preload() {
 	game.load.image('sunglassop', 'assets/sunglassop.png');
 	game.load.image('sunglasses', 'assets/sunglasses.png');
 	//Polish
-	
-	
+	game.load.image('warning1','assets/warning1.png');
+	game.load.image('warning2','assets/warning2.png');
+	game.load.image('dress','assets/dress.jpg');
+	game.load.image('dresspick','assets/dresspick.png');
+	game.load.image('runButton','assets/run.png');
+	game.load.image('ending','assets/ending.jpg');
 }
 
 var background;
@@ -52,6 +56,11 @@ var sunglasspick;
 var nobeard;
 var nohair;
 var noother;
+//polish
+var dressCounter;
+var dresspick;
+var runBu;
+var endbg;
 
 
 
@@ -74,6 +83,12 @@ function create() {
   	sunglasspick = game.add.sprite(555,430, 'sunglassop');
   	sunglasspick.inputEnabled = true;
   	sunglasspick.events.onInputDown.add(sunglassesf, this);
+  	//polish
+  	dresspick = game.add.sprite(555,460, 'dresspick');
+  	dresspick.inputEnabled = true;
+  	dresspick.events.onInputDown.add(dressf, this);
+  	dressCounter = 0;
+  	
   	
 	beardpick = game.add.sprite(550,230, 'no1');
 	beardpick.inputEnabled = true;
@@ -107,6 +122,10 @@ function create() {
   	noother = game.add.sprite(685,395, 'none');
 	noother.inputEnabled = true;
   	noother.events.onInputDown.add(nootherf, this);
+  	//polish
+  	runBu = game.add.sprite(550,270,'runButton');
+  	runBu.visible = false;
+  	
 	//--------------------------------------------
 //What the player sees
 	tank = game.add.sprite(0,0, 'tank');
@@ -129,6 +148,9 @@ function create() {
 	dracula.visible = false;
 	sailor = game.add.sprite(185,100, 'sailor');
 	sailor.visible = false; 
+	
+	endbg = game.add.sprite(0,0, 'ending' );
+	endbg.visible = false;
 }
 /*
 function setup () {
@@ -187,8 +209,70 @@ function tankf () {
 	tank.visible = true;
 	sunglasses.visible = false;
 }
-function sunglassesf (){
+function sunglassesf () {
+	sunglasses.loadTexture('sunglasses',0);
 	sunglasses.visible = true;	
+}
+function dressf () {
+	if(dressCounter===0)
+	{
+		sunglasses.loadTexture('warning1',0);
+		sunglasses.visible = true;
+	}
+	if(dressCounter===1)
+	{
+		sunglasses.loadTexture('warning2',0);
+		sunglasses.visible = true;
+	}
+	if(dressCounter>1)
+	{
+		ammo.visible = false;
+		tank.visible = false;
+		sunglasses.visible = false;
+		beard.visible = false;
+		beard2.visible = false;
+		weard.visible = false;
+		mustache.visible = false;
+		cowboy.visible = false;
+		dracula.visible = false;
+		sailor.visible = false;
+		background.loadTexture('dress',0);
+		
+		runBu.visible = true;
+		ammopick.visible = false;
+		tankpick.visible = false;
+		sunglasspick.visible = false;
+		dresspick.visible = false;
+		beardpick.visible = false;
+		beard2pick.visible = false;
+		weardpick.visible = false;
+		mustachepick.visible = false;
+		cowboypick.visible = false;
+		draculapick.visible = false;
+		sailorpick.visible = false;
+		nohair.visible = false;
+		nobeard.visible = false;
+		noother.visible = false;
+		
+		runBu.inputEnabled = true;
+		runBu.events.onInputDown.add(endf, this);
+/*		ammopick.inputEnabled = false;
+		tankpick.inputEnabled = false;
+		sunglasspick.inputEnabled = false;
+		dresspick.inputEnabled = false;
+		beardpick.inputEnabled = false;
+		beard2pick.inputEnabled = false;
+		weardpick.inputEnabled = false;
+		mustachepick.inputEnabled = false;
+		cowboypick.inputEnabled = false;
+		draculapick.inputEnabled = false;
+		sailorpick.inputEnabled = false;
+		nohair.inputEnabled = false;
+		nobeard.inputEnabled = false;
+		noother.inputEnabled = false;*/
+		
+	}
+	dressCounter++;
 }
 function beardf () {
 	beard.visible = true;
@@ -254,6 +338,12 @@ function nootherf () {
 	tank.visible = false;
 	sunglasses.visible = false;
 }
+
+function endf ()
+{
+	endbg.visible = true;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 function update() {
 //These summon a function from above depending on what the player picks.
