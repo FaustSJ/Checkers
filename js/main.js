@@ -37,9 +37,14 @@ var black12;*/
 var reds;
 var blacks;
 var selectedRed = null;
+var selectedRedStartPos;
+var selectedRedTween;
 var turnTrigger = 0;
 var redCanJump = false;
 var blackCanJump = false;
+
+var tempShiftedRed = null;
+var tempShiftedRedTween;
 
 
 
@@ -48,6 +53,8 @@ var blackCanJump = false;
 function create() {
 //sets up the board and the mouse input
 	board = game.add.sprite(0, 0, 'CheckerBoard');
+	game.input.addMoveCallback(slideRed, this);
+	selectedRedStartPos = {x: 0, y: 0};
 	
 //What the player clicks
 /*	red1 = game.add.sprite(100, 0, 'RedPiece');
@@ -117,6 +124,7 @@ function create() {
 					var red = reds.create(100, i*100, 'RedPiece');
 					red.name = 'red' + redcount;
 					redcount++;
+					red.inputEnabled = true;
 					red.events.onInputDown.add(selectRed, this);
 					red.events.onInputUp.add(releaseRed, this);
 					setRedPos(red, 100, i*100);
@@ -126,6 +134,7 @@ function create() {
 					var c = reds.create(300, i*100, 'RedPiece');	
 					red.name = 'red' + redcount;
 					redcount++;
+					red.inputEnabled = true;
 					red.events.onInputDown.add(selectRed, this);
 					red.events.onInputUp.add(releaseRed, this);
 					setRedPos(red, 300, i*100);
@@ -135,6 +144,7 @@ function create() {
 					var c = reds.create(500, i*100, 'RedPiece');	
 					red.name = 'red' + redcount;
 					redcount++;
+					red.inputEnabled = true;
 					red.events.onInputDown.add(selectRed, this);
 					red.events.onInputUp.add(releaseRed, this);
 					setRedPos(red, 500, i*100);
@@ -144,6 +154,7 @@ function create() {
 					var c = reds.create(700, i*100, 'RedPiece');	
 					red.name = 'red' + redcount;
 					redcount++;
+					red.inputEnabled = true;
 					red.events.onInputDown.add(selectRed, this);
 					red.events.onInputUp.add(releaseRed, this);
 					setRedPos(red, 700, i*100);
@@ -156,6 +167,7 @@ function create() {
 					var c = reds.create(0, i*100, 'RedPiece');	
 					red.name = 'red' + redcount;
 					redcount++;
+					red.inputEnabled = true;
 					red.events.onInputDown.add(selectRed, this);
 					red.events.onInputUp.add(releaseRed, this);
 					setRedPos(red, 0, i*100);
@@ -165,6 +177,7 @@ function create() {
 					var c = reds.create(200, i*100, 'RedPiece');	
 					red.name = 'red' + redcount;
 					redcount++;
+					red.inputEnabled = true;
 					red.events.onInputDown.add(selectRed, this);
 					red.events.onInputUp.add(releaseRed, this);
 					setRedPos(red, 200, i*100);
@@ -174,6 +187,7 @@ function create() {
 					var c = reds.create(400, i*100, 'RedPiece');	
 					red.name = 'red' + redcount;
 					redcount++;
+					red.inputEnabled = true;
 					red.events.onInputDown.add(selectRed, this);
 					red.events.onInputUp.add(releaseRed, this);
 					setRedPos(red, 400, i*100);
@@ -183,6 +197,7 @@ function create() {
 					var c = reds.create(600, i*100, 'RedPiece');	
 					red.name = 'red' + redcount;
 					redcount++;
+					red.inputEnabled = true;
 					red.events.onInputDown.add(selectRed, this);
 					red.events.onInputUp.add(releaseRed, this);
 					setRedPos(red, 600, i*100);
@@ -285,19 +300,78 @@ function setRedPos(red, posX, posY)
 	red.posY = posY;
 	red.id = calcRedId();
 }
+function getRedPos(coordinate)
+{
+	return Phaser.Math.floorTo(coordinate / 1000);
+}
 function checkIfRedCanMoveHere(fromPosX, fromPosY, toPosX, toPosY)
 {
+	//should it be jumping?
+	//is it jumping?
+	
 	//is the space adjacent and diagonal?
 	//is the space empty?
+	
+	return true;
 }
+function slideRed(pointer, x, y, fromClick)
+{
+	if(selectedRed &&pointer.isDown)
+	{
+		var cursorRedPosX = getRedPos(x);
+		var cursorRedPosY = getRedPos(y);
+		
+		if (checkIfRedCanMoveHere(selectedRedStartPos.x, selectedRedStartPos.y, cursorRedPosX, cursorRedPosY))
+		{
+			if (cursorRedPosX !== selectedRed.posX || cursorRedPosY !== selectedRed.posY)
+			{
+				if (selectedRedTween !== null)
+				{
+					game.tweens.remove(selectedRedTween);
+				}
+				selectedRedTween = tweenRedPos(red, selectedRedStartPos.x, selectedRedStartPos.y);
+				if (tempShiftedGem !== null)
+				{
+					tweenRedPos(tempShiftedRed, red.posX, red.posY);
+				}
+				swapRedPosition(red, tempShiftedRed);
+			}
+		}
+	}
+}
+
+function tweenRedPos(red, newPosX, newPosY, durationMultiplier) {
+
+    if (durationMultiplier === null || typeof durationMultiplier === 'undefined')
+    {
+        durationMultiplier = 1;
+    }
+
+    return game.add.tween(red).to({x: newPosX  * 1000, y: newPosY * 1000}, 100 * durationMultiplier, Phaser.Easing.Linear.None, true);
+
+}
+
+function swapRedPosition(red1, red2) {
+
+    var tempPosX = red1.posX;
+    var tempPosY = red1.posY;
+    setGemPos(red1, red2.posX, red2.posY);
+    setGemPos(red2, tempPosX, tempPosY);
+
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 function checkIfRedCanJump()
 {
-	
+	//for each red, 
+	//	is a black piece diagonal and adjacent?
+	//	is the red a queen?
 }
 function checkIfBlackCanJump()
 {
-	
+	//for each black, 
+	//	is a red piece diagonal and adjacent?
+	//	is the black a queen?
 }
 ////////////////////////////////////////////////////////////////////////////////
 function update() 
