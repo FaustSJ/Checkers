@@ -41,109 +41,64 @@ var black12;
 function create() {
 //sets up the board and the mouse input
 	board = game.add.sprite(0, 0, 'CheckerBoard');
-	game.physics.startSystem(Phaser.Physics.BOX2D);
-//	game.physics.box2d.setBoundsToWorld();
 //	game.input.onDown.add(mouseDragStart, this);
 //	game.input.addMoveCallback(mouseDragMove, this);
 //	game.input.onUp.add(mouseDragEnd, this);
 	
 //What the player clicks
 	red1 = game.add.sprite(100, 0, 'RedPiece');
-//	red1.inputenabled = true;
-//	game.physics.box2d.enable(red1);
+	red1.inputenabled = true;
 	red2 = game.add.sprite(300, 0, 'RedPiece');
-//	red2.inputenabled = true;
-//	game.physics.box2d.enable(red2);
+	red2.inputenabled = true;
 	red3 = game.add.sprite(500, 0, 'RedPiece');
-//	red3.inputenabled = true;
-//	game.physics.box2d.enable(red3);
+	red3.inputenabled = true;
 	red4 = game.add.sprite(700, 0, 'RedPiece');
-//	red4.inputenabled = true;
-//	game.physics.box2d.enable(red4);
+	red4.inputenabled = true;
 	red5 = game.add.sprite(0, 100, 'RedPiece');
-//	red5.inputenabled = true;
-//	game.physics.box2d.enable(red5);
+	red5.inputenabled = true;
 	red6 = game.add.sprite(200, 100, 'RedPiece');
-//	red6.inputenabled = true;
-//	game.physics.box2d.enable(red6);
+	red6.inputenabled = true;
 	red7 = game.add.sprite(400, 100, 'RedPiece');
-//	red7.inputenabled = true;
-//	game.physics.box2d.enable(red7);
+	red7.inputenabled = true;
 	red8 = game.add.sprite(600, 100, 'RedPiece');
-//	red8.inputenabled = true;
-//	game.physics.box2d.enable(red8);
+	red8.inputenabled = true;
 	red9 = game.add.sprite(100, 200, 'RedPiece');
-//	red9.inputenabled = true;
-//	game.physics.box2d.enable(red9);
+	red9.inputenabled = true;
 	red10 = game.add.sprite(300, 200, 'RedPiece');
-//	red10.inputenabled = true;
-//	game.physics.box2d.enable(red10);
+	red10.inputenabled = true;
 	red11 = game.add.sprite(500, 200, 'RedPiece');
-//	red11.inputenabled = true;
-//	game.physics.box2d.enable(red11);
+	red11.inputenabled = true;
 	red12 = game.add.sprite(700, 200, 'RedPiece');
-//	red12.inputenabled = true;
-//	game.physics.box2d.enable(red12);
+	red12.inputenabled = true;
 	
 	black1 = game.add.sprite(0, 500, 'BlackPiece');
-//	black1.inputenabled = true;
-//	game.physics.box2d.enable(black1);
+	black1.inputenabled = true;
 	black2 = game.add.sprite(200, 500, 'BlackPiece');
-//	black2.inputenabled = true;
-//	game.physics.box2d.enable(black2);
+	black2.inputenabled = true;
 	black3 = game.add.sprite(400, 500, 'BlackPiece');
-//	black3.inputenabled = true;
-//	game.physics.box2d.enable(black3);
+	black3.inputenabled = true;
 	black4 = game.add.sprite(600, 500, 'BlackPiece');
-//	black4.inputenabled = true;
-//	game.physics.box2d.enable(black4);
+	black4.inputenabled = true;
 	black5 = game.add.sprite(100, 600, 'BlackPiece');
-//	black5.inputenabled = true;
-//	game.physics.box2d.enable(black5);
+	black5.inputenabled = true;
 	black6 = game.add.sprite(300, 600, 'BlackPiece');
-//	black6.inputenabled = true;
-//	game.physics.box2d.enable(black6);
+	black6.inputenabled = true;
 	black7 = game.add.sprite(500, 600, 'BlackPiece');
-//	black7.inputenabled = true;
-//	game.physics.box2d.enable(black7);
+	black7.inputenabled = true;
 	black8 = game.add.sprite(700, 600, 'BlackPiece');
-//	black8.inputenabled = true;
-//	game.physics.box2d.enable(black8);
+	black8.inputenabled = true;
 	black9 = game.add.sprite(0, 700, 'BlackPiece');
-//	black9.inputenabled = true;
-//	game.physics.box2d.enable(black9);
+	black9.inputenabled = true;
 	black10 = game.add.sprite(200, 700, 'BlackPiece');
-//	black10.inputenabled = true;
-//	game.physics.box2d.enable(black10);
+	black10.inputenabled = true;
 	black11 = game.add.sprite(400, 700, 'BlackPiece');
-//	black11.inputenabled = true;
-//	game.physics.box2d.enable(black11);
+	black11.inputenabled = true;
 	black12 = game.add.sprite(600, 700, 'BlackPiece');
-//	black12.inputenabled = true;
-//	game.physics.box2d.enable(black12);
+	black12.inputenabled = true;
 
 }
 ////////////////////////////////////////////////////////////////////////////////
-function mouseDragStart() 
-{
-    
-    game.physics.box2d.mouseDragStart(game.input.mousePointer);
-    
-}
-
-function mouseDragMove() 
-{
-    
-    game.physics.box2d.mouseDragMove(game.input.mousePointer);
-    
-}
-
-function mouseDragEnd() 
-{
-    
-    game.physics.box2d.mouseDragEnd();
-    
-}
+function 
 ////////////////////////////////////////////////////////////////////////////////
 function update() 
 {
