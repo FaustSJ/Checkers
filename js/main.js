@@ -10,7 +10,7 @@ function preload() {
 }
 
 var board;
-var red1;
+/*var red1;
 var red2;
 var red3;
 var red4;
@@ -33,8 +33,13 @@ var black8;
 var black9;
 var black10;
 var black11;
-var black12;
+var black12;*/
+var reds;
+var blacks;
+var selectedRed = null;
 var turnTrigger = 0;
+var redCanJump = false;
+var blackCanJump = false;
 
 
 
@@ -43,13 +48,11 @@ var turnTrigger = 0;
 function create() {
 //sets up the board and the mouse input
 	board = game.add.sprite(0, 0, 'CheckerBoard');
-//	game.input.onDown.add(mouseDragStart, this);
-//	game.input.addMoveCallback(mouseDragMove, this);
-//	game.input.onUp.add(mouseDragEnd, this);
 	
 //What the player clicks
-	red1 = game.add.sprite(100, 0, 'RedPiece');
+/*	red1 = game.add.sprite(100, 0, 'RedPiece');
 	red1.inputenabled = true;
+	//red1.events.onInputDown.add(,this);
 	red2 = game.add.sprite(300, 0, 'RedPiece');
 	red2.inputenabled = true;
 	red3 = game.add.sprite(500, 0, 'RedPiece');
@@ -97,15 +100,220 @@ function create() {
 	black11.inputenabled = true;
 	black12 = game.add.sprite(600, 700, 'BlackPiece');
 	black12.inputenabled = true;
+*/
 
+	//seting up the red pieces
+	reds = game.add.group();
+	var alternate = true;
+	var redcount = 0;
+	for(var i = 0; i<3; i++) //rows, y
+	{
+		for(var k = 0; k<4; k++) //columns, x
+		{
+			if(alternate)
+			{
+				if(k==0)
+				{
+					var red = reds.create(100, i*100, 'RedPiece');
+					red.name = 'red' + redcount;
+					redcount++;
+					red.events.onInputDown.add(selectRed, this);
+					red.events.onInputUp.add(releaseRed, this);
+					setRedPos(red, 100, i*100);
+				}
+				if(k==1)
+				{
+					var c = reds.create(300, i*100, 'RedPiece');	
+					red.name = 'red' + redcount;
+					redcount++;
+					red.events.onInputDown.add(selectRed, this);
+					red.events.onInputUp.add(releaseRed, this);
+					setRedPos(red, 300, i*100);
+				}
+				if(k==2)
+				{
+					var c = reds.create(500, i*100, 'RedPiece');	
+					red.name = 'red' + redcount;
+					redcount++;
+					red.events.onInputDown.add(selectRed, this);
+					red.events.onInputUp.add(releaseRed, this);
+					setRedPos(red, 500, i*100);
+				}
+				if(k==3)
+				{
+					var c = reds.create(700, i*100, 'RedPiece');	
+					red.name = 'red' + redcount;
+					redcount++;
+					red.events.onInputDown.add(selectRed, this);
+					red.events.onInputUp.add(releaseRed, this);
+					setRedPos(red, 700, i*100);
+				}	
+			}
+			else
+			{
+				if(k==0)
+				{
+					var c = reds.create(0, i*100, 'RedPiece');	
+					red.name = 'red' + redcount;
+					redcount++;
+					red.events.onInputDown.add(selectRed, this);
+					red.events.onInputUp.add(releaseRed, this);
+					setRedPos(red, 0, i*100);
+				}
+				if(k==1)
+				{
+					var c = reds.create(200, i*100, 'RedPiece');	
+					red.name = 'red' + redcount;
+					redcount++;
+					red.events.onInputDown.add(selectRed, this);
+					red.events.onInputUp.add(releaseRed, this);
+					setRedPos(red, 200, i*100);
+				}
+				if(k==2)
+				{
+					var c = reds.create(400, i*100, 'RedPiece');	
+					red.name = 'red' + redcount;
+					redcount++;
+					red.events.onInputDown.add(selectRed, this);
+					red.events.onInputUp.add(releaseRed, this);
+					setRedPos(red, 400, i*100);
+				}
+				if(k==3)
+				{
+					var c = reds.create(600, i*100, 'RedPiece');	
+					red.name = 'red' + redcount;
+					redcount++;
+					red.events.onInputDown.add(selectRed, this);
+					red.events.onInputUp.add(releaseRed, this);
+					setRedPos(red, 600, i*100);
+				}	
+			}
+		}
+		alternate = !alternate;
+	}
+	
+	//seting up the black pieces
+	blacks = game.add.group();
+	alternate = true;
+	var blackcount = 0;
+	for(var i = 1; i<4; i++) //rows, y
+	{
+		for(var k = 0; k<4; k++) //columns, x
+		{
+			if(alternate)
+			{
+				if(k==0)
+				{
+					var black = blacks.create(0, (i*100)+400, 'BlackPiece');
+					black.name = 'black' + blackcount;
+					blackcount++;
+					setRedPos(black, 0, (i*100)+400);
+				}
+				if(k==1)
+				{
+					var black = blacks.create(200, (i*100)+400, 'BlackPiece');
+					black.name = 'black' + blackcount;
+					blackcount++;
+					setRedPos(black, 200, (i*100)+400);
+				}
+				if(k==2)
+				{
+					var black = blacks.create(400, (i*100)+400, 'BlackPiece');
+					black.name = 'black' + blackcount;
+					blackcount++;
+					setRedPos(black, 400, (i*100)+400);
+				}
+				if(k==3)
+				{
+					var black = blacks.create(600, (i*100)+400, 'BlackPiece');
+					black.name = 'black' + blackcount;
+					blackcount++;
+					setRedPos(black, 600, (i*100)+400);
+				}	
+			}
+			else
+			{
+				if(k==0)
+				{
+					var black = blacks.create(100, (i*100)+400, 'BlackPiece');
+					black.name = 'black' + blackcount;
+					blackcount++;
+					setRedPos(black, 100, (i*100)+400);
+				}
+				if(k==1)
+				{
+					var black = blacks.create(300, (i*100)+400, 'BlackPiece');
+					black.name = 'black' + blackcount;
+					blackcount++;
+					setRedPos(black, 300, (i*100)+400);
+				}
+				if(k==2)
+				{
+					var black = blacks.create(500, (i*100)+400, 'BlackPiece');
+					black.name = 'black' + blackcount;
+					blackcount++;
+					setRedPos(black, 500, (i*100)+400);
+				}
+				if(k==3)
+				{
+					var black = blacks.create(700, (i*100)+400, 'BlackPiece');
+					black.name = 'black' + blackcount;
+					blackcount++;
+					setRedPos(black, 700, (i*100)+400);
+				}	
+			}
+		}
+		alternate = !alternate;
+	}
+	
 }
 ////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-/*function update() 
+function selectRed(red, pointer)
 {
-//These summon a function from above depending on what the player picks.
+	selectedRed = red;
+	selectedRedStartPos.x = red.posX;
+	selectedRedStartPos.y = red.posY;
+}
+function releaseRed(selectedRed)
+{
+	
+	selectedRem = null;
+}
+function setRedPos(red, posX, posY)
+{
+	red.posX = posX;
+	red.posY = posY;
+	red.id = calcRedId();
+}
+function checkIfRedCanMoveHere(fromPosX, fromPosY, toPosX, toPosY)
+{
+	//is the space adjacent and diagonal?
+	//is the space empty?
+}
+////////////////////////////////////////////////////////////////////////////////
+function checkIfRedCanJump()
+{
+	
+}
+function checkIfBlackCanJump()
+{
+	
+}
+////////////////////////////////////////////////////////////////////////////////
+function update() 
+{
+	if (turnTrigger==0)
+	{
+		checkIfRedCanJump();
+		turnTrigger = 1;
+	}
+	if (turnTrigger==1)
+	{
+		checkIfRedCanJump();
+		turnTrigger = 0;
+	}
 
-}*/
+}
 ////////////////////////////////////////////////////////////////////////////////
 
 
