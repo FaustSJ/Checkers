@@ -1,5 +1,5 @@
 //http://wonderdeep.github.io/Checkers/index.html
-var game = new Phaser.Game(800, 800, Phaser.CANVAS, 'game', { preload: preload, create: create, update: update, render: render });
+var game = new Phaser.Game(800, 800, Phaser.CANVAS, 'game', { preload: preload, create: create});
 
 function preload() {
 	game.load.image('BlackPiece', 'assets/BlackPiece.png');
@@ -37,78 +37,23 @@ var black12;*/
 var reds;
 var blacks;
 var selectedRed = null;
+var selectedRedIndex;
 var selectedRedStartPos;
-var selectedRedTween;
 var turnTrigger = 0;
 var redCanJump = false;
 var blackCanJump = false;
-
-var tempShiftedRed = null;
-var tempShiftedRedTween;
-
-
-
+var mustJump = false;
 
 
 function create() {
 //sets up the board and the mouse input
 	board = game.add.sprite(0, 0, 'CheckerBoard');
-	game.input.addMoveCallback(slideRed, this);
+	game.input.addMoveCallback(slideRed, this); 
 	selectedRedStartPos = {x: 0, y: 0};
-	
-//What the player clicks
-/*	red1 = game.add.sprite(100, 0, 'RedPiece');
-	red1.inputenabled = true;
-	//red1.events.onInputDown.add(,this);
-	red2 = game.add.sprite(300, 0, 'RedPiece');
-	red2.inputenabled = true;
-	red3 = game.add.sprite(500, 0, 'RedPiece');
-	red3.inputenabled = true;
-	red4 = game.add.sprite(700, 0, 'RedPiece');
-	red4.inputenabled = true;
-	red5 = game.add.sprite(0, 100, 'RedPiece');
-	red5.inputenabled = true;
-	red6 = game.add.sprite(200, 100, 'RedPiece');
-	red6.inputenabled = true;
-	red7 = game.add.sprite(400, 100, 'RedPiece');
-	red7.inputenabled = true;
-	red8 = game.add.sprite(600, 100, 'RedPiece');
-	red8.inputenabled = true;
-	red9 = game.add.sprite(100, 200, 'RedPiece');
-	red9.inputenabled = true;
-	red10 = game.add.sprite(300, 200, 'RedPiece');
-	red10.inputenabled = true;
-	red11 = game.add.sprite(500, 200, 'RedPiece');
-	red11.inputenabled = true;
-	red12 = game.add.sprite(700, 200, 'RedPiece');
-	red12.inputenabled = true;
-	
-	black1 = game.add.sprite(0, 500, 'BlackPiece');
-	black1.inputenabled = true;
-	black2 = game.add.sprite(200, 500, 'BlackPiece');
-	black2.inputenabled = true;
-	black3 = game.add.sprite(400, 500, 'BlackPiece');
-	black3.inputenabled = true;
-	black4 = game.add.sprite(600, 500, 'BlackPiece');
-	black4.inputenabled = true;
-	black5 = game.add.sprite(100, 600, 'BlackPiece');
-	black5.inputenabled = true;
-	black6 = game.add.sprite(300, 600, 'BlackPiece');
-	black6.inputenabled = true;
-	black7 = game.add.sprite(500, 600, 'BlackPiece');
-	black7.inputenabled = true;
-	black8 = game.add.sprite(700, 600, 'BlackPiece');
-	black8.inputenabled = true;
-	black9 = game.add.sprite(0, 700, 'BlackPiece');
-	black9.inputenabled = true;
-	black10 = game.add.sprite(200, 700, 'BlackPiece');
-	black10.inputenabled = true;
-	black11 = game.add.sprite(400, 700, 'BlackPiece');
-	black11.inputenabled = true;
-	black12 = game.add.sprite(600, 700, 'BlackPiece');
-	black12.inputenabled = true;
-*/
+	redQueens = game.add.group();
+	blackQueens = game.add.group();
 
+//the game pieces
 	//seting up the red pieces
 	reds = game.add.group();
 	var alternate = true;
@@ -126,6 +71,7 @@ function create() {
 					redcount++;
 					red.inputEnabled = true;
 					red.events.onInputDown.add(selectRed, this);
+					red.input.enableDrag(false, true);
 					red.events.onInputUp.add(releaseRed, this);
 					setRedPos(red, 100, i*100);
 				}
@@ -136,6 +82,7 @@ function create() {
 					redcount++;
 					red.inputEnabled = true;
 					red.events.onInputDown.add(selectRed, this);
+					red.input.enableDrag(false, true);
 					red.events.onInputUp.add(releaseRed, this);
 					setRedPos(red, 300, i*100);
 				}
@@ -146,6 +93,7 @@ function create() {
 					redcount++;
 					red.inputEnabled = true;
 					red.events.onInputDown.add(selectRed, this);
+					red.input.enableDrag(false, true);
 					red.events.onInputUp.add(releaseRed, this);
 					setRedPos(red, 500, i*100);
 				}
@@ -156,6 +104,7 @@ function create() {
 					redcount++;
 					red.inputEnabled = true;
 					red.events.onInputDown.add(selectRed, this);
+					red.input.enableDrag(false, true);
 					red.events.onInputUp.add(releaseRed, this);
 					setRedPos(red, 700, i*100);
 				}	
@@ -169,6 +118,7 @@ function create() {
 					redcount++;
 					red.inputEnabled = true;
 					red.events.onInputDown.add(selectRed, this);
+					red.input.enableDrag(false, true);
 					red.events.onInputUp.add(releaseRed, this);
 					setRedPos(red, 0, i*100);
 				}
@@ -179,6 +129,7 @@ function create() {
 					redcount++;
 					red.inputEnabled = true;
 					red.events.onInputDown.add(selectRed, this);
+					red.input.enableDrag(false, true);
 					red.events.onInputUp.add(releaseRed, this);
 					setRedPos(red, 200, i*100);
 				}
@@ -189,6 +140,7 @@ function create() {
 					redcount++;
 					red.inputEnabled = true;
 					red.events.onInputDown.add(selectRed, this);
+					red.input.enableDrag(false, true);
 					red.events.onInputUp.add(releaseRed, this);
 					setRedPos(red, 400, i*100);
 				}
@@ -199,6 +151,7 @@ function create() {
 					redcount++;
 					red.inputEnabled = true;
 					red.events.onInputDown.add(selectRed, this);
+					red.input.enableDrag(false, true);
 					red.events.onInputUp.add(releaseRed, this);
 					setRedPos(red, 600, i*100);
 				}	
@@ -280,121 +233,127 @@ function create() {
 		}
 		alternate = !alternate;
 	}
-	
+	play();
 }
 ////////////////////////////////////////////////////////////////////////////////
-function selectRed(red, pointer)
+function selectRed(red)
 {
 	selectedRed = red;
+	selectedRedIndex = reds.getChildIndex(red);
 	selectedRedStartPos.x = red.posX;
 	selectedRedStartPos.y = red.posY;
 }
 function releaseRed(selectedRed)
 {
-	
-	selectedRem = null;
+	if(checkIfRedCanMoveHere(selectedRed, selectedRedStartPos.x, selectedRedStartPos.y, selectedRed.posX, selectedRed.posY))
+	{
+		//update occupied space
+	//check if it can continue to jump
+		//check if it is at the other end
+			//kill it
+			//replace with redQueen group object
+			/*
+				var red = reds.getChildAt(selectedRedIndex);
+			var redQueen = redQueens.create(red.x, red.y, 'RedQueen');
+					redQueen.name = 'red' + redcount;
+					//redcount++;
+					redQueen.inputEnabled = true;
+					redQueen.events.onInputDown.add(selectRed, this);
+					redQueen.input.enableDrag(false, true);
+					redQueen.events.onInputUp.add(releaseRed, this);
+					setRedPos(redQueen, red.x, red.y);
+					red.kill();
+			*/
+	}
+	else
+	{
+		var red = reds.getChildAt(selectedRedIndex);
+		red.x = selectedRedStartPos.x;
+		red.y = selectedRedStartPos.y;
+	}
+	selectedRed = null;
+	play();
 }
 function setRedPos(red, posX, posY)
 {
 	red.posX = posX;
 	red.posY = posY;
-	red.id = calcRedId();
 }
-function getRedPos(coordinate)
+function setBlackPos(black, posX, posY)
 {
-	return Phaser.Math.floorTo(coordinate / 1000);
+	black.posX = posX;
+	black.posY = posY;
 }
-function checkIfRedCanMoveHere(fromPosX, fromPosY, toPosX, toPosY)
+function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 {
+	//is a jump available?
 	//should it be jumping?
 	//is it jumping?
 	
 	//is the space adjacent and diagonal?
 	//is the space empty?
 	
-	return true;
+	return false;
 }
-function slideRed(pointer, x, y, fromClick)
+ function moveBlack()
 {
-	if(selectedRed &&pointer.isDown)
-	{
-		var cursorRedPosX = getRedPos(x);
-		var cursorRedPosY = getRedPos(y);
-		
-		if (checkIfRedCanMoveHere(selectedRedStartPos.x, selectedRedStartPos.y, cursorRedPosX, cursorRedPosY))
-		{
-			if (cursorRedPosX !== selectedRed.posX || cursorRedPosY !== selectedRed.posY)
-			{
-				if (selectedRedTween !== null)
-				{
-					game.tweens.remove(selectedRedTween);
-				}
-				selectedRedTween = tweenRedPos(red, selectedRedStartPos.x, selectedRedStartPos.y);
-				if (tempShiftedGem !== null)
-				{
-					tweenRedPos(tempShiftedRed, red.posX, red.posY);
-				}
-				swapRedPosition(red, tempShiftedRed);
-			}
-		}
-	}
+	//is a jump available?
+		//black = a random jumpable one
+		//while this black can continue to jump
+			//move black
+	//else black = random
+		//move black random left/right
 }
-
-function tweenRedPos(red, newPosX, newPosY, durationMultiplier) {
-
-    if (durationMultiplier === null || typeof durationMultiplier === 'undefined')
-    {
-        durationMultiplier = 1;
-    }
-
-    return game.add.tween(red).to({x: newPosX  * 1000, y: newPosY * 1000}, 100 * durationMultiplier, Phaser.Easing.Linear.None, true);
-
-}
-
-function swapRedPosition(red1, red2) {
-
-    var tempPosX = red1.posX;
-    var tempPosY = red1.posY;
-    setGemPos(red1, red2.posX, red2.posY);
-    setGemPos(red2, tempPosX, tempPosY);
-
-}
-
 ////////////////////////////////////////////////////////////////////////////////
-function checkIfRedCanJump()
+function checkIfTHISRedCanJump(red)
 {
 	//for each red, 
 	//	is a black piece diagonal and adjacent?
 	//	is the red a queen?
 }
-function checkIfBlackCanJump()
+function checkIfARedCanJump()
+{
+	for(var i = 0; i<reds.children.length; i++)
+	{
+		var red = reds.children[i];
+	}
+	for(var i = 0; i<redQueens.children.length; i++)
+	{
+		var redQueen = redQueens.children[i];
+	}
+	//check reds.children AND redQueens.children
+	return false;	
+}
+function checkIfTHISBlackCanJump(black)
 {
 	//for each black, 
 	//	is a red piece diagonal and adjacent?
 	//	is the black a queen?
 }
+function checkIfABlackCanJump()
+{
+	//check blacks.children AND blackQueens.children
+	return false;
+}
 ////////////////////////////////////////////////////////////////////////////////
-function update() 
+function play() 
 {
 	if (turnTrigger==0)
-	{
-		checkIfRedCanJump();
+	{	mustJump = true;
+		while(mustJump)
+		{
+			mustJump = checkIfARedCanJump();
+		}
 		turnTrigger = 1;
 	}
 	if (turnTrigger==1)
 	{
-		checkIfRedCanJump();
+		mustJump = checkIfARedCanJump();
 		turnTrigger = 0;
 	}
 
 }
-////////////////////////////////////////////////////////////////////////////////
 
-
-function render()
-{
-
-}
 
 
 
