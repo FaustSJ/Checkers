@@ -34,7 +34,7 @@ function create() {
 	game.physics.startSystem(Phaser.Physics.ARCADE);
 	redQueens = game.add.group();
 	redQueens.enableBody = true;
-	RedQueens.physicsBodyType = Phaser.Physics.ARCADE;
+	redQueens.physicsBodyType = Phaser.Physics.ARCADE;
 	blackQueens = game.add.group();
 	blackQueens.enableBody = true;
      blackQueens.physicsBodyType = Phaser.Physics.ARCADE;
