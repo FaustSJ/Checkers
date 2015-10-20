@@ -53,7 +53,6 @@ function create() {
 					red.events.onInputDown.add(selectRed, this);
 					red.input.enableDrag(false, true);
 					red.events.onInputUp.add(releaseRed, this);
-					setPos(red, 100, i*100);
 				}
 				if(k==1)
 				{
@@ -64,7 +63,6 @@ function create() {
 					red.events.onInputDown.add(selectRed, this);
 					red.input.enableDrag(false, true);
 					red.events.onInputUp.add(releaseRed, this);
-					setPos(red, 300, i*100);
 				}
 				if(k==2)
 				{
@@ -75,7 +73,6 @@ function create() {
 					red.events.onInputDown.add(selectRed, this);
 					red.input.enableDrag(false, true);
 					red.events.onInputUp.add(releaseRed, this);
-					setPos(red, 500, i*100);
 				}
 				if(k==3)
 				{
@@ -86,7 +83,6 @@ function create() {
 					red.events.onInputDown.add(selectRed, this);
 					red.input.enableDrag(false, true);
 					red.events.onInputUp.add(releaseRed, this);
-					setPos(red, 700, i*100);
 				}	
 			}
 			else
@@ -100,7 +96,6 @@ function create() {
 					red.events.onInputDown.add(selectRed, this);
 					red.input.enableDrag(false, true);
 					red.events.onInputUp.add(releaseRed, this);
-					setPos(red, 0, i*100);
 				}
 				if(k==1)
 				{
@@ -111,7 +106,6 @@ function create() {
 					red.events.onInputDown.add(selectRed, this);
 					red.input.enableDrag(false, true);
 					red.events.onInputUp.add(releaseRed, this);
-					setPos(red, 200, i*100);
 				}
 				if(k==2)
 				{
@@ -122,7 +116,6 @@ function create() {
 					red.events.onInputDown.add(selectRed, this);
 					red.input.enableDrag(false, true);
 					red.events.onInputUp.add(releaseRed, this);
-					setPos(red, 400, i*100);
 				}
 				if(k==3)
 				{
@@ -133,7 +126,6 @@ function create() {
 					red.events.onInputDown.add(selectRed, this);
 					red.input.enableDrag(false, true);
 					red.events.onInputUp.add(releaseRed, this);
-					setPos(red, 600, i*100);
 				}	
 			}
 		}
@@ -155,28 +147,24 @@ function create() {
 					var black = blacks.create(0, (i*100)+400, 'BlackPiece');
 					black.name = 'black' + blackcount;
 					blackcount++;
-					setPos(black, 0, (i*100)+400);
 				}
 				if(k==1)
 				{
 					var black = blacks.create(200, (i*100)+400, 'BlackPiece');
 					black.name = 'black' + blackcount;
 					blackcount++;
-					setPos(black, 200, (i*100)+400);
 				}
 				if(k==2)
 				{
 					var black = blacks.create(400, (i*100)+400, 'BlackPiece');
 					black.name = 'black' + blackcount;
 					blackcount++;
-					setPos(black, 400, (i*100)+400);
 				}
 				if(k==3)
 				{
 					var black = blacks.create(600, (i*100)+400, 'BlackPiece');
 					black.name = 'black' + blackcount;
 					blackcount++;
-					setPos(black, 600, (i*100)+400);
 				}	
 			}
 			else
@@ -186,28 +174,24 @@ function create() {
 					var black = blacks.create(100, (i*100)+400, 'BlackPiece');
 					black.name = 'black' + blackcount;
 					blackcount++;
-					setPos(black, 100, (i*100)+400);
 				}
 				if(k==1)
 				{
 					var black = blacks.create(300, (i*100)+400, 'BlackPiece');
 					black.name = 'black' + blackcount;
 					blackcount++;
-					setPos(black, 300, (i*100)+400);
 				}
 				if(k==2)
 				{
 					var black = blacks.create(500, (i*100)+400, 'BlackPiece');
 					black.name = 'black' + blackcount;
 					blackcount++;
-					setPos(black, 500, (i*100)+400);
 				}
 				if(k==3)
 				{
 					var black = blacks.create(700, (i*100)+400, 'BlackPiece');
 					black.name = 'black' + blackcount;
 					blackcount++;
-					setPos(black, 700, (i*100)+400);
 				}	
 			}
 		}
@@ -228,8 +212,8 @@ function selectRed(red)
 	}
 	if(selectedRedIndex==-1)
 		selectedRedIndex = reds.getChildIndex(red);
-	selectedRedStartPos[0] = red.posX;
-	selectedRedStartPos[1] = red.posY;
+	selectedRedStartPos[0] = red.x;
+	selectedRedStartPos[1] = red.y;
 }
 //once the player drags the red piece, they drop it (unclick it)
 //			and the game checks if it is a valid move.
@@ -275,12 +259,6 @@ function releaseRed(selectedRed)
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////
-//sets up each pieces position
-function setPos(piece, posX, posY)
-{
-	piece.posX = posX;
-	piece.posY = posY;
-}
 //checks if a spot is occupied by a single piece
 function checkOccupancy1(x, y) //looks for singles
 {	
