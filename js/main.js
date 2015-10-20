@@ -14,8 +14,8 @@ var board;
 var reds;
 var blacks;
 var selectedRed = null;
-var selectedRedIndex;
-var selectedRedStartPos;
+var selectedRedIndex = -1;
+var selectedRedStartPos = {0,0};
 var turnTrigger = 0;
 var redCanJump = false;
 var blackCanJump = false;
@@ -30,7 +30,6 @@ var blackQueensCanJump = {};
 function create() {
 //sets up the board and the mouse input
 	board = game.add.sprite(0, 0, 'CheckerBoard');
-	selectedRedStartPos = {x: 0, y: 0};
 	redQueens = game.add.group();
 	blackQueens = game.add.group();
 
@@ -233,14 +232,14 @@ function selectRed(red)
 	{
 		selectedIndex = reds.getChildIndex(red);
 	}
-	selectedRedStartPos.x = red.posX;
-	selectedRedStartPos.y = red.posY;
+	selectedRedStartPos[0] = red.posX;
+	selectedRedStartPos[1] = red.posY;
 }
 //once the player drags the red piece, they drop it (unclick it)
 //			and the game checks if it is a valid move.
 function releaseRed(selectedRed)
 {
-	if(checkIfRedCanMoveHere(selectedRed, selectedRedStartPos.x, selectedRedStartPos.y, selectedRed.posX, selectedRed.posY))
+	if(checkIfRedCanMoveHere(selectedRed, selectedRedStartPos[0], selectedRedStartPos[1], selectedRed.posX, selectedRed.posY))
 	{
 		var red = reds.getChildAt(selectedRedIndex);
 		//did it jump?
@@ -269,8 +268,8 @@ function releaseRed(selectedRed)
 	else
 	{
 		var red = reds.getChildAt(selectedRedIndex);
-		red.x = selectedRedStartPos.x;
-		red.y = selectedRedStartPos.y;
+		red.x = selectedRedStartPos[0];
+		red.y = selectedRedStartPos[1];
 	}
 	//If the selected piece has not more jumps it can make, move to next turn. 
 	if(!recentlyJumped)
