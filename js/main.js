@@ -43,12 +43,16 @@ var turnTrigger = 0;
 var redCanJump = false;
 var blackCanJump = false;
 var mustJump = false;
+var recentlyJumped = false;
+var redsCanJump = {};
+var blacksCanJump = {};
+var redQueensCanJump = {};
+var blackQueensCanJump = {};
 
 
 function create() {
 //sets up the board and the mouse input
 	board = game.add.sprite(0, 0, 'CheckerBoard');
-	game.input.addMoveCallback(slideRed, this); 
 	selectedRedStartPos = {x: 0, y: 0};
 	redQueens = game.add.group();
 	blackQueens = game.add.group();
@@ -73,7 +77,7 @@ function create() {
 					red.events.onInputDown.add(selectRed, this);
 					red.input.enableDrag(false, true);
 					red.events.onInputUp.add(releaseRed, this);
-					setRedPos(red, 100, i*100);
+					setPos(red, 100, i*100);
 				}
 				if(k==1)
 				{
@@ -84,7 +88,7 @@ function create() {
 					red.events.onInputDown.add(selectRed, this);
 					red.input.enableDrag(false, true);
 					red.events.onInputUp.add(releaseRed, this);
-					setRedPos(red, 300, i*100);
+					setPos(red, 300, i*100);
 				}
 				if(k==2)
 				{
@@ -95,7 +99,7 @@ function create() {
 					red.events.onInputDown.add(selectRed, this);
 					red.input.enableDrag(false, true);
 					red.events.onInputUp.add(releaseRed, this);
-					setRedPos(red, 500, i*100);
+					setPos(red, 500, i*100);
 				}
 				if(k==3)
 				{
@@ -106,7 +110,7 @@ function create() {
 					red.events.onInputDown.add(selectRed, this);
 					red.input.enableDrag(false, true);
 					red.events.onInputUp.add(releaseRed, this);
-					setRedPos(red, 700, i*100);
+					setPos(red, 700, i*100);
 				}	
 			}
 			else
@@ -120,7 +124,7 @@ function create() {
 					red.events.onInputDown.add(selectRed, this);
 					red.input.enableDrag(false, true);
 					red.events.onInputUp.add(releaseRed, this);
-					setRedPos(red, 0, i*100);
+					setPos(red, 0, i*100);
 				}
 				if(k==1)
 				{
@@ -131,7 +135,7 @@ function create() {
 					red.events.onInputDown.add(selectRed, this);
 					red.input.enableDrag(false, true);
 					red.events.onInputUp.add(releaseRed, this);
-					setRedPos(red, 200, i*100);
+					setPos(red, 200, i*100);
 				}
 				if(k==2)
 				{
@@ -142,7 +146,7 @@ function create() {
 					red.events.onInputDown.add(selectRed, this);
 					red.input.enableDrag(false, true);
 					red.events.onInputUp.add(releaseRed, this);
-					setRedPos(red, 400, i*100);
+					setPos(red, 400, i*100);
 				}
 				if(k==3)
 				{
@@ -153,7 +157,7 @@ function create() {
 					red.events.onInputDown.add(selectRed, this);
 					red.input.enableDrag(false, true);
 					red.events.onInputUp.add(releaseRed, this);
-					setRedPos(red, 600, i*100);
+					setPos(red, 600, i*100);
 				}	
 			}
 		}
@@ -175,28 +179,28 @@ function create() {
 					var black = blacks.create(0, (i*100)+400, 'BlackPiece');
 					black.name = 'black' + blackcount;
 					blackcount++;
-					setRedPos(black, 0, (i*100)+400);
+					setPos(black, 0, (i*100)+400);
 				}
 				if(k==1)
 				{
 					var black = blacks.create(200, (i*100)+400, 'BlackPiece');
 					black.name = 'black' + blackcount;
 					blackcount++;
-					setRedPos(black, 200, (i*100)+400);
+					setPos(black, 200, (i*100)+400);
 				}
 				if(k==2)
 				{
 					var black = blacks.create(400, (i*100)+400, 'BlackPiece');
 					black.name = 'black' + blackcount;
 					blackcount++;
-					setRedPos(black, 400, (i*100)+400);
+					setPos(black, 400, (i*100)+400);
 				}
 				if(k==3)
 				{
 					var black = blacks.create(600, (i*100)+400, 'BlackPiece');
 					black.name = 'black' + blackcount;
 					blackcount++;
-					setRedPos(black, 600, (i*100)+400);
+					setPos(black, 600, (i*100)+400);
 				}	
 			}
 			else
@@ -206,34 +210,33 @@ function create() {
 					var black = blacks.create(100, (i*100)+400, 'BlackPiece');
 					black.name = 'black' + blackcount;
 					blackcount++;
-					setRedPos(black, 100, (i*100)+400);
+					setPos(black, 100, (i*100)+400);
 				}
 				if(k==1)
 				{
 					var black = blacks.create(300, (i*100)+400, 'BlackPiece');
 					black.name = 'black' + blackcount;
 					blackcount++;
-					setRedPos(black, 300, (i*100)+400);
+					setPos(black, 300, (i*100)+400);
 				}
 				if(k==2)
 				{
 					var black = blacks.create(500, (i*100)+400, 'BlackPiece');
 					black.name = 'black' + blackcount;
 					blackcount++;
-					setRedPos(black, 500, (i*100)+400);
+					setPos(black, 500, (i*100)+400);
 				}
 				if(k==3)
 				{
 					var black = blacks.create(700, (i*100)+400, 'BlackPiece');
 					black.name = 'black' + blackcount;
 					blackcount++;
-					setRedPos(black, 700, (i*100)+400);
+					setPos(black, 700, (i*100)+400);
 				}	
 			}
 		}
 		alternate = !alternate;
 	}
-	play();
 }
 ////////////////////////////////////////////////////////////////////////////////
 function selectRed(red)
@@ -247,6 +250,10 @@ function releaseRed(selectedRed)
 {
 	if(checkIfRedCanMoveHere(selectedRed, selectedRedStartPos.x, selectedRedStartPos.y, selectedRed.posX, selectedRed.posY))
 	{
+		//did it jump?
+			//if(redQueens.chidren.indexOf(selectedRed)!=-1) {}
+			//else
+			//recentlyJumped = true;
 		//update occupied space
 	//check if it can continue to jump
 		//check if it is at the other end
@@ -272,20 +279,57 @@ function releaseRed(selectedRed)
 		red.y = selectedRedStartPos.y;
 	}
 	selectedRed = null;
-	play();
+	turnToggle();
 }
-function setRedPos(red, posX, posY)
+function setPos(piece, posX, posY)
 {
-	red.posX = posX;
-	red.posY = posY;
+	piece.posX = posX;
+	piece.posY = posY;
 }
-function setBlackPos(black, posX, posY)
-{
-	black.posX = posX;
-	black.posY = posY;
+function checkOccupancy(x, y)
+{	
+	var occupants = 0; //shouldn't be more than 1
+	var piece;
+	for(var i=0; i<reds.children.length; i++)
+	{
+		red = reds.children[i];
+		if(!red.isAlive())
+			continue;
+		
+	}
+	for(var k=0; k<redQueens.children.length; k++)
+	{
+		red = redQueens.children[k];
+		if(!red.isAlive())
+			continue;
+		
+	}
+	for(var i=0; i<blacks.children.length; i++)
+	{
+		black = blacks.children[i];
+		if(!black.isAlive())
+			continue;
+		
+	}
+	for(var k=0; k<blackQueens.children.length; k++)
+	{
+		black = blackQueens.children[k];
+		if(!black.isAlive())
+			continue;
+		
+	}
+	return false;
 }
 function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 {
+	//first, adjust the coordinates
+		//if the coordinates are out of reach, return false
+	//is this space occupied by another piece?
+		//if yes, return false
+	
+	
+	
+	
 	//is a jump available?
 	//should it be jumping?
 	//is it jumping?
@@ -297,6 +341,7 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 }
  function moveBlack()
 {
+	
 	//is a jump available?
 		//black = a random jumpable one
 		//while this black can continue to jump
@@ -307,48 +352,355 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 ////////////////////////////////////////////////////////////////////////////////
 function checkIfTHISRedCanJump(red)
 {
-	//for each red, 
-	//	is a black piece diagonal and adjacent?
-	//	is the red a queen?
+	var black;
+	var black2;
+	var jumpable = false;
+	//is it a queen?
+	if(redQueens.chidren.indexOf(red)!=-1) 
+	{
+		for(var i = 0; i<blacks.children.length; i++)
+		{
+			black = blacks.children[i];
+			if(!black.isAlive())
+				continue;
+			//is there a black piece to SE?
+			if((black.x==red.x+100) && (black.y==red.y+100)) /*SE*/
+			{
+				jumpable = true;
+				//is is jumpable?
+				for(var k = 0; k<blacks.children.length; k++)
+				{
+					black2 = blacks.children[i];
+					if(!black2.isAlive())
+						continue;
+					if((black2.x==black.x+100) && (black2.y==black.y+100))
+						jumpable = false;
+				}
+				if(jumpable)
+					return true
+			}
+			//is there a black piece to SW?
+			if((black.x==red.x-100) && (black.y==red.y+100)) /*SW*/
+			{
+				jumpable = true;
+				//is is jumpable?
+				for(var k = 0; k<blacks.children.length; k++)
+				{
+					black2 = blacks.children[i];
+					if(!black2.isAlive())
+						continue;
+					if((black2.x==black.x-100) && (black2.y==black.y+100))
+						jumpable = false;
+				}
+				if(jumpable)
+					return true
+			}
+			//is there a black piece to NE?
+			if((black.x==red.x+100) && (black.y==red.y-100)) /*NE*/
+			{
+				jumpable = true;
+				//is is jumpable?
+				for(var k = 0; k<blacks.children.length)
+				{
+					black2 = blacks.children[i];
+					if(!black2.isAlive())
+						continue;
+					if((black2.x==black.x+100) && (black2.y==black.y-100))
+						jumpable = false;
+				}
+				if(jumpable)
+					return true
+			}
+			//is there a black piece to NW?
+			if((black.x==red.x-100) && (black.y==red.y-100))  /*NW*/ 
+			{
+				jumpable = true;
+				//is is jumpable?
+				for(var k = 0; k<blacks.children.length)
+				{
+					black2 = blacks.children[i];
+					if(!black2.isAlive())
+						continue;
+					if((black2.x==black.x-100) && (black2.y==black.y-100))
+						jumpable = false;
+				}
+				if(jumpable)
+					return true
+			}
+		}
+	}
+	else //if red is not a queen
+	{
+		for(var i = 0; i<blacks.children.length; i++)
+		{
+			black = blacks.children[i];
+			if(!black.isAlive())
+				continue;
+			//is there a black piece to SE?
+			if((black.x==red.x+100) && (black.y==red.y+100)) /*SE*/
+			{
+				jumpable = true;
+				//is is jumpable?
+				for(var k = 0; k<blacks.children.length; k++)
+				{
+					black2 = blacks.children[i];
+					if(!black2.isAlive())
+						continue;
+					if((black2.x==black.x+100) && (black2.y==black.y+100))
+						jumpable = false;
+				}
+				if(jumpable)
+					return true
+			}
+			//is there a black piece to SW?
+			if((black.x==red.x-100) && (black.y==red.y+100)) /*SW*/
+			{
+				jumpable = true;
+				//is is jumpable?
+				for(var k = 0; k<blacks.children.length; k++)
+				{
+					black2 = blacks.children[i];
+					if(!black2.isAlive())
+						continue;
+					if((black2.x==black.x-100) && (black2.y==black.y+100))
+						jumpable = false;
+				}
+				if(jumpable)
+					return true
+			}
+		}
+	}
+	
+	return false;
 }
 function checkIfARedCanJump()
 {
-	for(var i = 0; i<reds.children.length; i++)
+	var red;
+	for(var i=0; i<reds.children.length; i++)
 	{
-		var red = reds.children[i];
+		red = reds.children[i];
+		if(!red.isAlive())
+			continue;
+		if(checkIfTHISRedCanJump(red))
+			return true;
 	}
-	for(var i = 0; i<redQueens.children.length; i++)
+	for(var k=0; k<redQueens.children.length; k++)
 	{
-		var redQueen = redQueens.children[i];
+		red = redQueens.children[k];
+		if(!red.isAlive())
+			continue;
+		if(checkIfTHISRedCanJump(red))
+			return true;
 	}
-	//check reds.children AND redQueens.children
+	return false;	
+}
+function listOfRedsCanJump()
+{
+	redsCanJump = {};
+	redQueensCanJump = {};
+	var red;
+	for(var i=0; i<reds.children.length; i++)
+	{
+		red = reds.children[i];
+		if(!red.isAlive())
+			continue;
+		if(checkIfTHISRedCanJump(red))
+			redsCanJump.push(reds.indexOf(red));
+	}
+	for(var k=0; k<redQueens.children.length; k++)
+	{
+		red = redQueens.children[k];
+		if(!red.isAlive())
+			continue;
+		if(checkIfTHISRedCanJump(red))
+			redQueensCanJump.push(redQueens.indexOf(red));
+	}
 	return false;	
 }
 function checkIfTHISBlackCanJump(black)
 {
-	//for each black, 
-	//	is a red piece diagonal and adjacent?
-	//	is the black a queen?
+	var red;
+	var red2;
+	var jumpable = false;
+	//is it a queen?
+	if(blackQueens.chidren.indexOf(black)!=-1) 
+	{
+		for(var i = 0; i<reds.children.length; i++)
+		{
+			red = reds.children[i];
+			if(!red.isAlive())
+				continue;
+			//is there a black piece to SE?
+			if((red.x==black.x+100) && (red.y==black.y+100)) /*SE*/
+			{
+				jumpable = true;
+				//is is jumpable?
+				for(var k = 0; k<reds.children.length; k++)
+				{
+					red2 = reds.children[i];
+					if(!red2.isAlive())
+						continue;
+					if((red2.x==red.x+100) && (red2.y==red.y+100))
+						jumpable = false;
+				}
+				if(jumpable)
+					return true
+			}
+			//is there a black piece to SW?
+			if((red.x==black.x-100) && (red.y==black.y+100)) /*SW*/
+			{
+				jumpable = true;
+				//is is jumpable?
+				for(var k = 0; k<reds.children.length; k++)
+				{
+					red2 = reds.children[i];
+					if(!red2.isAlive())
+						continue;
+					if((red2.x==red.x-100) && (red2.y==red.y+100))
+						jumpable = false;
+				}
+				if(jumpable)
+					return true
+			}
+			//is there a black piece to NE?
+			if((red.x==black.x+100) && (red.y==black.y-100)) /*NE*/
+			{
+				jumpable = true;
+				//is is jumpable?
+				for(var k = 0; k<reds.children.length; k++)
+				{
+					red2 = reds.children[i];
+					if(!red2.isAlive())
+						continue;
+					if((red2.x==red.x+100) && (red2.y==red.y+100))
+						jumpable = false;
+				}
+				if(jumpable)
+					return true
+			}
+			//is there a black piece to NW?
+			if((red.x==black.x-100) && (red.y==black.y-100))  /*NW*/ 
+			{
+				jumpable = true;
+				//is is jumpable?
+				for(var k = 0; k<reds.children.length; k++)
+				{
+					red2 = reds.children[i];
+					if(!red2.isAlive())
+						continue;
+					if((red2.x==red.x+100) && (red2.y==red.y+100))
+						jumpable = false;
+				}
+				if(jumpable)
+					return true
+			}
+		}
+	}
+	else //if black is not a queen
+	{
+		for(var i = 0; i<reds.children.length; i++)
+		{
+			red = reds.children[i];
+			if(!red.isAlive())
+				continue;
+			//is there a black piece to NE?
+			if((red.x==black.x+100) && (red.y==black.y-100)) /*NE*/
+			{
+				jumpable = true;
+				//is is jumpable?
+				for(var k = 0; k<reds.children.length; k++)
+				{
+					red2 = reds.children[i];
+					if(!red2.isAlive())
+						continue;
+					if((red2.x==red.x+100) && (red2.y==red.y+100))
+						jumpable = false;
+				}
+				if(jumpable)
+					return true
+			}
+			//is there a black piece to NW?
+			if((red.x==black.x-100) && (red.y==black.y-100))  /*NW*/ 
+			{
+				jumpable = true;
+				//is is jumpable?
+				for(var k = 0; k<reds.children.length; k++)
+				{
+					red2 = reds.children[i];
+					if(!red2.isAlive())
+						continue;
+					if((red2.x==red.x+100) && (red2.y==red.y+100))
+						jumpable = false;
+				}
+				if(jumpable)
+					return true
+			}
+		}
+	}
+	
+	return false;
+}
+function listOfBlacksCanJump()
+{
+	blacksCanJump = {};
+	blackQueensCanJump = {};
+	var black;
+	for(var i=0; i<blacks.children.length; i++)
+	{
+		black = blacks.children[i];
+		if(!black.isAlive())
+			continue;
+		if(checkIfTHISBlackCanJump(black))
+			blacksCanJump.push(blacks.indexOf(black));
+	}
+	for(var k=0; k<blackQueens.children.length; k++)
+	{
+		black = blackQueens.children[k];
+		if(!black.isAlive())
+			continue;
+		if(checkIfTHISBlackCanJump(red))
+			blackQueensCanJump.push(blackQueens.indexOf(black));
+	}
+	return false;	
 }
 function checkIfABlackCanJump()
 {
-	//check blacks.children AND blackQueens.children
+	var black;
+	for(var i=0; i<blacks.children.length; i++)
+	{
+		black = blacks.children[i];
+		if(!black.isAlive())
+			continue;
+		if(checkIfTHISBlackCanJump(black))
+		{
+			
+			return true;
+		}
+	}
+	for(var k=0; k<blackQueens.children.length; k++)
+	{
+		black = blackQueens.children[k];
+		if(!black.isAlive())
+			continue;
+		if(checkIfTHISBlackCanJump(black))
+		{
+			return true;
+		}
+	}
 	return false;
 }
 ////////////////////////////////////////////////////////////////////////////////
-function play() 
+function turnToggle() 
 {
+	listOfRedsCanJump();
+	listOfBlacksCanJump();
 	if (turnTrigger==0)
-	{	mustJump = true;
-		while(mustJump)
-		{
-			mustJump = checkIfARedCanJump();
-		}
+	{	
 		turnTrigger = 1;
 	}
 	if (turnTrigger==1)
 	{
-		mustJump = checkIfARedCanJump();
+		moveBlack();
 		turnTrigger = 0;
 	}
 
