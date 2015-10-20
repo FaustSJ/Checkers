@@ -15,7 +15,7 @@ var reds;
 var blacks;
 var selectedRed = null;
 var selectedRedIndex = -1;
-var selectedRedStartPos = {0,0};
+var selectedRedStartPos = new Array(0,0);
 var turnTrigger = 0;
 var redCanJump = false;
 var blackCanJump = false;
