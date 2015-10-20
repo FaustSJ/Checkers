@@ -242,10 +242,24 @@ function create() {
 function selectRed(red)
 {
 	selectedRed = red;
-	if(redQueens.getChildIndex(red)==-1)
-		selectedRedIndex = reds.getChildIndex(red);
+	selectedIndex = -1;
+	if(redQueens.children.length>0)
+	{
+		for(var i=0; i<redQueens.chlidren.length; i++)
+		{
+			var red2 = redQueens.getChildAt(i);
+			if(!red2.isAlive)
+				continue;
+			if(red.x==red2.x && red.y==red2.y)
+				selectedIndex = redQueens.getChildAt(red);
+		}
+		if(selectedIndex==-1)
+			selectedIndex.reds.getChildIndex(red);
+	}
 	else
-		selectedRedIndex = redQueens.getChildIndex(red);
+	{
+		selectedIndex = reds.getChildIndex(red);
+	}
 	selectedRedStartPos.x = red.posX;
 	selectedRedStartPos.y = red.posY;
 }
@@ -301,7 +315,7 @@ function checkOccupancy1(x, y) //looks for singles
 	for(var i=0; i<reds.children.length; i++)
 	{
 		piece = reds.getChildAt(i);
-		if(!piece.isAlive())
+		if(!piece.isAlive)
 			continue;
 		if((piece.x==x)&&(piece.y==y))
 			return piece;
@@ -309,7 +323,7 @@ function checkOccupancy1(x, y) //looks for singles
 	for(var k=0; k<redQueens.children.length; k++)
 	{
 		piece = redQueens.getChildAt(k);
-		if(!piece.isAlive())
+		if(!piece.isAlive)
 			continue;
 		if((piece.x==x)&&(piece.y==y))
 			return piece;
@@ -317,7 +331,7 @@ function checkOccupancy1(x, y) //looks for singles
 	for(var i=0; i<blacks.children.length; i++)
 	{
 		piece = blacks.getChildAt(i);
-		if(!piece.isAlive())
+		if(!piece.isAlive)
 			continue;
 		if((piece.x==x)&&(piece.y==y))
 			return piece;
@@ -325,7 +339,7 @@ function checkOccupancy1(x, y) //looks for singles
 	for(var k=0; k<blackQueens.children.length; k++)
 	{
 		piece = blackQueens.getChildAt(k);
-		if(!piece.isAlive())
+		if(!piece.isAlive)
 			continue;
 		if((piece.x==x)&&(piece.y==y))
 			return piece;
@@ -339,7 +353,7 @@ function checkOccupancy2(x, y) //looks for doubles
 	for(var i=0; i<reds.children.length; i++)
 	{
 		piece = reds.getChildAt(i);
-		if(!piece.isAlive())
+		if(!piece.isAlive)
 			continue;
 		if((piece.x==x)&&(piece.y==y))
 			occupants++;
@@ -349,7 +363,7 @@ function checkOccupancy2(x, y) //looks for doubles
 	for(var k=0; k<redQueens.children.length; k++)
 	{
 		piece = redQueens.getChildAt(k);
-		if(!piece.isAlive())
+		if(!piece.isAlive)
 			continue;
 		if((piece.x==x)&&(piece.y==y))
 			occupants++;
@@ -359,7 +373,7 @@ function checkOccupancy2(x, y) //looks for doubles
 	for(var i=0; i<blacks.children.length; i++)
 	{
 		piece = blacks.getChildAt(i);
-		if(!piece.isAlive())
+		if(!piece.isAlive)
 			continue;
 		if((piece.x==x)&&(piece.y==y))
 			occupants++;
@@ -369,7 +383,7 @@ function checkOccupancy2(x, y) //looks for doubles
 	for(var k=0; k<blackQueens.children.length; k++)
 	{
 		piece = blackQueens.getChildAt(k);
-		if(!piece.isAlive())
+		if(!piece.isAlive)
 			continue;
 		if((piece.x==x)&&(piece.y==y))
 			occupants++;
@@ -449,10 +463,43 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 			//modify checkifthisjump to find a jumping position and jump
 			recentlyJumped = true;
 		
-			//can it jump again?
-			if(!checkIfTHISBlackCanJump(black))
+			while(recentlyJumped)
 			{
-				recentlyJumped = false
+				for(var i = 0; i<reds.children.length; i++)
+				{
+					red = reds.getChildAt(i);
+					if(!red.isAlive)
+						continue;
+					//is there a red piece to NE?
+					if((red.x==black.x+100) && (red.y==black.y-100)) /*NE*/
+					{
+						//move the black, kill the red
+						if(!checkOccupancy1(red.x+100, red.y-100))
+						{
+							black.x = red.x+100;
+							black.y = red.y-100;
+							red.kill();
+							break;
+						}
+					}
+					//is there a red piece to NW?
+					if((red.x==black.x-100) && (red.y==black.y-100))  /*NW*/ 
+					{
+						//move the black, kill the red
+						if(!checkOccupancy1(red.x-100, red.y-100))
+						{
+							black.x = red.x-100;
+							black.y = red.y-100;
+							red.kill();
+							break;
+						}
+					}
+				}
+				//can it jump again?
+				if(!checkIfTHISBlackCanJump(black))
+				{
+					recentlyJumped = false
+				}	
 			}
 		}
 		if(pick>=0.5 && blackQueensCanJump>0)
@@ -460,11 +507,67 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 			black = blackQueens.getChildAt(blacksCanJump[0]);
 			//modify checkifthisjump to find a jumping position and jump
 			recentlyJumped = true;
-		
-			//can it jump again?
-			if(!checkIfTHISBlackCanJump(black))
+			while(recentlyJumped)
 			{
-				recentlyJumped = false
+				for(var i = 0; i<reds.children.length; i++)
+				{
+					red = reds.getChildAt(i);
+					if(!red.isAlive)
+						continue;
+					//is there a red piece to SE?
+					if((red.x==black.x+100) && (red.y==black.y+100)) /*SE*/
+					{
+						//move the black, kill the red
+						if(!checkOccupancy1(red.x+100, red.y+100))
+						{
+							black.x = red.x+100;
+							black.y = red.y+100;
+							red.kill();
+							break;
+						}
+					}
+					//is there a red piece to SW?
+					if((red.x==black.x-100) && (red.y==black.y+100)) /*SW*/
+					{
+						//move the black, kill the red
+						if(!checkOccupancy1(red.x-100, red.y+100))
+						{
+							black.x = red.x-100;
+							black.y = red.y+100;
+							red.kill();
+							break;
+						}
+					}
+					//is there a red piece to NE?
+					if((red.x==black.x+100) && (red.y==black.y-100)) /*NE*/
+					{
+						//move the black, kill the red
+						if(!checkOccupancy1(red.x+100, red.y-100))
+						{
+							black.x = red.x+100;
+							black.y = red.y-100;
+							red.kill();
+							break;
+						}
+					}
+					//is there a red piece to NW?
+					if((red.x==black.x-100) && (red.y==black.y-100))  /*NW*/ 
+					{
+						//move the black, kill the red
+						if(!checkOccupancy1(red.x-100, red.y-100))
+						{
+							black.x = red.x-100;
+							black.y = red.y-100;
+							red.kill();
+							break;
+						}
+					}
+				}
+				//can it jump again?
+				if(!checkIfTHISBlackCanJump(black))
+				{
+					recentlyJumped = false
+				}	
 			}
 		}
 		
@@ -478,19 +581,55 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 			for(var i=0; i<blackQueens.children.length; i++)
 			{
 				black = blackQueens.getChildAt(i);
-				if(!black.isAlive())
+				if(!black.isAlive)
 					continue;
 				//if it can move, move it
+				var canMoveNE = checkOccupancy1(black.x+100, black.y-100);
+				if(canMoveNE)
+				{
+					black.x = black.x+100;
+					black.y = black.y-100;
+				}
+				var canMoveNW = checkOccupancy1(black.x-100, black.y-100);
+				if(canMoveNW)
+				{
+					black.x = black.x-100;
+					black.y = black.y-100;
+				}
+				var canMoveSE = checkOccupancy1(black.x+100, black.y+100);
+				if(canMoveSE)
+				{
+					black.x = black.x+100;
+					black.y = black.y+100;
+				}
+				var canMoveSW = checkOccupancy1(black.x-100, black.y+100);
+				if(canMoveSW)
+				{
+					black.x = black.x-100;
+					black.y = black.y+100;
+				}
 			}
 		}
 		else
 		{
-			for(var i=0; i<blackQueens.children.length; i++)
+			for(var i=0; i<blacks.children.length; i++)
 			{
 				black = blacks.getChildAt(i);
-				if(!black.isAlive())
+				if(!black.isAlive)
 					continue;
 				//if it can move, move it
+				var canMoveNE = checkOccupancy1(black.x+100, black.y-100);
+				if(canMoveNE)
+				{
+					black.x = black.x+100;
+					black.y = black.y-100;
+				}
+				var canMoveNW = checkOccupancy1(black.x-100, black.y-100);
+				if(canMoveNW)
+				{
+					black.x = black.x-100;
+					black.y = black.y-100;
+				}
 			}
 		}
 	}
@@ -510,70 +649,34 @@ function checkIfTHISRedCanJump(red)
 		for(var i = 0; i<blacks.children.length; i++)
 		{
 			black = blacks.getChildAt(i);
-			if(!black.isAlive())
+			if(!black.isAlive)
 				continue;
 			//is there a black piece to SE?
 			if((black.x==red.x+100) && (black.y==red.y+100)) /*SE*/
 			{
-				jumpable = true;
 				//is is jumpable?
-				for(var k = 0; k<blacks.children.length; k++)
-				{
-					black2 = blacks.getChildAt(k);
-					if(!black2.isAlive())
-						continue;
-					if((black2.x==black.x+100) && (black2.y==black.y+100))
-						jumpable = false;
-				}
-				if(jumpable)
+				if(!checkOccupancy1(black.x+100, black.y+100))
 					return true
 			}
 			//is there a black piece to SW?
 			if((black.x==red.x-100) && (black.y==red.y+100)) /*SW*/
 			{
-				jumpable = true;
 				//is is jumpable?
-				for(var k = 0; k<blacks.children.length; k++)
-				{
-					black2 = blacks.getChildAt(k);
-					if(!black2.isAlive())
-						continue;
-					if((black2.x==black.x-100) && (black2.y==black.y+100))
-						jumpable = false;
-				}
-				if(jumpable)
+				if(!checkOccupancy1(black.x-100, black.y+100))
 					return true
 			}
 			//is there a black piece to NE?
 			if((black.x==red.x+100) && (black.y==red.y-100)) /*NE*/
 			{
-				jumpable = true;
 				//is is jumpable?
-				for(var k = 0; k<blacks.children.length; k++)
-				{
-					black2 = blacks.getChildAt(k);
-					if(!black2.isAlive())
-						continue;
-					if((black2.x==black.x+100) && (black2.y==black.y-100))
-						jumpable = false;
-				}
-				if(jumpable)
+				if(!checkOccupancy1(black.x+100, black.y-100))
 					return true
 			}
 			//is there a black piece to NW?
 			if((black.x==red.x-100) && (black.y==red.y-100))  /*NW*/ 
 			{
-				jumpable = true;
 				//is is jumpable?
-				for(var k = 0; k<blacks.children.length; k++)
-				{
-					black2 = blacks.getChildAt(k);
-					if(!black2.isAlive())
-						continue;
-					if((black2.x==black.x-100) && (black2.y==black.y-100))
-						jumpable = false;
-				}
-				if(jumpable)
+				if(!checkOccupancy1(black.x-100, black.y-100))
 					return true
 			}
 		}
@@ -583,38 +686,20 @@ function checkIfTHISRedCanJump(red)
 		for(var i = 0; i<blacks.children.length; i++)
 		{
 			black = blacks.getChildAt(i);
-			if(!black.isAlive())
+			if(!black.isAlive)
 				continue;
 			//is there a black piece to SE?
 			if((black.x==red.x+100) && (black.y==red.y+100)) /*SE*/
 			{
-				jumpable = true;
 				//is is jumpable?
-				for(var k = 0; k<blacks.children.length; k++)
-				{
-					black2 = blacks.getChildAt(k);
-					if(!black2.isAlive())
-						continue;
-					if((black2.x==black.x+100) && (black2.y==black.y+100))
-						jumpable = false;
-				}
-				if(jumpable)
+				if(!checkOccupancy1(black.x+100, black.y+100))
 					return true
 			}
 			//is there a black piece to SW?
 			if((black.x==red.x-100) && (black.y==red.y+100)) /*SW*/
 			{
-				jumpable = true;
 				//is is jumpable?
-				for(var k = 0; k<blacks.children.length; k++)
-				{
-					black2 = blacks.getChildAt(k);
-					if(!black2.isAlive())
-						continue;
-					if((black2.x==black.x-100) && (black2.y==black.y+100))
-						jumpable = false;
-				}
-				if(jumpable)
+				if(!checkOccupancy1(black.x-100, black.y+100))
 					return true
 			}
 		}
@@ -628,7 +713,7 @@ function checkIfARedCanJump()
 	for(var i=0; i<reds.children.length; i++)
 	{
 		red = reds.getChildAt(i);
-		if(!red.isAlive())
+		if(!red.isAlive)
 			continue;
 		if(checkIfTHISRedCanJump(red))
 			return true;
@@ -636,7 +721,7 @@ function checkIfARedCanJump()
 	for(var k=0; k<redQueens.children.length; k++)
 	{
 		red = redQueens.getChildAt(k);
-		if(!red.isAlive())
+		if(!red.isAlive)
 			continue;
 		if(checkIfTHISRedCanJump(red))
 			return true;
@@ -651,7 +736,7 @@ function listOfRedsCanJump()
 	for(var i=0; i<reds.children.length; i++)
 	{
 		red = reds.getChildAt(i);
-		if(!red.isAlive())
+		if(!red.isAlive)
 			continue;
 		if(checkIfTHISRedCanJump(red))
 			redsCanJump.push(reds.getChildIndex(red));
@@ -659,7 +744,7 @@ function listOfRedsCanJump()
 	for(var k=0; k<redQueens.children.length; k++)
 	{
 		red = redQueens.getChildAt(k);
-		if(!red.isAlive())
+		if(!red.isAlive)
 			continue;
 		if(checkIfTHISRedCanJump(red))
 			redQueensCanJump.push(redQueens.getChildIndex(red));
@@ -677,70 +762,34 @@ function checkIfTHISBlackCanJump(black)
 		for(var i = 0; i<reds.children.length; i++)
 		{
 			red = reds.getChildAt(i);
-			if(!red.isAlive())
+			if(!red.isAlive)
 				continue;
-			//is there a black piece to SE?
+			//is there a red piece to SE?
 			if((red.x==black.x+100) && (red.y==black.y+100)) /*SE*/
 			{
-				jumpable = true;
 				//is is jumpable?
-				for(var k = 0; k<reds.children.length; k++)
-				{
-					red2 = reds.getChildAt(k);
-					if(!red2.isAlive())
-						continue;
-					if((red2.x==red.x+100) && (red2.y==red.y+100))
-						jumpable = false;
-				}
-				if(jumpable)
+				if(!checkOccupancy1(red.x+100, red.y+100))
 					return true
 			}
-			//is there a black piece to SW?
+			//is there a red piece to SW?
 			if((red.x==black.x-100) && (red.y==black.y+100)) /*SW*/
 			{
-				jumpable = true;
 				//is is jumpable?
-				for(var k = 0; k<reds.children.length; k++)
-				{
-					red2 = reds.getChildAt(i);
-					if(!red2.isAlive())
-						continue;
-					if((red2.x==red.x-100) && (red2.y==red.y+100))
-						jumpable = false;
-				}
-				if(jumpable)
+				if(!checkOccupancy1(red.x-100, red.y+100))
 					return true
 			}
-			//is there a black piece to NE?
+			//is there a red piece to NE?
 			if((red.x==black.x+100) && (red.y==black.y-100)) /*NE*/
 			{
-				jumpable = true;
 				//is is jumpable?
-				for(var k = 0; k<reds.children.length; k++)
-				{
-					red2 = reds.getChildAt(k);
-					if(!red2.isAlive())
-						continue;
-					if((red2.x==red.x+100) && (red2.y==red.y+100))
-						jumpable = false;
-				}
-				if(jumpable)
+				if(!checkOccupancy1(red.x+100, red.y-100))
 					return true
 			}
-			//is there a black piece to NW?
+			//is there a red piece to NW?
 			if((red.x==black.x-100) && (red.y==black.y-100))  /*NW*/ 
 			{
-				jumpable = true;
 				//is is jumpable?
-				for(var k = 0; k<reds.children.length; k++)
-				{
-					red2 = reds.getChildAt(k);
-					if(!red2.isAlive())
-						continue;
-					if((red2.x==red.x+100) && (red2.y==red.y+100))
-						jumpable = false;
-				}
-				if(jumpable)
+				if(!checkOccupancy1(red.x-100, red.y-100))
 					return true
 			}
 		}
@@ -750,38 +799,20 @@ function checkIfTHISBlackCanJump(black)
 		for(var i = 0; i<reds.children.length; i++)
 		{
 			red = reds.getChildAt(i);
-			if(!red.isAlive())
+			if(!red.isAlive)
 				continue;
 			//is there a black piece to NE?
 			if((red.x==black.x+100) && (red.y==black.y-100)) /*NE*/
 			{
-				jumpable = true;
 				//is is jumpable?
-				for(var k = 0; k<reds.children.length; k++)
-				{
-					red2 = reds.getChildAt(k);
-					if(!red2.isAlive())
-						continue;
-					if((red2.x==red.x+100) && (red2.y==red.y+100))
-						jumpable = false;
-				}
-				if(jumpable)
+				if(!checkOccupancy1(red.x+100, red.y-100))
 					return true
 			}
 			//is there a black piece to NW?
 			if((red.x==black.x-100) && (red.y==black.y-100))  /*NW*/ 
 			{
-				jumpable = true;
 				//is is jumpable?
-				for(var k = 0; k<reds.children.length; k++)
-				{
-					red2 = reds.getChildAt(k);
-					if(!red2.isAlive())
-						continue;
-					if((red2.x==red.x+100) && (red2.y==red.y+100))
-						jumpable = false;
-				}
-				if(jumpable)
+				if(!checkOccupancy1(red.x-100, red.y-100))
 					return true
 			}
 		}
@@ -797,7 +828,7 @@ function listOfBlacksCanJump()
 	for(var i=0; i<blacks.children.length; i++)
 	{
 		black = blacks.getChildAt(i);
-		if(!black.isAlive())
+		if(!black.isAlive)
 			continue;
 		if(checkIfTHISBlackCanJump(black))
 			blacksCanJump.push(blacks.getChildIndex(black));
@@ -805,7 +836,7 @@ function listOfBlacksCanJump()
 	for(var k=0; k<blackQueens.children.length; k++)
 	{
 		black = blackQueens.getChildAt(k);
-		if(!black.isAlive())
+		if(!black.isAlive)
 			continue;
 		if(checkIfTHISBlackCanJump(red))
 			blackQueensCanJump.push(blackQueens.getChildIndex(black));
@@ -818,7 +849,7 @@ function checkIfABlackCanJump()
 	for(var i=0; i<blacks.children.length; i++)
 	{
 		black = blacks.getChildAt(i);
-		if(!black.isAlive())
+		if(!black.isAlive)
 			continue;
 		if(checkIfTHISBlackCanJump(black))
 		{
@@ -829,7 +860,7 @@ function checkIfABlackCanJump()
 	for(var k=0; k<blackQueens.children.length; k++)
 	{
 		black = blackQueens.getChildAt(k);
-		if(!black.isAlive())
+		if(!black.isAlive)
 			continue;
 		if(checkIfTHISBlackCanJump(black))
 		{
