@@ -923,8 +923,8 @@ function turnToggle()
 	}
 	if (turnTrigger==1)
 	{
-		moveBlack();
 		turnTrigger = 0;
+		moveBlack();
 	}
 
 }
