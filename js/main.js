@@ -220,17 +220,17 @@ function create() {
 function selectRed(red)
 {
 	selectedRed = red;
-	selectedIndex = -1;
+	selectedRedIndex = -1;
 	if(redQueens.children.length>0)
 	{
 		if(isRedQueen(red))
 			selectedRedIndex = redQueens.getChildIndex(red);
-		if(selectedIndex==-1)
+		if(selectedRedIndex==-1)
 			selectedRedIndex = reds.getChildIndex(red);
 	}
 	else
 	{
-		selectedIndex = reds.getChildIndex(red);
+		selectedRedIndex = reds.getChildIndex(red);
 	}
 	selectedRedStartPos[0] = red.posX;
 	selectedRedStartPos[1] = red.posY;
