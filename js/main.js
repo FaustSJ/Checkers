@@ -1,6 +1,6 @@
 //http://wonderdeep.github.io/Checkers/index.html
 //Created by Sarah Faust
-var game = new Phaser.Game(800, 800, Phaser.CANVAS, 'game', { preload: preload, create: create});
+var game = new Phaser.Game(800, 800, Phaser.CANVAS, 'game', { preload: preload, create: create, update: update});
 
 function preload() {
 	game.load.image('BlackPiece', 'assets/BlackPiece.png');
@@ -16,7 +16,7 @@ var blacks;
 var selectedRed = null;
 var selectedRedIndex;
 var selectedRedStartPos = new Array(0,0);
-var turnTrigger = 0;
+var playerTurn=true;
 var redCanJump = false;
 var blackCanJump = false;
 var mustJump = false;
@@ -52,7 +52,7 @@ function create() {
 		{
 			if(alternate)
 			{
-				if(k==0)
+				if(k===0)
 				{
 					var red = reds.create(100, i*100, 'RedPiece');
 					red.name = 'red' + redcount;
@@ -62,7 +62,7 @@ function create() {
 					red.input.enableDrag(false, true);
 					red.events.onInputUp.add(releaseRed, this);
 				}
-				if(k==1)
+				if(k===1)
 				{
 					var c = reds.create(300, i*100, 'RedPiece');	
 					red.name = 'red' + redcount;
@@ -72,7 +72,7 @@ function create() {
 					red.input.enableDrag(false, true);
 					red.events.onInputUp.add(releaseRed, this);
 				}
-				if(k==2)
+				if(k===2)
 				{
 					var c = reds.create(500, i*100, 'RedPiece');	
 					red.name = 'red' + redcount;
@@ -82,7 +82,7 @@ function create() {
 					red.input.enableDrag(false, true);
 					red.events.onInputUp.add(releaseRed, this);
 				}
-				if(k==3)
+				if(k===3)
 				{
 					var c = reds.create(700, i*100, 'RedPiece');	
 					red.name = 'red' + redcount;
@@ -95,7 +95,7 @@ function create() {
 			}
 			else
 			{
-				if(k==0)
+				if(k===0)
 				{
 					var c = reds.create(0, i*100, 'RedPiece');	
 					red.name = 'red' + redcount;
@@ -105,7 +105,7 @@ function create() {
 					red.input.enableDrag(false, true);
 					red.events.onInputUp.add(releaseRed, this);
 				}
-				if(k==1)
+				if(k===1)
 				{
 					var c = reds.create(200, i*100, 'RedPiece');	
 					red.name = 'red' + redcount;
@@ -115,7 +115,7 @@ function create() {
 					red.input.enableDrag(false, true);
 					red.events.onInputUp.add(releaseRed, this);
 				}
-				if(k==2)
+				if(k===2)
 				{
 					var c = reds.create(400, i*100, 'RedPiece');	
 					red.name = 'red' + redcount;
@@ -125,7 +125,7 @@ function create() {
 					red.input.enableDrag(false, true);
 					red.events.onInputUp.add(releaseRed, this);
 				}
-				if(k==3)
+				if(k===3)
 				{
 					var c = reds.create(600, i*100, 'RedPiece');	
 					red.name = 'red' + redcount;
@@ -152,25 +152,25 @@ function create() {
 		{
 			if(alternate)
 			{
-				if(k==0)
+				if(k===0)
 				{
 					var black = blacks.create(0, (i*100)+400, 'BlackPiece');
 					black.name = 'black' + blackcount;
 					blackcount++;
 				}
-				if(k==1)
+				if(k===1)
 				{
 					var black = blacks.create(200, (i*100)+400, 'BlackPiece');
 					black.name = 'black' + blackcount;
 					blackcount++;
 				}
-				if(k==2)
+				if(k===2)
 				{
 					var black = blacks.create(400, (i*100)+400, 'BlackPiece');
 					black.name = 'black' + blackcount;
 					blackcount++;
 				}
-				if(k==3)
+				if(k===3)
 				{
 					var black = blacks.create(600, (i*100)+400, 'BlackPiece');
 					black.name = 'black' + blackcount;
@@ -179,25 +179,25 @@ function create() {
 			}
 			else
 			{
-				if(k==0)
+				if(k===0)
 				{
 					var black = blacks.create(100, (i*100)+400, 'BlackPiece');
 					black.name = 'black' + blackcount;
 					blackcount++;
 				}
-				if(k==1)
+				if(k===1)
 				{
 					var black = blacks.create(300, (i*100)+400, 'BlackPiece');
 					black.name = 'black' + blackcount;
 					blackcount++;
 				}
-				if(k==2)
+				if(k===2)
 				{
 					var black = blacks.create(500, (i*100)+400, 'BlackPiece');
 					black.name = 'black' + blackcount;
 					blackcount++;
 				}
-				if(k==3)
+				if(k===3)
 				{
 					var black = blacks.create(700, (i*100)+400, 'BlackPiece');
 					black.name = 'black' + blackcount;
@@ -220,7 +220,7 @@ function selectRed(red)
 		if(isRedQueen(red))
 			selectedRedIndex = redQueens.getChildIndex(red);
 	}
-	if(selectedRedIndex==-1)
+	if(selectedRedIndex===-1)
 		selectedRedIndex = reds.getChildIndex(red);
 	selectedRedStartPos[0] = red.body.x;
 	selectedRedStartPos[1] = red.body.y;
@@ -242,7 +242,7 @@ function releaseRed(selectedRed)
 			}
 		}
 		//did it make it to the other side?
-		if(red.body.y==700)
+		if(red.body.y===700)
 		{
 			var redQueen = redQueens.create(red.body.x, red.body.y, 'RedQueen');
 			redQueen.inputEnabled = true;
@@ -265,7 +265,7 @@ function releaseRed(selectedRed)
 	if(!recentlyJumped)
 	{
 		selectedRed = null;
-		turnToggle();
+		playerTurn = false;
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////
@@ -280,7 +280,7 @@ function checkOccupancy1(x, y) //looks for singles
 		piece = reds.getChildAt(i);
 		if(!piece.isAlive)
 			continue;
-		if((piece.body.x==x)&&(piece.body.y==y))
+		if((piece.body.x===x)&&(piece.body.y===y))
 			return piece;
 	}
 	for(var k=0; k<redQueens.children.length; k++)
@@ -288,7 +288,7 @@ function checkOccupancy1(x, y) //looks for singles
 		piece = redQueens.getChildAt(k);
 		if(!piece.isAlive)
 			continue;
-		if((piece.body.x==x)&&(piece.body.y==y))
+		if((piece.body.x===x)&&(piece.body.y===y))
 			return piece;
 	}
 	for(var i=0; i<blacks.children.length; i++)
@@ -296,7 +296,7 @@ function checkOccupancy1(x, y) //looks for singles
 		piece = blacks.getChildAt(i);
 		if(!piece.isAlive)
 			continue;
-		if((piece.body.x==x)&&(piece.body.y==y))
+		if((piece.body.x===x)&&(piece.body.y===y))
 			return piece;
 	}
 	for(var k=0; k<blackQueens.children.length; k++)
@@ -304,7 +304,7 @@ function checkOccupancy1(x, y) //looks for singles
 		piece = blackQueens.getChildAt(k);
 		if(!piece.isAlive)
 			continue;
-		if((piece.body.x==x)&&(piece.body.y==y))
+		if((piece.body.x===x)&&(piece.body.y===y))
 			return piece;
 	}
 	return null;
@@ -321,7 +321,7 @@ function checkOccupancy2(x, y) //looks for doubles
 		piece = reds.getChildAt(i);
 		if(!piece.isAlive)
 			continue;
-		if((piece.body.x==x)&&(piece.body.y==y))
+		if((piece.body.x===x)&&(piece.body.y===y))
 			occupants++;
 		if(occupants=2)
 			return true;
@@ -331,7 +331,7 @@ function checkOccupancy2(x, y) //looks for doubles
 		piece = redQueens.getChildAt(k);
 		if(!piece.isAlive)
 			continue;
-		if((piece.body.x==x)&&(piece.body.y==y))
+		if((piece.body.x===x)&&(piece.body.y===y))
 			occupants++;
 		if(occupants=2)
 			return true;
@@ -341,7 +341,7 @@ function checkOccupancy2(x, y) //looks for doubles
 		piece = blacks.getChildAt(i);
 		if(!piece.isAlive)
 			continue;
-		if((piece.body.x==x)&&(piece.body.y==y))
+		if((piece.body.x===x)&&(piece.body.y===y))
 			occupants++;
 		if(occupants=2)
 			return true;
@@ -351,7 +351,7 @@ function checkOccupancy2(x, y) //looks for doubles
 		piece = blackQueens.getChildAt(k);
 		if(!piece.isAlive)
 			continue;
-		if((piece.body.x==x)&&(piece.body.y==y))
+		if((piece.body.x===x)&&(piece.body.y===y))
 			occupants++;
 		if(occupants=2)
 			return true;
@@ -368,7 +368,7 @@ function isRed(red)
 			var red2 = reds.getChildAt(i);
 			if(!red2.isAlive)
 				continue;
-			if(red.body.x==red2.body.x && red.body.y==red2.body.y)
+			if(red.body.x===red2.body.x && red.body.y===red2.body.y)
 				return true;
 		}
 	}
@@ -384,7 +384,7 @@ function isBlack(black)
 			var black2 = blacks.getChildAt(i);
 			if(!black2.isAlive)
 				continue;
-			if(black.body.x==black2.body.x && black.body.y==black2.body.y)
+			if(black.body.x===black2.body.x && black.body.y===black2.body.y)
 				return true;
 		}
 	}
@@ -400,7 +400,7 @@ function isRedQueen(red)
 			var red2 = redQueens.getChildAt(i);
 			if(!red2.isAlive)
 				continue;
-			if(red.body.x==red2.body.x && red.body.y==red2.body.y)
+			if(red.body.x===red2.body.x && red.body.y===red2.body.y)
 				return true;
 		}
 	}
@@ -416,7 +416,7 @@ function isBlackQueen(black)
 			var black2 = blackQueens.getChildAt(i);
 			if(!black2.isAlive)
 				continue;
-			if(black.body.x==black2.body.x && black.body.y==black2.body.y)
+			if(black.body.x===black2.body.x && black.body.y===black2.body.y)
 				return true;
 		}
 	}
@@ -436,17 +436,17 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 	if(red.body.x<0 || red.body.x>700 || red.body.y<0 || red.body.y>700)
 		return false;
 	//and thet they actually moved
-	if(red.body.x==fromPosX && red.body.y==fromPosY)
+	if(red.body.x===fromPosX && red.body.y===fromPosY)
 		return false;
 	//then check if the space is already occupied
 	if(checkOccupancy2(red.body.x, red.body.y))
 		return false
 	
 	//now we ask, did it jump?
-	if((Math.abs(fromPosX-red.body.x)==200)&&(Math.abs(fromPosY-red.body.y)==200))
+	if((Math.abs(fromPosX-red.body.x)===200)&&(Math.abs(fromPosY-red.body.y)===200))
 	{
 		//was it supposed to?
-		if(redsCanJump.indexOf(selectedRedIndex)==-1)
+		if(redsCanJump.indexOf(selectedRedIndex)===-1)
 			return false;
 		
 		//did jump in a legal direction?
@@ -468,7 +468,7 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 	}
 	else //it only moved one space
 	{
-		if((Math.abs(fromPosX-red.body.x)==100)&&(Math.abs(fromPosY-red.body.y)==100))
+		if((Math.abs(fromPosX-red.body.x)===100)&&(Math.abs(fromPosY-red.body.y)===100))
 		{
 			//was it supposed to jump?
 			if(redsCanJump.indexOf(selectedRedIndex)!=-1)
@@ -506,7 +506,7 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 					if(!red.isAlive)
 						continue;
 					//is there a red piece to NE?
-					if((red.body.x==black.body.x+100) && (red.body.y==black.body.y-100)) /*NE*/
+					if((red.body.x===black.body.x+100) && (red.body.y===black.body.y-100)) /*NE*/
 					{
 						//move the black, kill the red
 						if(!checkOccupancy1(red.body.x+100, red.body.y-100))
@@ -518,7 +518,7 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 						}
 					}
 					//is there a red piece to NW?
-					if((red.body.x==black.body.x-100) && (red.body.y==black.body.y-100))  /*NW*/ 
+					if((red.body.x===black.body.x-100) && (red.body.y===black.body.y-100))  /*NW*/ 
 					{
 						//move the black, kill the red
 						if(!checkOccupancy1(red.body.x-100, red.body.y-100))
@@ -550,7 +550,7 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 					if(!red.isAlive)
 						continue;
 					//is there a red piece to SE?
-					if((red.body.x==black.body.x+100) && (red.body.y==black.body.y+100)) /*SE*/
+					if((red.body.x===black.body.x+100) && (red.body.y===black.body.y+100)) /*SE*/
 					{
 						//move the black, kill the red
 						if(!checkOccupancy1(red.body.x+100, red.body.y+100))
@@ -562,7 +562,7 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 						}
 					}
 					//is there a red piece to SW?
-					if((red.body.x==black.body.x-100) && (red.body.y==black.body.y+100)) /*SW*/
+					if((red.body.x===black.body.x-100) && (red.body.y===black.body.y+100)) /*SW*/
 					{
 						//move the black, kill the red
 						if(!checkOccupancy1(red.body.x-100, red.body.y+100))
@@ -574,7 +574,7 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 						}
 					}
 					//is there a red piece to NE?
-					if((red.body.x==black.body.x+100) && (red.body.y==black.body.y-100)) /*NE*/
+					if((red.body.x===black.body.x+100) && (red.body.y===black.body.y-100)) /*NE*/
 					{
 						//move the black, kill the red
 						if(!checkOccupancy1(red.body.x+100, red.body.y-100))
@@ -586,7 +586,7 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 						}
 					}
 					//is there a red piece to NW?
-					if((red.body.x==black.body.x-100) && (red.body.y==black.body.y-100))  /*NW*/ 
+					if((red.body.x===black.body.x-100) && (red.body.y===black.body.y-100))  /*NW*/ 
 					{
 						//move the black, kill the red
 						if(!checkOccupancy1(red.body.x-100, red.body.y-100))
@@ -670,7 +670,7 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 	}
 		
 	if(!recentlyJumped)
-		turnToggle();
+		playerTurn = true;
 }
 ////////////////////////////////////////////////////////////////////////////////
 //are there any jumps available for a specific red?
@@ -688,28 +688,28 @@ function checkIfTHISRedCanJump(red)
 			if(!black.isAlive)
 				continue;
 			//is there a black piece to SE?
-			if((black.body.x==red.body.x+100) && (black.body.y==red.body.y+100)) /*SE*/
+			if((black.body.x===red.body.x+100) && (black.body.y===red.body.y+100)) /*SE*/
 			{
 				//is is jumpable?
 				if(!checkOccupancy1(black.body.x+100, black.body.y+100))
 					return true
 			}
 			//is there a black piece to SW?
-			if((black.body.x==red.body.x-100) && (black.body.y==red.body.y+100)) /*SW*/
+			if((black.body.x===red.body.x-100) && (black.body.y===red.body.y+100)) /*SW*/
 			{
 				//is is jumpable?
 				if(!checkOccupancy1(black.body.x-100, black.body.y+100))
 					return true
 			}
 			//is there a black piece to NE?
-			if((black.body.x==red.body.x+100) && (black.body.y==red.body.y-100)) /*NE*/
+			if((black.body.x===red.body.x+100) && (black.body.y===red.body.y-100)) /*NE*/
 			{
 				//is is jumpable?
 				if(!checkOccupancy1(black.body.x+100, black.body.y-100))
 					return true
 			}
 			//is there a black piece to NW?
-			if((black.body.x==red.body.x-100) && (black.body.y==red.body.y-100))  /*NW*/ 
+			if((black.body.x===red.body.x-100) && (black.body.y===red.body.y-100))  /*NW*/ 
 			{
 				//is is jumpable?
 				if(!checkOccupancy1(black.body.x-100, black.body.y-100))
@@ -725,14 +725,14 @@ function checkIfTHISRedCanJump(red)
 			if(!black.isAlive)
 				continue;
 			//is there a black piece to SE?
-			if((black.body.x==red.body.x+100) && (black.body.y==red.body.y+100)) /*SE*/
+			if((black.body.x===red.body.x+100) && (black.body.y===red.body.y+100)) /*SE*/
 			{
 				//is is jumpable?
 				if(!checkOccupancy1(black.body.x+100, black.body.y+100))
 					return true
 			}
 			//is there a black piece to SW?
-			if((black.body.x==red.body.x-100) && (black.body.y==red.body.y+100)) /*SW*/
+			if((black.body.x===red.body.x-100) && (black.body.y===red.body.y+100)) /*SW*/
 			{
 				//is is jumpable?
 				if(!checkOccupancy1(black.body.x-100, black.body.y+100))
@@ -805,28 +805,28 @@ function checkIfTHISBlackCanJump(black)
 			if(!red.isAlive)
 				continue;
 			//is there a red piece to SE?
-			if((red.body.x==black.body.x+100) && (red.body.y==black.body.y+100)) /*SE*/
+			if((red.body.x===black.body.x+100) && (red.body.y===black.body.y+100)) /*SE*/
 			{
 				//is is jumpable?
 				if(!checkOccupancy1(red.body.x+100, red.body.y+100))
 					return true
 			}
 			//is there a red piece to SW?
-			if((red.body.x==black.body.x-100) && (red.body.y==black.body.y+100)) /*SW*/
+			if((red.body.x===black.body.x-100) && (red.body.y===black.body.y+100)) /*SW*/
 			{
 				//is is jumpable?
 				if(!checkOccupancy1(red.body.x-100, red.body.y+100))
 					return true
 			}
 			//is there a red piece to NE?
-			if((red.body.x==black.body.x+100) && (red.body.y==black.body.y-100)) /*NE*/
+			if((red.body.x===black.body.x+100) && (red.body.y===black.body.y-100)) /*NE*/
 			{
 				//is is jumpable?
 				if(!checkOccupancy1(red.body.x+100, red.body.y-100))
 					return true
 			}
 			//is there a red piece to NW?
-			if((red.body.x==black.body.x-100) && (red.body.y==black.body.y-100))  /*NW*/ 
+			if((red.body.x===black.body.x-100) && (red.body.y===black.body.y-100))  /*NW*/ 
 			{
 				//is is jumpable?
 				if(!checkOccupancy1(red.body.x-100, red.body.y-100))
@@ -842,14 +842,14 @@ function checkIfTHISBlackCanJump(black)
 			if(!red.isAlive)
 				continue;
 			//is there a black piece to NE?
-			if((red.body.x==black.body.x+100) && (red.body.y==black.body.y-100)) /*NE*/
+			if((red.body.x===black.body.x+100) && (red.body.y===black.body.y-100)) /*NE*/
 			{
 				//is is jumpable?
 				if(!checkOccupancy1(red.body.x+100, red.body.y-100))
 					return true
 			}
 			//is there a black piece to NW?
-			if((red.body.x==black.body.x-100) && (red.body.y==black.body.y-100))  /*NW*/ 
+			if((red.body.x===black.body.x-100) && (red.body.y===black.body.y-100))  /*NW*/ 
 			{
 				//is is jumpable?
 				if(!checkOccupancy1(red.body.x-100, red.body.y-100))
@@ -913,20 +913,10 @@ function listOfBlacksCanJump()
 }
 ////////////////////////////////////////////////////////////////////////////////
 //move on to the next turn
-function turnToggle() 
+function update()
 {
-	listOfRedsCanJump();
-	listOfBlacksCanJump();
-	if (turnTrigger==0)
-	{	
-		turnTrigger = 1;
-	}
-	if (turnTrigger==1)
-	{
-		turnTrigger = 0;
+	if(!playerTurn)
 		moveBlack();
-	}
-
 }
 
 
