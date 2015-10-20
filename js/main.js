@@ -224,9 +224,9 @@ function selectRed(red)
 	if(redQueens.children.length>0)
 	{
 		if(isRedQueen(red))
-			selectedIndex.redQueens.getChildIndex(red);
+			selectedRedIndex = redQueens.getChildIndex(red);
 		if(selectedIndex==-1)
-			selectedIndex.reds.getChildIndex(red);
+			selectedRedIndex = reds.getChildIndex(red);
 	}
 	else
 	{
