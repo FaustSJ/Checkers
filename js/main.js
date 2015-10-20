@@ -14,7 +14,7 @@ var board;
 var reds;
 var blacks;
 var selectedRed = null;
-var selectedRedIndex = -1;
+var selectedRedIndex;
 var selectedRedStartPos = new Array(0,0);
 var turnTrigger = 0;
 var redCanJump = false;
@@ -225,13 +225,9 @@ function selectRed(red)
 	{
 		if(isRedQueen(red))
 			selectedRedIndex = redQueens.getChildIndex(red);
-		if(selectedRedIndex==-1)
-			selectedRedIndex = reds.getChildIndex(red);
 	}
-	else
-	{
+	if(selectedRedIndex==-1)
 		selectedRedIndex = reds.getChildIndex(red);
-	}
 	selectedRedStartPos[0] = red.posX;
 	selectedRedStartPos[1] = red.posY;
 }
