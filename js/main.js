@@ -438,24 +438,42 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
  function moveBlack()
 {
 	var black;
+	var pick = Math.random();
 	//can any blacks jump?
-	If(checkIfABlackCanJump())
+	if(checkIfABlackCanJump())
 	{
 		//grab from queen or regular index list
-		//modify checkifthisjump to find a jumping position and jump
-		recentlyJumped = true;
-		
-		//can it jump again?
-		if(!checkIfTHISBlackCanJump(black))
+		if(pick<0.5 && blacksCanJump.length>0)
 		{
-			recentlyJumped = false
+			black = blacks.getChildAt(blacksCanJump[0]);
+			//modify checkifthisjump to find a jumping position and jump
+			recentlyJumped = true;
+		
+			//can it jump again?
+			if(!checkIfTHISBlackCanJump(black))
+			{
+				recentlyJumped = false
+			}
 		}
+		if(pick>=0.5 && blackQueensCanJump>0)
+		{
+			black = blackQueens.getChildAt(blacksCanJump[0]);
+			//modify checkifthisjump to find a jumping position and jump
+			recentlyJumped = true;
+		
+			//can it jump again?
+			if(!checkIfTHISBlackCanJump(black))
+			{
+				recentlyJumped = false
+			}
+		}
+		
 	}
 	else
 	{
-		var either = random;//////
+		var either = Math.random();
 		
-		if(either==1 && blackQueens.children.length!=0)
+		if(either<0.5 && blackQueens.children.length!=0)
 		{
 			for(var i=0; i<blackQueens.children.length; i++)
 			{
