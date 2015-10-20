@@ -682,7 +682,7 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 	}
 		
 	if(!recentlyJumped)
-		toggleTurn();
+		turnToggle();
 }
 ////////////////////////////////////////////////////////////////////////////////
 //are there any jumps available for a specific red?
