@@ -1,4 +1,5 @@
 //http://wonderdeep.github.io/Checkers/index.html
+//Created by Sarah Faust
 var game = new Phaser.Game(800, 800, Phaser.CANVAS, 'game', { preload: preload, create: create});
 
 function preload() {
@@ -10,30 +11,6 @@ function preload() {
 }
 
 var board;
-/*var red1;
-var red2;
-var red3;
-var red4;
-var red5;
-var red6;
-var red7;
-var red8;
-var red9;
-var red10;
-var red11;
-var red12;
-var black1;
-var black2;
-var black3;
-var black4;
-var black5;
-var black6;
-var black7;
-var black8;
-var black9;
-var black10;
-var black11;
-var black12;*/
 var reds;
 var blacks;
 var selectedRed = null;
@@ -49,7 +26,7 @@ var blacksCanJump = {};
 var redQueensCanJump = {};
 var blackQueensCanJump = {};
 
-
+//sets up the board and the pieces.
 function create() {
 //sets up the board and the mouse input
 	board = game.add.sprite(0, 0, 'CheckerBoard');
@@ -238,7 +215,9 @@ function create() {
 		alternate = !alternate;
 	}
 }
+//The game officially starts once the player clicks a red piece
 ////////////////////////////////////////////////////////////////////////////////
+//stores information about the red piece currently being moved
 function selectRed(red)
 {
 	selectedRed = red;
@@ -257,6 +236,8 @@ function selectRed(red)
 	selectedRedStartPos.x = red.posX;
 	selectedRedStartPos.y = red.posY;
 }
+//once the player drags the red piece, they drop it (unclick it)
+//			and the game checks if it is a valid move.
 function releaseRed(selectedRed)
 {
 	if(checkIfRedCanMoveHere(selectedRed, selectedRedStartPos.x, selectedRedStartPos.y, selectedRed.posX, selectedRed.posY))
@@ -291,7 +272,7 @@ function releaseRed(selectedRed)
 		red.x = selectedRedStartPos.x;
 		red.y = selectedRedStartPos.y;
 	}
-	//If the selected piece still has 
+	//If the selected piece has not more jumps it can make, move to next turn. 
 	if(!recentlyJumped)
 	{
 		selectedRed = null;
@@ -299,13 +280,17 @@ function releaseRed(selectedRed)
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////
+//sets up each pieces position
 function setPos(piece, posX, posY)
 {
 	piece.posX = posX;
 	piece.posY = posY;
 }
+//checks if a spot is occupied by a single piece
 function checkOccupancy1(x, y) //looks for singles
 {	
+	if(x<0 || x>700 || y<0 || y>700)
+		return true;
 	var piece;
 	for(var i=0; i<reds.children.length; i++)
 	{
@@ -341,8 +326,11 @@ function checkOccupancy1(x, y) //looks for singles
 	}
 	return null;
 }
+//checks to see if a spotis occupied by two pieces
 function checkOccupancy2(x, y) //looks for doubles
 {	
+	if(x<0 || x>700 || y<0 || y>700)
+		return true;
 	var occupants = 0; //shouldn't be more than 1
 	var piece;
 	for(var i=0; i<reds.children.length; i++)
@@ -387,6 +375,7 @@ function checkOccupancy2(x, y) //looks for doubles
 	}
 	return false;
 }
+//is the piece red?
 function isRed(red)
 {
 	if(reds.children.length>0)
@@ -402,6 +391,7 @@ function isRed(red)
 	}
 	return false;
 }
+//is the piece black?
 function isBlack(black)
 {
 	if(blacks.children.length>0)
@@ -417,6 +407,7 @@ function isBlack(black)
 	}
 	return false;
 }
+//is the piece a red queen?
 function isRedQueen(red)
 {
 	if(redQueens.children.length>0)
@@ -432,6 +423,7 @@ function isRedQueen(red)
 	}
 	return false;
 }
+//is the piece a black queen?
 function isBlackQueen(black)
 {
 	if(blackQueens.children.length>0)
@@ -448,6 +440,7 @@ function isBlackQueen(black)
 	return false;
 }
 ///////////////////////////////////////////////////////////////////////////////
+//is the dopped location valid for the selected red piece
 function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 {
 	//first, adjust the coordinates
@@ -458,6 +451,9 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 	red.y = red.y-extra;
 	//and make sure they're still on the board
 	if(red.x<0 || red.x>700 || red.y<0 || red.y>700)
+		return false;
+	//and thet they actually moved
+	if(red.x==fromPosX && red.y==fromPosY)
 		return false;
 	//then check if the space is already occupied
 	if(checkOccupancy2(red.x, red.y))
@@ -629,7 +625,7 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 		
 	}
 	else
-	{
+	{//if a black can't jump, pick a random black and move it.
 		var either = Math.random();
 		
 		if(either<0.5 && blackQueens.children.length!=0)
@@ -694,6 +690,7 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 		toggleTurn();
 }
 ////////////////////////////////////////////////////////////////////////////////
+//are there any jumps available for a specific red?
 function checkIfTHISRedCanJump(red)
 {
 	var black;
@@ -763,6 +760,7 @@ function checkIfTHISRedCanJump(red)
 	
 	return false;
 }
+//are there any jumps available for reds?
 function checkIfARedCanJump()
 {
 	var red;
@@ -784,6 +782,7 @@ function checkIfARedCanJump()
 	}
 	return false;	
 }
+//which reds can jump?
 function listOfRedsCanJump()
 {
 	redsCanJump = {};
@@ -807,6 +806,8 @@ function listOfRedsCanJump()
 	}
 	return false;	
 }
+//-----------------------------------------------------------------------
+//are there any jumps available for a specific black?
 function checkIfTHISBlackCanJump(black)
 {
 	var red;
@@ -876,29 +877,7 @@ function checkIfTHISBlackCanJump(black)
 	
 	return false;
 }
-function listOfBlacksCanJump()
-{
-	blacksCanJump = {};
-	blackQueensCanJump = {};
-	var black;
-	for(var i=0; i<blacks.children.length; i++)
-	{
-		black = blacks.getChildAt(i);
-		if(!black.isAlive)
-			continue;
-		if(checkIfTHISBlackCanJump(black))
-			blacksCanJump.push(blacks.getChildIndex(black));
-	}
-	for(var k=0; k<blackQueens.children.length; k++)
-	{
-		black = blackQueens.getChildAt(k);
-		if(!black.isAlive)
-			continue;
-		if(checkIfTHISBlackCanJump(red))
-			blackQueensCanJump.push(blackQueens.getChildIndex(black));
-	}
-	return false;	
-}
+//are there any jumps available for blacks?
 function checkIfABlackCanJump()
 {
 	var black;
@@ -925,7 +904,32 @@ function checkIfABlackCanJump()
 	}
 	return false;
 }
+//which blacks can jump?
+function listOfBlacksCanJump()
+{
+	blacksCanJump = {};
+	blackQueensCanJump = {};
+	var black;
+	for(var i=0; i<blacks.children.length; i++)
+	{
+		black = blacks.getChildAt(i);
+		if(!black.isAlive)
+			continue;
+		if(checkIfTHISBlackCanJump(black))
+			blacksCanJump.push(blacks.getChildIndex(black));
+	}
+	for(var k=0; k<blackQueens.children.length; k++)
+	{
+		black = blackQueens.getChildAt(k);
+		if(!black.isAlive)
+			continue;
+		if(checkIfTHISBlackCanJump(red))
+			blackQueensCanJump.push(blackQueens.getChildIndex(black));
+	}
+	return false;	
+}
 ////////////////////////////////////////////////////////////////////////////////
+//move on to the next turn
 function turnToggle() 
 {
 	listOfRedsCanJump();
