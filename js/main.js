@@ -29,13 +29,21 @@ var blackQueensCanJump = {};
 //sets up the board and the pieces.
 function create() {
 //sets up the board and the mouse input
+	game.physics.startSystem(Phaser.Physics.ARCADE);
 	board = game.add.sprite(0, 0, 'CheckerBoard');
+	game.physics.startSystem(Phaser.Physics.ARCADE);
 	redQueens = game.add.group();
+	redQueens.enableBody = true;
+	RedQueens.physicsBodyType = Phaser.Physics.ARCADE;
 	blackQueens = game.add.group();
+	blackQueens.enableBody = true;
+     blackQueens.physicsBodyType = Phaser.Physics.ARCADE;
 
 //the game pieces
 	//seting up the red pieces
 	reds = game.add.group();
+	reds.enableBody = true;
+     reds.physicsBodyType = Phaser.Physics.ARCADE;
 	var alternate = true;
 	var redcount = 0;
 	for(var i = 0; i<3; i++) //rows, y
@@ -134,6 +142,8 @@ function create() {
 	
 	//seting up the black pieces
 	blacks = game.add.group();
+	blacks.enableBody = true;
+     blacks.physicsBodyType = Phaser.Physics.ARCADE;
 	alternate = true;
 	var blackcount = 0;
 	for(var i = 1; i<4; i++) //rows, y
@@ -212,8 +222,8 @@ function selectRed(red)
 	}
 	if(selectedRedIndex==-1)
 		selectedRedIndex = reds.getChildIndex(red);
-	selectedRedStartPos[0] = red.x;
-	selectedRedStartPos[1] = red.y;
+	selectedRedStartPos[0] = red.body.body.x;
+	selectedRedStartPos[1] = red.body.y;
 }
 //once the player drags the red piece, they drop it (unclick it)
 //			and the game checks if it is a valid move.
@@ -232,14 +242,14 @@ function releaseRed(selectedRed)
 			}
 		}
 		//did it make it to the other side?
-		if(red.y==700)
+		if(red.body.y==700)
 		{
-			var redQueen = redQueens.create(red.x, red.y, 'RedQueen');
+			var redQueen = redQueens.create(red.body.body.x, red.body.y, 'RedQueen');
 			redQueen.inputEnabled = true;
 			redQueen.events.onInputDown.add(selectRed, this);
 			redQueen.input.enableDrag(false, true);
 			redQueen.events.onInputUp.add(releaseRed, this);
-			setRedPos(redQueen, red.x, red.y);
+			setRedPos(redQueen, red.body.body.x, red.body.y);
 			selectRed(redQueen);
 			red.kill();
 		}
@@ -248,8 +258,8 @@ function releaseRed(selectedRed)
 	else
 	{
 		var red = reds.getChildAt(selectedRedIndex);
-		red.x = selectedRedStartPos[0];
-		red.y = selectedRedStartPos[1];
+		red.body.body.x = selectedRedStartPos[0];
+		red.body.y = selectedRedStartPos[1];
 	}
 	//If the selected piece has not more jumps it can make, move to next turn. 
 	if(!recentlyJumped)
@@ -270,7 +280,7 @@ function checkOccupancy1(x, y) //looks for singles
 		piece = reds.getChildAt(i);
 		if(!piece.isAlive)
 			continue;
-		if((piece.x==x)&&(piece.y==y))
+		if((piece.body.body.x==x)&&(piece.body.y==y))
 			return piece;
 	}
 	for(var k=0; k<redQueens.children.length; k++)
@@ -278,7 +288,7 @@ function checkOccupancy1(x, y) //looks for singles
 		piece = redQueens.getChildAt(k);
 		if(!piece.isAlive)
 			continue;
-		if((piece.x==x)&&(piece.y==y))
+		if((piece.body.body.x==x)&&(piece.body.y==y))
 			return piece;
 	}
 	for(var i=0; i<blacks.children.length; i++)
@@ -286,7 +296,7 @@ function checkOccupancy1(x, y) //looks for singles
 		piece = blacks.getChildAt(i);
 		if(!piece.isAlive)
 			continue;
-		if((piece.x==x)&&(piece.y==y))
+		if((piece.body.body.x==x)&&(piece.body.y==y))
 			return piece;
 	}
 	for(var k=0; k<blackQueens.children.length; k++)
@@ -294,7 +304,7 @@ function checkOccupancy1(x, y) //looks for singles
 		piece = blackQueens.getChildAt(k);
 		if(!piece.isAlive)
 			continue;
-		if((piece.x==x)&&(piece.y==y))
+		if((piece.body.body.x==x)&&(piece.body.y==y))
 			return piece;
 	}
 	return null;
@@ -311,7 +321,7 @@ function checkOccupancy2(x, y) //looks for doubles
 		piece = reds.getChildAt(i);
 		if(!piece.isAlive)
 			continue;
-		if((piece.x==x)&&(piece.y==y))
+		if((piece.body.body.x==x)&&(piece.body.y==y))
 			occupants++;
 		if(occupants=2)
 			return true;
@@ -321,7 +331,7 @@ function checkOccupancy2(x, y) //looks for doubles
 		piece = redQueens.getChildAt(k);
 		if(!piece.isAlive)
 			continue;
-		if((piece.x==x)&&(piece.y==y))
+		if((piece.body.body.x==x)&&(piece.body.y==y))
 			occupants++;
 		if(occupants=2)
 			return true;
@@ -331,7 +341,7 @@ function checkOccupancy2(x, y) //looks for doubles
 		piece = blacks.getChildAt(i);
 		if(!piece.isAlive)
 			continue;
-		if((piece.x==x)&&(piece.y==y))
+		if((piece.body.body.x==x)&&(piece.body.y==y))
 			occupants++;
 		if(occupants=2)
 			return true;
@@ -341,7 +351,7 @@ function checkOccupancy2(x, y) //looks for doubles
 		piece = blackQueens.getChildAt(k);
 		if(!piece.isAlive)
 			continue;
-		if((piece.x==x)&&(piece.y==y))
+		if((piece.body.body.x==x)&&(piece.body.y==y))
 			occupants++;
 		if(occupants=2)
 			return true;
@@ -358,7 +368,7 @@ function isRed(red)
 			var red2 = reds.getChildAt(i);
 			if(!red2.isAlive)
 				continue;
-			if(red.x==red2.x && red.y==red2.y)
+			if(red.body.body.x==red2.body.body.x && red.body.y==red2.body.y)
 				return true;
 		}
 	}
@@ -374,7 +384,7 @@ function isBlack(black)
 			var black2 = blacks.getChildAt(i);
 			if(!black2.isAlive)
 				continue;
-			if(black.x==black2.x && black.y==black2.y)
+			if(black.body.body.x==black2.body.body.x && black.body.y==black2.body.y)
 				return true;
 		}
 	}
@@ -390,7 +400,7 @@ function isRedQueen(red)
 			var red2 = redQueens.getChildAt(i);
 			if(!red2.isAlive)
 				continue;
-			if(red.x==red2.x && red.y==red2.y)
+			if(red.body.body.x==red2.body.body.x && red.body.y==red2.body.y)
 				return true;
 		}
 	}
@@ -406,7 +416,7 @@ function isBlackQueen(black)
 			var black2 = blackQueens.getChildAt(i);
 			if(!black2.isAlive)
 				continue;
-			if(black.x==black2.x && black.y==black2.y)
+			if(black.body.body.x==black2.body.body.x && black.body.y==black2.body.y)
 				return true;
 		}
 	}
@@ -419,33 +429,33 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 	//first, adjust the coordinates
 	var extra;
 	extra = toPosX%100;
-	red.x = red.x-extra;
+	red.body.body.x = red.body.body.x-extra;
 	extra = toPosY%100;
-	red.y = red.y-extra;
+	red.body.y = red.body.y-extra;
 	//and make sure they're still on the board
-	if(red.x<0 || red.x>700 || red.y<0 || red.y>700)
+	if(red.body.body.x<0 || red.body.body.x>700 || red.body.y<0 || red.body.y>700)
 		return false;
 	//and thet they actually moved
-	if(red.x==fromPosX && red.y==fromPosY)
+	if(red.body.body.x==fromPosX && red.body.y==fromPosY)
 		return false;
 	//then check if the space is already occupied
-	if(checkOccupancy2(red.x, red.y))
+	if(checkOccupancy2(red.body.body.x, red.body.y))
 		return false
 	
 	//now we ask, did it jump?
-	if((Math.abs(fromPosX-red.x)==200)&&(Math.abs(fromPosY-red.y)==200))
+	if((Math.abs(fromPosX-red.body.body.x)==200)&&(Math.abs(fromPosY-red.body.y)==200))
 	{
 		//was it supposed to?
 		if(redsCanJump.indexOf(selectedRedIndex)==-1)
 			return false;
 		
 		//did jump in a legal direction?
-		if((!isRedQueen(red))&&(red.y<fromPosY))
+		if((!isRedQueen(red))&&(red.body.y<fromPosY))
 			return false;
 		
 		//did it actually jump over anything?
-		var checkX = (red.x+fromPosX)/2;
-		var checkY = (red.y+fromPosY)/2;
+		var checkX = (red.body.body.x+fromPosX)/2;
+		var checkY = (red.body.y+fromPosY)/2;
 		if(checkOccupancy1(checkX, checkY)!=null)
 		{
 			var piece = checkOccupancy1(checkX, checkY);
@@ -458,14 +468,14 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 	}
 	else //it only moved one space
 	{
-		if((Math.abs(fromPosX-red.x)==100)&&(Math.abs(fromPosY-red.y)==100))
+		if((Math.abs(fromPosX-red.body.body.x)==100)&&(Math.abs(fromPosY-red.body.y)==100))
 		{
 			//was it supposed to jump?
 			if(redsCanJump.indexOf(selectedRedIndex)!=-1)
 				return false;
 			
 			//did it move in a legal direction?
-			if((!isRedQueen(red))&&(red.y<fromPosY))
+			if((!isRedQueen(red))&&(red.body.y<fromPosY))
 				return false;
 			
 			return true
@@ -496,25 +506,25 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 					if(!red.isAlive)
 						continue;
 					//is there a red piece to NE?
-					if((red.x==black.x+100) && (red.y==black.y-100)) /*NE*/
+					if((red.body.body.x==black.body.body.x+100) && (red.body.y==black.body.y-100)) /*NE*/
 					{
 						//move the black, kill the red
-						if(!checkOccupancy1(red.x+100, red.y-100))
+						if(!checkOccupancy1(red.body.body.x+100, red.body.y-100))
 						{
-							black.x = red.x+100;
-							black.y = red.y-100;
+							black.body.body.x = red.body.body.x+100;
+							black.body.y = red.body.y-100;
 							red.kill();
 							break;
 						}
 					}
 					//is there a red piece to NW?
-					if((red.x==black.x-100) && (red.y==black.y-100))  /*NW*/ 
+					if((red.body.body.x==black.body.body.x-100) && (red.body.y==black.body.y-100))  /*NW*/ 
 					{
 						//move the black, kill the red
-						if(!checkOccupancy1(red.x-100, red.y-100))
+						if(!checkOccupancy1(red.body.body.x-100, red.body.y-100))
 						{
-							black.x = red.x-100;
-							black.y = red.y-100;
+							black.body.x = red.body.x-100;
+							black.body.y = red.body.y-100;
 							red.kill();
 							break;
 						}
@@ -540,49 +550,49 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 					if(!red.isAlive)
 						continue;
 					//is there a red piece to SE?
-					if((red.x==black.x+100) && (red.y==black.y+100)) /*SE*/
+					if((red.body.x==black.body.x+100) && (red.body.y==black.body.y+100)) /*SE*/
 					{
 						//move the black, kill the red
-						if(!checkOccupancy1(red.x+100, red.y+100))
+						if(!checkOccupancy1(red.body.x+100, red.body.y+100))
 						{
-							black.x = red.x+100;
-							black.y = red.y+100;
+							black.body.x = red.body.x+100;
+							black.body.y = red.body.y+100;
 							red.kill();
 							break;
 						}
 					}
 					//is there a red piece to SW?
-					if((red.x==black.x-100) && (red.y==black.y+100)) /*SW*/
+					if((red.body.x==black.body.x-100) && (red.body.y==black.body.y+100)) /*SW*/
 					{
 						//move the black, kill the red
-						if(!checkOccupancy1(red.x-100, red.y+100))
+						if(!checkOccupancy1(red.body.x-100, red.body.y+100))
 						{
-							black.x = red.x-100;
-							black.y = red.y+100;
+							black.body.x = red.body.x-100;
+							black.body.y = red.body.y+100;
 							red.kill();
 							break;
 						}
 					}
 					//is there a red piece to NE?
-					if((red.x==black.x+100) && (red.y==black.y-100)) /*NE*/
+					if((red.body.x==black.body.x+100) && (red.body.y==black.body.y-100)) /*NE*/
 					{
 						//move the black, kill the red
-						if(!checkOccupancy1(red.x+100, red.y-100))
+						if(!checkOccupancy1(red.body.x+100, red.body.y-100))
 						{
-							black.x = red.x+100;
-							black.y = red.y-100;
+							black.body.x = red.body.x+100;
+							black.body.y = red.body.y-100;
 							red.kill();
 							break;
 						}
 					}
 					//is there a red piece to NW?
-					if((red.x==black.x-100) && (red.y==black.y-100))  /*NW*/ 
+					if((red.body.x==black.body.x-100) && (red.body.y==black.body.y-100))  /*NW*/ 
 					{
 						//move the black, kill the red
-						if(!checkOccupancy1(red.x-100, red.y-100))
+						if(!checkOccupancy1(red.body.x-100, red.body.y-100))
 						{
-							black.x = red.x-100;
-							black.y = red.y-100;
+							black.body.x = red.body.x-100;
+							black.body.y = red.body.y-100;
 							red.kill();
 							break;
 						}
@@ -609,29 +619,29 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 				if(!black.isAlive)
 					continue;
 				//if it can move, move it
-				var canMoveNE = checkOccupancy1(black.x+100, black.y-100);
+				var canMoveNE = checkOccupancy1(black.body.x+100, black.body.y-100);
 				if(canMoveNE)
 				{
-					black.x = black.x+100;
-					black.y = black.y-100;
+					black.body.x = black.body.x+100;
+					black.body.y = black.body.y-100;
 				}
-				var canMoveNW = checkOccupancy1(black.x-100, black.y-100);
+				var canMoveNW = checkOccupancy1(black.body.x-100, black.body.y-100);
 				if(canMoveNW)
 				{
-					black.x = black.x-100;
-					black.y = black.y-100;
+					black.body.x = black.body.x-100;
+					black.body.y = black.body.y-100;
 				}
-				var canMoveSE = checkOccupancy1(black.x+100, black.y+100);
+				var canMoveSE = checkOccupancy1(black.body.x+100, black.body.y+100);
 				if(canMoveSE)
 				{
-					black.x = black.x+100;
-					black.y = black.y+100;
+					black.body.x = black.body.x+100;
+					black.body.y = black.body.y+100;
 				}
-				var canMoveSW = checkOccupancy1(black.x-100, black.y+100);
+				var canMoveSW = checkOccupancy1(black.body.x-100, black.body.y+100);
 				if(canMoveSW)
 				{
-					black.x = black.x-100;
-					black.y = black.y+100;
+					black.body.x = black.body.x-100;
+					black.body.y = black.body.y+100;
 				}
 			}
 		}
@@ -643,17 +653,17 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 				if(!black.isAlive)
 					continue;
 				//if it can move, move it
-				var canMoveNE = checkOccupancy1(black.x+100, black.y-100);
+				var canMoveNE = checkOccupancy1(black.body.x+100, black.body.y-100);
 				if(canMoveNE)
 				{
-					black.x = black.x+100;
-					black.y = black.y-100;
+					black.body.x = black.body.x+100;
+					black.body.y = black.body.y-100;
 				}
-				var canMoveNW = checkOccupancy1(black.x-100, black.y-100);
+				var canMoveNW = checkOccupancy1(black.body.x-100, black.body.y-100);
 				if(canMoveNW)
 				{
-					black.x = black.x-100;
-					black.y = black.y-100;
+					black.body.x = black.body.x-100;
+					black.body.y = black.body.y-100;
 				}
 			}
 		}
@@ -678,31 +688,31 @@ function checkIfTHISRedCanJump(red)
 			if(!black.isAlive)
 				continue;
 			//is there a black piece to SE?
-			if((black.x==red.x+100) && (black.y==red.y+100)) /*SE*/
+			if((black.body.x==red.body.x+100) && (black.body.y==red.body.y+100)) /*SE*/
 			{
 				//is is jumpable?
-				if(!checkOccupancy1(black.x+100, black.y+100))
+				if(!checkOccupancy1(black.body.x+100, black.body.y+100))
 					return true
 			}
 			//is there a black piece to SW?
-			if((black.x==red.x-100) && (black.y==red.y+100)) /*SW*/
+			if((black.body.x==red.body.x-100) && (black.body.y==red.body.y+100)) /*SW*/
 			{
 				//is is jumpable?
-				if(!checkOccupancy1(black.x-100, black.y+100))
+				if(!checkOccupancy1(black.body.x-100, black.body.y+100))
 					return true
 			}
 			//is there a black piece to NE?
-			if((black.x==red.x+100) && (black.y==red.y-100)) /*NE*/
+			if((black.body.x==red.body.x+100) && (black.body.y==red.body.y-100)) /*NE*/
 			{
 				//is is jumpable?
-				if(!checkOccupancy1(black.x+100, black.y-100))
+				if(!checkOccupancy1(black.body.x+100, black.body.y-100))
 					return true
 			}
 			//is there a black piece to NW?
-			if((black.x==red.x-100) && (black.y==red.y-100))  /*NW*/ 
+			if((black.body.x==red.body.x-100) && (black.body.y==red.body.y-100))  /*NW*/ 
 			{
 				//is is jumpable?
-				if(!checkOccupancy1(black.x-100, black.y-100))
+				if(!checkOccupancy1(black.body.x-100, black.body.y-100))
 					return true
 			}
 		}
@@ -715,17 +725,17 @@ function checkIfTHISRedCanJump(red)
 			if(!black.isAlive)
 				continue;
 			//is there a black piece to SE?
-			if((black.x==red.x+100) && (black.y==red.y+100)) /*SE*/
+			if((black.body.x==red.body.x+100) && (black.body.y==red.body.y+100)) /*SE*/
 			{
 				//is is jumpable?
-				if(!checkOccupancy1(black.x+100, black.y+100))
+				if(!checkOccupancy1(black.body.x+100, black.body.y+100))
 					return true
 			}
 			//is there a black piece to SW?
-			if((black.x==red.x-100) && (black.y==red.y+100)) /*SW*/
+			if((black.body.x==red.body.x-100) && (black.body.y==red.body.y+100)) /*SW*/
 			{
 				//is is jumpable?
-				if(!checkOccupancy1(black.x-100, black.y+100))
+				if(!checkOccupancy1(black.body.x-100, black.body.y+100))
 					return true
 			}
 		}
@@ -795,31 +805,31 @@ function checkIfTHISBlackCanJump(black)
 			if(!red.isAlive)
 				continue;
 			//is there a red piece to SE?
-			if((red.x==black.x+100) && (red.y==black.y+100)) /*SE*/
+			if((red.body.x==black.body.x+100) && (red.body.y==black.body.y+100)) /*SE*/
 			{
 				//is is jumpable?
-				if(!checkOccupancy1(red.x+100, red.y+100))
+				if(!checkOccupancy1(red.body.x+100, red.body.y+100))
 					return true
 			}
 			//is there a red piece to SW?
-			if((red.x==black.x-100) && (red.y==black.y+100)) /*SW*/
+			if((red.body.x==black.body.x-100) && (red.body.y==black.body.y+100)) /*SW*/
 			{
 				//is is jumpable?
-				if(!checkOccupancy1(red.x-100, red.y+100))
+				if(!checkOccupancy1(red.body.x-100, red.body.y+100))
 					return true
 			}
 			//is there a red piece to NE?
-			if((red.x==black.x+100) && (red.y==black.y-100)) /*NE*/
+			if((red.body.x==black.body.x+100) && (red.body.y==black.body.y-100)) /*NE*/
 			{
 				//is is jumpable?
-				if(!checkOccupancy1(red.x+100, red.y-100))
+				if(!checkOccupancy1(red.body.x+100, red.body.y-100))
 					return true
 			}
 			//is there a red piece to NW?
-			if((red.x==black.x-100) && (red.y==black.y-100))  /*NW*/ 
+			if((red.body.x==black.body.x-100) && (red.body.y==black.body.y-100))  /*NW*/ 
 			{
 				//is is jumpable?
-				if(!checkOccupancy1(red.x-100, red.y-100))
+				if(!checkOccupancy1(red.body.x-100, red.body.y-100))
 					return true
 			}
 		}
@@ -832,17 +842,17 @@ function checkIfTHISBlackCanJump(black)
 			if(!red.isAlive)
 				continue;
 			//is there a black piece to NE?
-			if((red.x==black.x+100) && (red.y==black.y-100)) /*NE*/
+			if((red.body.x==black.body.x+100) && (red.body.y==black.body.y-100)) /*NE*/
 			{
 				//is is jumpable?
-				if(!checkOccupancy1(red.x+100, red.y-100))
+				if(!checkOccupancy1(red.body.x+100, red.body.y-100))
 					return true
 			}
 			//is there a black piece to NW?
-			if((red.x==black.x-100) && (red.y==black.y-100))  /*NW*/ 
+			if((red.body.x==black.body.x-100) && (red.body.y==black.body.y-100))  /*NW*/ 
 			{
 				//is is jumpable?
-				if(!checkOccupancy1(red.x-100, red.y-100))
+				if(!checkOccupancy1(red.body.x-100, red.body.y-100))
 					return true
 			}
 		}
