@@ -245,14 +245,8 @@ function selectRed(red)
 	selectedIndex = -1;
 	if(redQueens.children.length>0)
 	{
-		for(var i=0; i<redQueens.chlidren.length; i++)
-		{
-			var red2 = redQueens.getChildAt(i);
-			if(!red2.isAlive)
-				continue;
-			if(red.x==red2.x && red.y==red2.y)
-				selectedIndex = redQueens.getChildAt(red);
-		}
+		if(isRedQueen(red))
+			selectedIndex.redQueens.getChildIndex(red);
 		if(selectedIndex==-1)
 			selectedIndex.reds.getChildIndex(red);
 	}
@@ -304,6 +298,7 @@ function releaseRed(selectedRed)
 		turnToggle();
 	}
 }
+////////////////////////////////////////////////////////////////////////////////
 function setPos(piece, posX, posY)
 {
 	piece.posX = posX;
@@ -392,6 +387,67 @@ function checkOccupancy2(x, y) //looks for doubles
 	}
 	return false;
 }
+function isRed(red)
+{
+	if(reds.children.length>0)
+	{
+		for(var i=0; i<reds.chlidren.length; i++)
+		{
+			var red2 = reds.getChildAt(i);
+			if(!red2.isAlive)
+				continue;
+			if(red.x==red2.x && red.y==red2.y)
+				return true;
+		}
+	}
+	return false;
+}
+function isBlack(black)
+{
+	if(blacks.children.length>0)
+	{
+		for(var i=0; i<blacks.chlidren.length; i++)
+		{
+			var black2 = blacks.getChildAt(i);
+			if(!black2.isAlive)
+				continue;
+			if(black.x==black2.x && black.y==black2.y)
+				return true;
+		}
+	}
+	return false;
+}
+function isRedQueen(red)
+{
+	if(redQueens.children.length>0)
+	{
+		for(var i=0; i<redQueens.chlidren.length; i++)
+		{
+			var red2 = redQueens.getChildAt(i);
+			if(!red2.isAlive)
+				continue;
+			if(red.x==red2.x && red.y==red2.y)
+				return true;
+		}
+	}
+	return false;
+}
+function isBlackQueen(black)
+{
+	if(blackQueens.children.length>0)
+	{
+		for(var i=0; i<blackQueens.chlidren.length; i++)
+		{
+			var black2 = blackQueens.getChildAt(i);
+			if(!black2.isAlive)
+				continue;
+			if(black.x==black2.x && black.y==black2.y)
+				return true;
+		}
+	}
+	return false;
+}
+///////////////////////////////////////////////////////////////////////////////
 function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 {
 	//first, adjust the coordinates
@@ -415,7 +471,7 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 			return false;
 		
 		//did jump in a legal direction?
-		if((redQueens.getChildIndex(red)==-1)&&(red.y<fromPosY))
+		if((!isRedQueen(red))&&(red.y<fromPosY))
 			return false;
 		
 		//did it actually jump over anything?
@@ -424,7 +480,7 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 		if(checkOccupancy1(checkX, checkY)!=null)
 		{
 			var piece = checkOccupancy1(checkX, checkY);
-			if((blacks.getChildIndex(piece)==-1)&&(blackQueens.children.indexOf(piece)==-1))
+			if((!isBlack(piece))&&(!isBlackQueen(piece)))
 				return false;
 			piece.kill();
 		}
@@ -440,7 +496,7 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 				return false;
 			
 			//did it move in a legal direction?
-			if((redQueens.getChildIndex(red)==-1)&&(red.y<fromPosY))
+			if((!isRedQueen(red))&&(red.y<fromPosY))
 				return false;
 			
 			return true
@@ -644,7 +700,7 @@ function checkIfTHISRedCanJump(red)
 	var black2;
 	var jumpable = false;
 	//is it a queen?
-	if(redQueens.chidren.indexOf(red)!=-1) 
+	if(isRedQueen(red)) 
 	{
 		for(var i = 0; i<blacks.children.length; i++)
 		{
@@ -757,7 +813,7 @@ function checkIfTHISBlackCanJump(black)
 	var red2;
 	var jumpable = false;
 	//is it a queen?
-	if(blackQueens.chidren.getChildIndex(black)!=-1) 
+	if(isBlackQueen(black)) 
 	{
 		for(var i = 0; i<reds.children.length; i++)
 		{
