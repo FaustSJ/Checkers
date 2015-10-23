@@ -264,7 +264,10 @@ function checkOccupancy1(x, y) //looks for singles
 {	
 console.log("In checkOccupancy1\n");
 	if(x<0 || x>700 || y<0 || y>700)
-		return true;
+	{
+console.log("Leaving with O.O.B.\n");
+		return null;
+	}
 	var piece;
 	for(var i=0; i<reds.children.length; i++)
 	{
@@ -272,7 +275,10 @@ console.log("In checkOccupancy1\n");
 		if(!piece.isAlive)
 			continue;
 		if((piece.body.x===x)&&(piece.body.y===y))
+		{
+console.log("Leaving with piece\n");
 			return piece;
+		}
 	}
 	for(var k=0; k<redQueens.children.length; k++)
 	{
@@ -280,7 +286,10 @@ console.log("In checkOccupancy1\n");
 		if(!piece.isAlive)
 			continue;
 		if((piece.body.x===x)&&(piece.body.y===y))
+		{
+console.log("Leaving with piece\n");
 			return piece;
+		}
 	}
 	for(var i=0; i<blacks.children.length; i++)
 	{
@@ -288,7 +297,10 @@ console.log("In checkOccupancy1\n");
 		if(!piece.isAlive)
 			continue;
 		if((piece.body.x===x)&&(piece.body.y===y))
+		{
+console.log("Leaving with piece\n");
 			return piece;
+		}
 	}
 	for(var k=0; k<blackQueens.children.length; k++)
 	{
@@ -296,8 +308,12 @@ console.log("In checkOccupancy1\n");
 		if(!piece.isAlive)
 			continue;
 		if((piece.body.x===x)&&(piece.body.y===y))
+		{
+console.log("Leaving with piece\n");
 			return piece;
+		}
 	}
+console.log("Leaving with nothing\n");
 	return null;
 }
 //checks to see if a spotis occupied by two pieces
@@ -305,7 +321,10 @@ function checkOccupancy2(x, y) //looks for doubles
 {	
 console.log("In checkOccupancy2\n");
 	if(x<0 || x>700 || y<0 || y>700)
+	{
+console.log("Leaving with true\n");
 		return true;
+	}
 	var occupants = 0; //shouldn't be more than 1
 	var piece;
 	for(var i=0; i<reds.children.length; i++)
@@ -316,7 +335,10 @@ console.log("In checkOccupancy2\n");
 		if((piece.body.x===x)&&(piece.body.y===y))
 			occupants++;
 		if(occupants=2)
+		{
+console.log("Leaving with true\n");
 			return true;
+		}
 	}
 	for(var k=0; k<redQueens.children.length; k++)
 	{
@@ -326,7 +348,10 @@ console.log("In checkOccupancy2\n");
 		if((piece.body.x===x)&&(piece.body.y===y))
 			occupants++;
 		if(occupants=2)
+		{
+console.log("Leaving with true\n");
 			return true;
+		}
 	}
 	for(var i=0; i<blacks.children.length; i++)
 	{
@@ -336,7 +361,10 @@ console.log("In checkOccupancy2\n");
 		if((piece.body.x===x)&&(piece.body.y===y))
 			occupants++;
 		if(occupants=2)
+		{
+console.log("Leaving with true\n");
 			return true;
+		}
 	}
 	for(var k=0; k<blackQueens.children.length; k++)
 	{
@@ -346,8 +374,12 @@ console.log("In checkOccupancy2\n");
 		if((piece.body.x===x)&&(piece.body.y===y))
 			occupants++;
 		if(occupants=2)
+		{
+console.log("Leaving with true\n");
 			return true;
+		}
 	}
+console.log("Leaving with false\n");
 	return false;
 }
 //is the piece red?
@@ -362,9 +394,13 @@ console.log("In isRed\n");
 			if(!red2.isAlive)
 				continue;
 			if(red.body.x===red2.body.x && red.body.y===red2.body.y)
+			{
+console.log("Leaving with true\n");
 				return true;
+			}
 		}
 	}
+console.log("Leaving with false\n");
 	return false;
 }
 //is the piece black?
@@ -379,9 +415,13 @@ console.log("In isBlack\n");
 			if(!black2.isAlive)
 				continue;
 			if(black.body.x===black2.body.x && black.body.y===black2.body.y)
+			{
+console.log("Leaving with true\n");
 				return true;
+			}
 		}
 	}
+console.log("Leaving with false\n");
 	return false;
 }
 //is the piece a red queen?
@@ -396,9 +436,13 @@ console.log("In isRedQueen\n");
 			if(!red2.isAlive)
 				continue;
 			if(red.body.x===red2.body.x && red.body.y===red2.body.y)
+			{
+console.log("Leaving with true\n");
 				return true;
+			}
 		}
 	}
+console.log("Leaving with false\n");
 	return false;
 }
 //is the piece a black queen?
@@ -413,9 +457,13 @@ console.log("In isBlackQueen\n");
 			if(!black2.isAlive)
 				continue;
 			if(black.body.x===black2.body.x && black.body.y===black2.body.y)
+			{
+console.log("Leaving with true\n");
 				return true;
+			}
 		}
 	}
+console.log("Leaving with false\n");
 	return false;
 }
 ///////////////////////////////////////////////////////////////////////////////
@@ -443,24 +491,39 @@ console.log("In checkIfRedCanMoveHere\n");
 	
 	//and make sure they're still on the board
 	if(red.body.x<0 || red.body.x>700 || red.body.y<0 || red.body.y>700)
+	{
+console.log("Leaving with false\n");
 		return false;
+	}
 	//and thet they actually moved
 	if(red.body.x===fromPosX && red.body.y===fromPosY)
+	{
+console.log("Leaving with false\n");
 		return false;
+	}
 	//then check if the space is already occupied
 	if(checkOccupancy2(red.body.x, red.body.y))
+	{
+console.log("Leaving with false\n");
 		return false;
+	}
 	
 	//now we ask, did it jump?
 	if((Math.abs(fromPosX-red.body.x)===200)&&(Math.abs(fromPosY-red.body.y)===200))
 	{
 		//was it supposed to?
 		if(redsCanJump.indexOf(selectedRedIndex)===-1)
+		{
+console.log("Leaving with false\n");
 			return false;
+		}
 		
 		//did jump in a legal direction?
 		if((!isRedQueen(red))&&(red.body.y<fromPosY))
+		{
+console.log("Leaving with false\n");
 			return false;
+		}
 		
 		//did it actually jump over anything?
 		var checkX = (red.body.x+fromPosX)/2;
@@ -469,10 +532,14 @@ console.log("In checkIfRedCanMoveHere\n");
 		{
 			var piece = checkOccupancy1(checkX, checkY);
 			if((!isBlack(piece))&&(!isBlackQueen(piece)))
+			{
+console.log("Leaving with false\n");
 				return false;
+			}
 			piece.kill();
 		}
 		recentlyJumped = true;
+console.log("Leaving with true\n");
 		return true;
 	}
 	else //it only moved one space
@@ -481,19 +548,28 @@ console.log("In checkIfRedCanMoveHere\n");
 		{
 			//was it supposed to jump?
 			if(redsCanJump.indexOf(selectedRedIndex)!=-1)
+			{
+console.log("Leaving with false\n");
 				return false;
+			}
 			
 			//did it move in a legal direction?
 			if((!isRedQueen(red))&&(red.body.y<fromPosY))
+			{
+console.log("Leaving with false\n");
 				return false;
-			
+			}
+console.log("Leaving with true\n");
 			return true;
 		}
 		
 	}
+console.log("Leaving with false\n");
 	return false;
 }
- function moveBlack()
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+function moveBlack()
 {
 console.log("In moveBlack\n");
 	var black;
@@ -789,6 +865,7 @@ console.log("In moveBlack\n");
 		
 	if(!recentlyJumped)
 		playerTurn = true;
+console.log("Leaving moveBlack\n");
 }
 ////////////////////////////////////////////////////////////////////////////////
 //are there any jumps available for a specific red?
@@ -811,28 +888,40 @@ console.log("In checkIfTHISRedCanJump\n");
 			{
 				//is is jumpable?
 				if(!checkOccupancy1(black.body.x+100, black.body.y+100))
+				{
+console.log("Leaving with true\n");
 					return true;
+				}
 			}
 			//is there a black piece to SW?
 			if((black.body.x===red.body.x-100) && (black.body.y===red.body.y+100)) /*SW*/
 			{
 				//is is jumpable?
 				if(!checkOccupancy1(black.body.x-100, black.body.y+100))
+				{
+console.log("Leaving with true\n");
 					return true;
+				}
 			}
 			//is there a black piece to NE?
 			if((black.body.x===red.body.x+100) && (black.body.y===red.body.y-100)) /*NE*/
 			{
 				//is is jumpable?
 				if(!checkOccupancy1(black.body.x+100, black.body.y-100))
+				{
+console.log("Leaving with true\n");
 					return true;
+				}
 			}
 			//is there a black piece to NW?
 			if((black.body.x===red.body.x-100) && (black.body.y===red.body.y-100))  /*NW*/ 
 			{
 				//is is jumpable?
 				if(!checkOccupancy1(black.body.x-100, black.body.y-100))
+				{
+console.log("Leaving with true\n");
 					return true;
+				}
 			}
 		}
 	}
@@ -848,18 +937,24 @@ console.log("In checkIfTHISRedCanJump\n");
 			{
 				//is is jumpable?
 				if(!checkOccupancy1(black.body.x+100, black.body.y+100))
+				{
+console.log("Leaving with true\n");
 					return true;
+				}
 			}
 			//is there a black piece to SW?
 			if((black.body.x===red.body.x-100) && (black.body.y===red.body.y+100)) /*SW*/
 			{
 				//is is jumpable?
 				if(!checkOccupancy1(black.body.x-100, black.body.y+100))
+				{
+console.log("Leaving with true\n");
 					return true;
+				}
 			}
 		}
 	}
-	
+console.log("Leaving with false\n");
 	return false;
 }
 //are there any jumps available for reds?
@@ -873,7 +968,10 @@ console.log("In checkIfARedCanJump\n");
 		if(!red.isAlive)
 			continue;
 		if(checkIfTHISRedCanJump(red))
+		{
+console.log("Leaving with true\n");
 			return true;
+		}
 	}
 	for(var k=0; k<redQueens.children.length; k++)
 	{
@@ -881,8 +979,12 @@ console.log("In checkIfARedCanJump\n");
 		if(!red.isAlive)
 			continue;
 		if(checkIfTHISRedCanJump(red))
+		{
+console.log("Leaving with true\n");
 			return true;
+		}
 	}
+console.log("Leaving with false\n");
 	return false;	
 }
 //which reds can jump?
@@ -908,6 +1010,7 @@ console.log("In listOfRedsCanJump\n");
 		if(checkIfTHISRedCanJump(red))
 			redQueensCanJump.push(redQueens.getChildIndex(red));
 	}
+console.log("Leaving listOfRedsCanJump\n");
 }
 //-----------------------------------------------------------------------
 //are there any jumps available for a specific black?
@@ -930,28 +1033,40 @@ console.log("In checkIfTHISBlackCanJump\n");
 			{
 				//is is jumpable?
 				if(!checkOccupancy1(red.body.x+100, red.body.y+100))
+				{
+console.log("Leaving with true\n");
 					return true;
+				}
 			}
 			//is there a red piece to SW?
 			if((red.body.x===black.body.x-100) && (red.body.y===black.body.y+100)) /*SW*/
 			{
 				//is is jumpable?
 				if(!checkOccupancy1(red.body.x-100, red.body.y+100))
+				{
+console.log("Leaving with true\n");
 					return true;
+				}
 			}
 			//is there a red piece to NE?
 			if((red.body.x===black.body.x+100) && (red.body.y===black.body.y-100)) /*NE*/
 			{
 				//is is jumpable?
 				if(!checkOccupancy1(red.body.x+100, red.body.y-100))
+				{
+console.log("Leaving with true\n");
 					return true;
+				}
 			}
 			//is there a red piece to NW?
 			if((red.body.x===black.body.x-100) && (red.body.y===black.body.y-100))  /*NW*/ 
 			{
 				//is is jumpable?
 				if(!checkOccupancy1(red.body.x-100, red.body.y-100))
+				{
+console.log("Leaving with true\n");
 					return true;
+				}
 			}
 		}
 	}
@@ -967,18 +1082,24 @@ console.log("In checkIfTHISBlackCanJump\n");
 			{
 				//is is jumpable?
 				if(!checkOccupancy1(red.body.x+100, red.body.y-100))
+				{
+console.log("Leaving with true\n");
 					return true;
+				}
 			}
 			//is there a black piece to NW?
 			if((red.body.x===black.body.x-100) && (red.body.y===black.body.y-100))  /*NW*/ 
 			{
 				//is is jumpable?
 				if(!checkOccupancy1(red.body.x-100, red.body.y-100))
+				{
+console.log("Leaving with true\n");
 					return true;
+				}
 			}
 		}
 	}
-	
+console.log("Leaving with false\n");
 	return false;
 }
 //are there any jumps available for blacks?
@@ -993,7 +1114,7 @@ console.log("In checkIfABlackCanJump\n");
 			continue;
 		if(checkIfTHISBlackCanJump(black))
 		{
-			
+console.log("Leaving with true\n");
 			return true;
 		}
 	}
@@ -1004,9 +1125,11 @@ console.log("In checkIfABlackCanJump\n");
 			continue;
 		if(checkIfTHISBlackCanJump(black))
 		{
+console.log("Leaving with true\n");
 			return true;
 		}
 	}
+console.log("Leaving with false\n");
 	return false;
 }
 //which blacks can jump?
@@ -1032,6 +1155,7 @@ console.log("In listOfBlacksCanJumps\n");
 		if(checkIfTHISBlackCanJump(red))
 			blackQueensCanJump.push(blackQueens.getChildIndex(black));
 	}
+console.log("Leaving listOfBlacksCanJump\n");
 }
 ////////////////////////////////////////////////////////////////////////////////
 //move on to the next turn
