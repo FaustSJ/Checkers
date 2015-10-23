@@ -55,33 +55,33 @@ function create() {
 				{
 					var red = reds.create(100, i*100, 'RedPiece');
 					red.inputEnabled = true;
-					red.events.onInputDown.add(selectRed, this);
-					red.input.enableDrag(false, true);
-					red.events.onInputUp.add(releaseRed, this);
+					red.input.enableDrag();
+					red.events.onDragStart.add(selectRed, this);
+					red.events.onDragStop.add(releaseRed, this);
 				}
 				if(k===1)
 				{
 					var red = reds.create(300, i*100, 'RedPiece');	
 					red.inputEnabled = true;
-					red.events.onInputDown.add(selectRed, this);
-					red.input.enableDrag(false, true);
-					red.events.onInputUp.add(releaseRed, this);
+					red.input.enableDrag();
+					red.events.onDragStart.add(selectRed, this);
+					red.events.onDragStop.add(releaseRed, this);
 				}
 				if(k===2)
 				{
 					var red = reds.create(500, i*100, 'RedPiece');	
 					red.inputEnabled = true;
-					red.events.onInputDown.add(selectRed, this);
-					red.input.enableDrag(false, true);
-					red.events.onInputUp.add(releaseRed, this);
+					red.input.enableDrag();
+					red.events.onDragStart.add(selectRed, this);
+					red.events.onDragStop.add(releaseRed, this);
 				}
 				if(k===3)
 				{
 					var red = reds.create(700, i*100, 'RedPiece');	
 					red.inputEnabled = true;
-					red.events.onInputDown.add(selectRed, this);
-					red.input.enableDrag(false, true);
-					red.events.onInputUp.add(releaseRed, this);
+					red.input.enableDrag();
+					red.events.onDragStart.add(selectRed, this);
+					red.events.onDragStop.add(releaseRed, this);
 				}	
 			}
 			else
@@ -90,33 +90,33 @@ function create() {
 				{
 					var red = reds.create(0, i*100, 'RedPiece');	
 					red.inputEnabled = true;
-					red.events.onInputDown.add(selectRed, this);
-					red.input.enableDrag(false, true);
-					red.events.onInputUp.add(releaseRed, this);
+					red.input.enableDrag();
+					red.events.onDragStart.add(selectRed, this);
+					red.events.onDragStop.add(releaseRed, this);
 				}
 				if(k===1)
 				{
 					var red = reds.create(200, i*100, 'RedPiece');	
 					red.inputEnabled = true;
-					red.events.onInputDown.add(selectRed, this);
-					red.input.enableDrag(false, true);
-					red.events.onInputUp.add(releaseRed, this);
+					red.input.enableDrag();
+					red.events.onDragStart.add(selectRed, this);
+					red.events.onDragStop.add(releaseRed, this);
 				}
 				if(k===2)
 				{
 					var red = reds.create(400, i*100, 'RedPiece');	
 					red.inputEnabled = true;
-					red.events.onInputDown.add(selectRed, this);
-					red.input.enableDrag(false, true);
-					red.events.onInputUp.add(releaseRed, this);
+					red.input.enableDrag();
+					red.events.onDragStart.add(selectRed, this);
+					red.events.onDragStop.add(releaseRed, this);
 				}
 				if(k===3)
 				{
 					var red = reds.create(600, i*100, 'RedPiece');	
 					red.inputEnabled = true;
-					red.events.onInputDown.add(selectRed, this);
-					red.input.enableDrag(false, true);
-					red.events.onInputUp.add(releaseRed, this);
+					red.input.enableDrag();
+					red.events.onDragStart.add(selectRed, this);
+					red.events.onDragStop.add(releaseRed, this);
 				}	
 			}
 		}
@@ -212,9 +212,9 @@ function releaseRed(selectedRed)
 		{
 			var redQueen = redQueens.create(red.body.x, red.body.y, 'RedQueen');
 			redQueen.inputEnabled = true;
-			redQueen.events.onInputDown.add(selectRed, this);
-			redQueen.input.enableDrag(false, true);
-			redQueen.events.onInputUp.add(releaseRed, this);
+			redQueen.input.enableDrag();
+			redQueen.events.onDragStart.add(selectRed, this);
+			redQueen.events.onDragStop.add(releaseRed, this);
 			setRedPos(redQueen, red.body.x, red.body.y);
 			selectRed(redQueen);
 			red.kill();
@@ -224,8 +224,26 @@ function releaseRed(selectedRed)
 	else
 	{
 		var red = reds.getChildAt(selectedRedIndex);
-		red.body.x = selectedRedStartPos[0];
-		red.body.y = selectedRedStartPos[1];
+		while(red.body.x<selectedRedStartPos[0])
+		{
+			red.body.velocity.x = 150;
+		}
+		red.body.velocity.x = 0;
+		while(red.body.x>selectedRedStartPos[0])
+		{
+			red.body.velocity.x = -150;
+		}
+		red.body.velocity.x = 0;
+		while(red.body.y<selectedRedStartPos[1])
+		{
+			red.body.velocity.y = 150;
+		}
+		red.body.velocity.y = 0;
+		while(red.body.y>selectedRedStartPos[1])
+		{
+			red.body.velocity.y = -150;
+		}
+		red.body.velocity.y = 0;
 	}
 	//If the selected piece has not more jumps it can make, move to next turn. 
 	if(!recentlyJumped)
@@ -393,11 +411,23 @@ function isBlackQueen(black)
 function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 {
 	//first, adjust the coordinates
-	var extra;
-	extra = toPosX%100;
-	red.body.x = red.body.x-extra;
-	extra = toPosY%100;
-	red.body.y = red.body.y-extra;
+	var extraX;
+	var extraY;
+	extra = red.body.x%100;
+	extraX = red.body.x-extraX;
+	extra = red.body.y%100;
+	extraY = red.body.y-extraY;
+	while(red.body.x>extraX)
+	{
+		red.body.velocity.x = -150;
+	}
+	red.body.velocity.x = 0;
+	while(red.body.y>extraY)
+	{
+		red.body.velocity.y = -150;
+	}
+	red.body.velocity.y = 0;
+	
 	//and make sure they're still on the board
 	if(red.body.x<0 || red.body.x>700 || red.body.y<0 || red.body.y>700)
 		return false;
@@ -477,8 +507,16 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 						//move the black, kill the red
 						if(!checkOccupancy1(red.body.x+100, red.body.y-100))
 						{
-							black.body.x = red.body.x+100;
-							black.body.y = red.body.y-100;
+							while(black.body.x < (red.body.x+100))
+							{
+								black.body.velocity.x = 150;
+							}
+							black.body.velocity.x = 0;
+							while(black.body.y > (red.body.y-100))
+							{
+								black.body.velocity.y = -150;
+							}
+							black.body.velocity.y = 0;
 							red.kill();
 							break;
 						}
@@ -489,8 +527,16 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 						//move the black, kill the red
 						if(!checkOccupancy1(red.body.x-100, red.body.y-100))
 						{
-							black.body.x = red.body.x-100;
-							black.body.y = red.body.y-100;
+							while(black.body.x > (red.body.x-100))
+							{
+								black.body.velocity.x = -150;
+							}
+							black.body.velocity.x = 0;
+							while(black.body.y > (red.body.y-100))
+							{
+								black.body.velocity.y = -150;
+							}
+							black.body.velocity.y = 0;
 							red.kill();
 							break;
 						}
@@ -521,20 +567,37 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 						//move the black, kill the red
 						if(!checkOccupancy1(red.body.x+100, red.body.y+100))
 						{
-							black.body.x = red.body.x+100;
-							black.body.y = red.body.y+100;
+							while(black.body.x < (red.body.x+100))
+							{
+								black.body.velocity.x = 150;
+							}
+							black.body.velocity.x = 0;
+							while(black.body.y < (red.body.y+100))
+							{
+								black.body.velocity.y = 150;
+							}
+							black.body.velocity.y = 0;
 							red.kill();
 							break;
 						}
 					}
 					//is there a red piece to SW?
-					if((red.body.x===black.body.x-100) && (red.body.y===black.body.y+100)) /*SW*/
+					if((red.body.x===black.body
+						x-100) && (red.body.y===black.body.y+100)) /*SW*/
 					{
 						//move the black, kill the red
 						if(!checkOccupancy1(red.body.x-100, red.body.y+100))
 						{
-							black.body.x = red.body.x-100;
-							black.body.y = red.body.y+100;
+							while(black.body.x > (red.body.x-100))
+							{
+								black.body.velocity.x = -150;
+							}
+							black.body.velocity.x = 0;
+							while(black.body.y < (red.body.y+100))
+							{
+								black.body.velocity.y = 150;
+							}
+							black.body.velocity.y = 0;
 							red.kill();
 							break;
 						}
@@ -545,8 +608,16 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 						//move the black, kill the red
 						if(!checkOccupancy1(red.body.x+100, red.body.y-100))
 						{
-							black.body.x = red.body.x+100;
-							black.body.y = red.body.y-100;
+							while(black.body.x < (red.body.x+100))
+							{
+								black.body.velocity.x = 150;
+							}
+							black.body.velocity.x = 0;							
+							while(black.body.y > (red.body.y-100))
+							{
+								black.body.velocity.y = -150;
+							}
+							black.body.velocity.y = 0;
 							red.kill();
 							break;
 						}
@@ -557,8 +628,16 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 						//move the black, kill the red
 						if(!checkOccupancy1(red.body.x-100, red.body.y-100))
 						{
-							black.body.x = red.body.x-100;
-							black.body.y = red.body.y-100;
+							while(black.body.x > (red.body.x-100))
+							{
+								black.body.velocity.x = -150;
+							}
+							black.body.velocity.x = 0;
+							while(black.body.y > (red.body.y-100))
+							{
+								black.body.velocity.y = -150;
+							}
+							black.body.velocity.y = 0;
 							red.kill();
 							break;
 						}
@@ -588,26 +667,66 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 				var canMoveNE = checkOccupancy1(black.body.x+100, black.body.y-100);
 				if(canMoveNE)
 				{
-					black.body.x = black.body.x+100;
-					black.body.y = black.body.y-100;
+					var toX = black.body.x+100;
+					var toY = black.body.y-100;
+					while(black.body.x < toX)
+					{
+						black.body.velocity.x = 150;
+					}
+					black.body.velocity.x = 0;
+					while(black.body.y > toY)
+					{
+						black.body.velocity.y = -150;
+					}
+					black.body.velocity.y = 0;
 				}
 				var canMoveNW = checkOccupancy1(black.body.x-100, black.body.y-100);
 				if(canMoveNW)
 				{
-					black.body.x = black.body.x-100;
-					black.body.y = black.body.y-100;
+					var toX = black.body.x-100;
+					var toY = black.body.y-100;
+					while(black.body.x > toX)
+					{
+						black.body.velocity.x = -150;
+					}
+					black.body.velocity.x = 0;
+					while(black.body.y > toY)
+					{
+						black.body.velocity.y = -150;
+					}
+					black.body.velocity.y = 0;
 				}
 				var canMoveSE = checkOccupancy1(black.body.x+100, black.body.y+100);
 				if(canMoveSE)
 				{
-					black.body.x = black.body.x+100;
-					black.body.y = black.body.y+100;
+					var toX = black.body.x+100;
+					var toY = black.body.y+100;
+					while(black.body.x < toX)
+					{
+						black.body.velocity.x = 150;
+					}
+					black.body.velocity.x = 0;
+					while(black.body.y < toY)
+					{
+						black.body.velocity.y = 150;
+					}
+					black.body.velocity.y = 0;
 				}
 				var canMoveSW = checkOccupancy1(black.body.x-100, black.body.y+100);
 				if(canMoveSW)
 				{
-					black.body.x = black.body.x-100;
-					black.body.y = black.body.y+100;
+					var toX = black.body.x-100;
+					var toY = black.body.y+100;
+					while(black.body.x > toX)
+					{
+						black.body.velocity.x = -150;
+					}
+					black.body.velocity.x = 0;
+					while(black.body.y < toY)
+					{
+						black.body.velocity.y = 150;
+					}
+					black.body.velocity.y = 0;
 				}
 			}
 		}
@@ -622,14 +741,34 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 				var canMoveNE = checkOccupancy1(black.body.x+100, black.body.y-100);
 				if(canMoveNE)
 				{
-					black.body.x = black.body.x+100;
-					black.body.y = black.body.y-100;
+					var toX = black.body.x+100;
+					var toY = black.body.y-100;
+					while(black.body.x < toX)
+					{
+						black.body.velocity.x = 150;
+					}
+					black.body.velocity.x = 0;
+					while(black.body.y > toY)
+					{
+						black.body.velocity.y = -150;
+					}
+					black.body.velocity.y = 0;
 				}
 				var canMoveNW = checkOccupancy1(black.body.x-100, black.body.y-100);
 				if(canMoveNW)
 				{
-					black.body.x = black.body.x-100;
-					black.body.y = black.body.y-100;
+					var toX = black.body.x-100;
+					var toY = black.body.y-100;
+					while(black.body.x > toX)
+					{
+						black.body.velocity.x = -150;
+					}
+					black.body.velocity.x = 0;
+					while(black.body.y > toY)
+					{
+						black.body.velocity.y = -150;
+					}
+					black.body.velocity.y = 0;
 				}
 			}
 		}
