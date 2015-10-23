@@ -582,8 +582,7 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 						}
 					}
 					//is there a red piece to SW?
-					if((red.body.x===black.body
-						x-100) && (red.body.y===black.body.y+100)) /*SW*/
+					if((red.body.x===black.body.x-100) && (red.body.y===black.body.y+100)) /*SW*/
 					{
 						//move the black, kill the red
 						if(!checkOccupancy1(red.body.x-100, red.body.y+100))
