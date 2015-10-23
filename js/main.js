@@ -181,6 +181,7 @@ console.log("Finished creating everything.\n");
 //stores information about the red piece currently being moved
 function selectRed(red)
 {
+console.log("In selectRed\n");
 	selectedRed = red;
 	selectedRedIndex = -1;
 	if(redQueens.children.length>0)
@@ -192,11 +193,13 @@ function selectRed(red)
 		selectedRedIndex = reds.getChildIndex(red);
 	selectedRedStartPos[0] = red.body.x;
 	selectedRedStartPos[1] = red.body.y;
+console.log("Leaving selectRed\n");
 }
 //once the player drags the red piece, they drop it (unclick it)
 //			and the game checks if it is a valid move.
 function releaseRed(selectedRed)
 {
+console.log("In releaseRed\n");
 	if(checkIfRedCanMoveHere(selectedRed, selectedRedStartPos[0], selectedRedStartPos[1], selectedRed.posX, selectedRed.posY))
 	{
 		var red = reds.getChildAt(selectedRedIndex);
@@ -253,11 +256,13 @@ function releaseRed(selectedRed)
 		selectedRed = null;
 		playerTurn = false;
 	}
+console.log("Leaving releaseRed\n");
 }
 ////////////////////////////////////////////////////////////////////////////////
 //checks if a spot is occupied by a single piece
 function checkOccupancy1(x, y) //looks for singles
 {	
+console.log("In checkOccupancy1\n");
 	if(x<0 || x>700 || y<0 || y>700)
 		return true;
 	var piece;
@@ -298,6 +303,7 @@ function checkOccupancy1(x, y) //looks for singles
 //checks to see if a spotis occupied by two pieces
 function checkOccupancy2(x, y) //looks for doubles
 {	
+console.log("In checkOccupancy2\n");
 	if(x<0 || x>700 || y<0 || y>700)
 		return true;
 	var occupants = 0; //shouldn't be more than 1
@@ -347,6 +353,7 @@ function checkOccupancy2(x, y) //looks for doubles
 //is the piece red?
 function isRed(red)
 {
+console.log("In isRed\n");
 	if(reds.children.length>0)
 	{
 		for(var i=0; i<reds.chlidren.length; i++)
@@ -363,6 +370,7 @@ function isRed(red)
 //is the piece black?
 function isBlack(black)
 {
+console.log("In isBlack\n");
 	if(blacks.children.length>0)
 	{
 		for(var i=0; i<blacks.chlidren.length; i++)
@@ -379,6 +387,7 @@ function isBlack(black)
 //is the piece a red queen?
 function isRedQueen(red)
 {
+console.log("In isRedQueen\n");
 	if(redQueens.children.length>0)
 	{
 		for(var i=0; i<redQueens.chlidren.length; i++)
@@ -395,6 +404,7 @@ function isRedQueen(red)
 //is the piece a black queen?
 function isBlackQueen(black)
 {
+console.log("In isBlackQueen\n");
 	if(blackQueens.children.length>0)
 	{
 		for(var i=0; i<blackQueens.chlidren.length; i++)
@@ -412,6 +422,7 @@ function isBlackQueen(black)
 //is the dopped location valid for the selected red piece
 function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 {
+console.log("In checkIfRedCanMoveHere\n");
 	//first, adjust the coordinates
 	var extraX;
 	var extraY;
@@ -438,7 +449,7 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 		return false;
 	//then check if the space is already occupied
 	if(checkOccupancy2(red.body.x, red.body.y))
-		return false
+		return false;
 	
 	//now we ask, did it jump?
 	if((Math.abs(fromPosX-red.body.x)===200)&&(Math.abs(fromPosY-red.body.y)===200))
@@ -476,7 +487,7 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 			if((!isRedQueen(red))&&(red.body.y<fromPosY))
 				return false;
 			
-			return true
+			return true;
 		}
 		
 	}
@@ -484,6 +495,7 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 }
  function moveBlack()
 {
+console.log("In moveBlack\n");
 	var black;
 	var pick = Math.random();
 	//can any blacks jump?
@@ -547,7 +559,7 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 				//can it jump again?
 				if(!checkIfTHISBlackCanJump(black))
 				{
-					recentlyJumped = false
+					recentlyJumped = false;
 				}	
 			}
 		}
@@ -647,7 +659,7 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 				//can it jump again?
 				if(!checkIfTHISBlackCanJump(black))
 				{
-					recentlyJumped = false
+					recentlyJumped = false;
 				}	
 			}
 		}
@@ -782,6 +794,7 @@ function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 //are there any jumps available for a specific red?
 function checkIfTHISRedCanJump(red)
 {
+console.log("In checkIfTHISRedCanJump\n");
 	var black;
 	var black2;
 	var jumpable = false;
@@ -798,28 +811,28 @@ function checkIfTHISRedCanJump(red)
 			{
 				//is is jumpable?
 				if(!checkOccupancy1(black.body.x+100, black.body.y+100))
-					return true
+					return true;
 			}
 			//is there a black piece to SW?
 			if((black.body.x===red.body.x-100) && (black.body.y===red.body.y+100)) /*SW*/
 			{
 				//is is jumpable?
 				if(!checkOccupancy1(black.body.x-100, black.body.y+100))
-					return true
+					return true;
 			}
 			//is there a black piece to NE?
 			if((black.body.x===red.body.x+100) && (black.body.y===red.body.y-100)) /*NE*/
 			{
 				//is is jumpable?
 				if(!checkOccupancy1(black.body.x+100, black.body.y-100))
-					return true
+					return true;
 			}
 			//is there a black piece to NW?
 			if((black.body.x===red.body.x-100) && (black.body.y===red.body.y-100))  /*NW*/ 
 			{
 				//is is jumpable?
 				if(!checkOccupancy1(black.body.x-100, black.body.y-100))
-					return true
+					return true;
 			}
 		}
 	}
@@ -835,14 +848,14 @@ function checkIfTHISRedCanJump(red)
 			{
 				//is is jumpable?
 				if(!checkOccupancy1(black.body.x+100, black.body.y+100))
-					return true
+					return true;
 			}
 			//is there a black piece to SW?
 			if((black.body.x===red.body.x-100) && (black.body.y===red.body.y+100)) /*SW*/
 			{
 				//is is jumpable?
 				if(!checkOccupancy1(black.body.x-100, black.body.y+100))
-					return true
+					return true;
 			}
 		}
 	}
@@ -852,6 +865,7 @@ function checkIfTHISRedCanJump(red)
 //are there any jumps available for reds?
 function checkIfARedCanJump()
 {
+console.log("In checkIfARedCanJump\n");
 	var red;
 	for(var i=0; i<reds.children.length; i++)
 	{
@@ -874,6 +888,7 @@ function checkIfARedCanJump()
 //which reds can jump?
 function listOfRedsCanJump()
 {
+console.log("In listOfRedsCanJump\n");
 	redsCanJump = {};
 	redQueensCanJump = {};
 	var red;
@@ -893,12 +908,12 @@ function listOfRedsCanJump()
 		if(checkIfTHISRedCanJump(red))
 			redQueensCanJump.push(redQueens.getChildIndex(red));
 	}
-	return false;	
 }
 //-----------------------------------------------------------------------
 //are there any jumps available for a specific black?
 function checkIfTHISBlackCanJump(black)
 {
+console.log("In checkIfTHISBlackCanJump\n");
 	var red;
 	var red2;
 	var jumpable = false;
@@ -915,28 +930,28 @@ function checkIfTHISBlackCanJump(black)
 			{
 				//is is jumpable?
 				if(!checkOccupancy1(red.body.x+100, red.body.y+100))
-					return true
+					return true;
 			}
 			//is there a red piece to SW?
 			if((red.body.x===black.body.x-100) && (red.body.y===black.body.y+100)) /*SW*/
 			{
 				//is is jumpable?
 				if(!checkOccupancy1(red.body.x-100, red.body.y+100))
-					return true
+					return true;
 			}
 			//is there a red piece to NE?
 			if((red.body.x===black.body.x+100) && (red.body.y===black.body.y-100)) /*NE*/
 			{
 				//is is jumpable?
 				if(!checkOccupancy1(red.body.x+100, red.body.y-100))
-					return true
+					return true;
 			}
 			//is there a red piece to NW?
 			if((red.body.x===black.body.x-100) && (red.body.y===black.body.y-100))  /*NW*/ 
 			{
 				//is is jumpable?
 				if(!checkOccupancy1(red.body.x-100, red.body.y-100))
-					return true
+					return true;
 			}
 		}
 	}
@@ -952,14 +967,14 @@ function checkIfTHISBlackCanJump(black)
 			{
 				//is is jumpable?
 				if(!checkOccupancy1(red.body.x+100, red.body.y-100))
-					return true
+					return true;
 			}
 			//is there a black piece to NW?
 			if((red.body.x===black.body.x-100) && (red.body.y===black.body.y-100))  /*NW*/ 
 			{
 				//is is jumpable?
 				if(!checkOccupancy1(red.body.x-100, red.body.y-100))
-					return true
+					return true;
 			}
 		}
 	}
@@ -969,6 +984,7 @@ function checkIfTHISBlackCanJump(black)
 //are there any jumps available for blacks?
 function checkIfABlackCanJump()
 {
+console.log("In checkIfABlackCanJump\n");
 	var black;
 	for(var i=0; i<blacks.children.length; i++)
 	{
@@ -996,6 +1012,7 @@ function checkIfABlackCanJump()
 //which blacks can jump?
 function listOfBlacksCanJump()
 {
+console.log("In listOfBlacksCanJumps\n");
 	blacksCanJump = {};
 	blackQueensCanJump = {};
 	var black;
@@ -1015,7 +1032,6 @@ function listOfBlacksCanJump()
 		if(checkIfTHISBlackCanJump(red))
 			blackQueensCanJump.push(blackQueens.getChildIndex(black));
 	}
-	return false;	
 }
 ////////////////////////////////////////////////////////////////////////////////
 //move on to the next turn
