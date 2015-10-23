@@ -182,17 +182,25 @@ console.log("Finished creating everything.\n");
 function selectRed(red)
 {
 console.log("In selectRed\n");
+
 	selectedRed = red;
 	selectedRedIndex = -1;
 	if(redQueens.children.length>0)
 	{
 		if(isRedQueen(red))
+		{
+console.log("--Piece is a queen\n");
 			selectedRedIndex = redQueens.getChildIndex(red);
+		}
 	}
 	if(selectedRedIndex===-1)
 		selectedRedIndex = reds.getChildIndex(red);
 	selectedRedStartPos[0] = red.body.x;
 	selectedRedStartPos[1] = red.body.y;
+	
+console.log("--Index: %i \n", selectedRedIndex);
+console.log("--StartX: %i \n", selectedRedStartPos[0]);
+console.log("--StartY: %i \n", selectedRedStartPos[1]);
 console.log("Leaving selectRed\n");
 }
 //once the player drags the red piece, they drop it (unclick it)
@@ -200,7 +208,7 @@ console.log("Leaving selectRed\n");
 function releaseRed(selectedRed)
 {
 console.log("In releaseRed\n");
-	if(checkIfRedCanMoveHere(selectedRed, selectedRedStartPos[0], selectedRedStartPos[1], selectedRed.posX, selectedRed.posY))
+	if(checkIfRedCanMoveHere(selectedRed, selectedRedStartPos[0], selectedRedStartPos[1], selectedRed.x, selectedRed.y))
 	{
 		var red = reds.getChildAt(selectedRedIndex);
 		//did it jump?
@@ -466,11 +474,17 @@ console.log("Leaving with true\n");
 console.log("Leaving with false\n");
 	return false;
 }
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 //is the dopped location valid for the selected red piece
 function checkIfRedCanMoveHere(red, fromPosX, fromPosY, toPosX, toPosY)
 {
 console.log("In checkIfRedCanMoveHere\n");
+console.log("\tgiven:\n");
+console.log("--fromX: %i\n", fromPosX);
+console.log("--fromY: %i\n", fromPosY);
+console.log("--toX: %i\n", toPosX);
+console.log("--toY: %i\n", toPosY);
 	//first, adjust the coordinates
 	var extraX;
 	var extraY;
