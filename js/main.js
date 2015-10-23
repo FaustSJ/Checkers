@@ -45,15 +45,18 @@ function create() {
 	reds.enableBody = true;
      reds.physicsBodyType = Phaser.Physics.ARCADE;
 	var alternate = true;
+	var redcount = 0;
 	for(var i = 0; i<3; i++) //rows, y
 	{
 		for(var k = 0; k<4; k++) //columns, x
 		{
 			if(alternate)
 			{
-				if(k===0)////////////////////////////////
+				if(k===0)
 				{
 					var red = reds.create(100, i*100, 'RedPiece');
+					red.name = 'red' + redcount;
+					redcount++;
 					red.inputEnabled = true;
 					red.events.onInputDown.add(selectRed, this);
 					red.input.enableDrag(false, true);
@@ -61,7 +64,9 @@ function create() {
 				}
 				if(k===1)
 				{
-					var red = reds.create(300, i*100, 'RedPiece');	
+					var c = reds.create(300, i*100, 'RedPiece');	
+					red.name = 'red' + redcount;
+					redcount++;
 					red.inputEnabled = true;
 					red.events.onInputDown.add(selectRed, this);
 					red.input.enableDrag(false, true);
@@ -69,7 +74,9 @@ function create() {
 				}
 				if(k===2)
 				{
-					var red = reds.create(500, i*100, 'RedPiece');	
+					var c = reds.create(500, i*100, 'RedPiece');	
+					red.name = 'red' + redcount;
+					redcount++;
 					red.inputEnabled = true;
 					red.events.onInputDown.add(selectRed, this);
 					red.input.enableDrag(false, true);
@@ -77,7 +84,9 @@ function create() {
 				}
 				if(k===3)
 				{
-					var red = reds.create(700, i*100, 'RedPiece');	
+					var c = reds.create(700, i*100, 'RedPiece');	
+					red.name = 'red' + redcount;
+					redcount++;
 					red.inputEnabled = true;
 					red.events.onInputDown.add(selectRed, this);
 					red.input.enableDrag(false, true);
@@ -88,7 +97,9 @@ function create() {
 			{
 				if(k===0)
 				{
-					var red = reds.create(0, i*100, 'RedPiece');	
+					var c = reds.create(0, i*100, 'RedPiece');	
+					red.name = 'red' + redcount;
+					redcount++;
 					red.inputEnabled = true;
 					red.events.onInputDown.add(selectRed, this);
 					red.input.enableDrag(false, true);
@@ -96,7 +107,9 @@ function create() {
 				}
 				if(k===1)
 				{
-					var red = reds.create(200, i*100, 'RedPiece');	
+					var c = reds.create(200, i*100, 'RedPiece');	
+					red.name = 'red' + redcount;
+					redcount++;
 					red.inputEnabled = true;
 					red.events.onInputDown.add(selectRed, this);
 					red.input.enableDrag(false, true);
@@ -104,7 +117,9 @@ function create() {
 				}
 				if(k===2)
 				{
-					var red = reds.create(400, i*100, 'RedPiece');	
+					var c = reds.create(400, i*100, 'RedPiece');	
+					red.name = 'red' + redcount;
+					redcount++;
 					red.inputEnabled = true;
 					red.events.onInputDown.add(selectRed, this);
 					red.input.enableDrag(false, true);
@@ -112,7 +127,9 @@ function create() {
 				}
 				if(k===3)
 				{
-					var red = reds.create(600, i*100, 'RedPiece');	
+					var c = reds.create(600, i*100, 'RedPiece');	
+					red.name = 'red' + redcount;
+					redcount++;
 					red.inputEnabled = true;
 					red.events.onInputDown.add(selectRed, this);
 					red.input.enableDrag(false, true);
@@ -128,6 +145,7 @@ function create() {
 	blacks.enableBody = true;
      blacks.physicsBodyType = Phaser.Physics.ARCADE;
 	alternate = true;
+	var blackcount = 0;
 	for(var i = 1; i<4; i++) //rows, y
 	{
 		for(var k = 0; k<4; k++) //columns, x
@@ -137,18 +155,26 @@ function create() {
 				if(k===0)
 				{
 					var black = blacks.create(0, (i*100)+400, 'BlackPiece');
+					black.name = 'black' + blackcount;
+					blackcount++;
 				}
 				if(k===1)
 				{
 					var black = blacks.create(200, (i*100)+400, 'BlackPiece');
+					black.name = 'black' + blackcount;
+					blackcount++;
 				}
 				if(k===2)
 				{
 					var black = blacks.create(400, (i*100)+400, 'BlackPiece');
+					black.name = 'black' + blackcount;
+					blackcount++;
 				}
 				if(k===3)
 				{
 					var black = blacks.create(600, (i*100)+400, 'BlackPiece');
+					black.name = 'black' + blackcount;
+					blackcount++;
 				}	
 			}
 			else
@@ -156,18 +182,26 @@ function create() {
 				if(k===0)
 				{
 					var black = blacks.create(100, (i*100)+400, 'BlackPiece');
+					black.name = 'black' + blackcount;
+					blackcount++;
 				}
 				if(k===1)
 				{
 					var black = blacks.create(300, (i*100)+400, 'BlackPiece');
+					black.name = 'black' + blackcount;
+					blackcount++;
 				}
 				if(k===2)
 				{
 					var black = blacks.create(500, (i*100)+400, 'BlackPiece');
+					black.name = 'black' + blackcount;
+					blackcount++;
 				}
 				if(k===3)
 				{
 					var black = blacks.create(700, (i*100)+400, 'BlackPiece');
+					black.name = 'black' + blackcount;
+					blackcount++;
 				}	
 			}
 		}
