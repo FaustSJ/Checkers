@@ -28,6 +28,7 @@ var blackQueensCanJump = {};
 
 //sets up the board and the pieces.
 function create() {
+console.log("Creating everything.\n");
 //sets up the board and the mouse input
 	game.physics.startSystem(Phaser.Physics.ARCADE);
 	board = game.add.sprite(0, 0, 'CheckerBoard');
@@ -173,6 +174,7 @@ function create() {
 		}
 		alternate = !alternate;
 	}
+console.log("Finished creating everything.\n");
 }
 //The game officially starts once the player clicks a red piece
 ////////////////////////////////////////////////////////////////////////////////
