@@ -25,6 +25,7 @@ var redsCanJump = {};
 var blacksCanJump = {};
 var redQueensCanJump = {};
 var blackQueensCanJump = {};
+var tween;
 
 //sets up the board and the pieces.
 function create() {
@@ -237,7 +238,10 @@ console.log("In releaseRed\n");
 	else
 	{
 		var red = reds.getChildAt(selectedRedIndex);
-		while(red.body.x<selectedRedStartPos[0])
+		tween = game.add.tween(red).to({x: selectedRedStartPos[0], y: selectedRedStartPos[1]});
+		tween.onComplete.removeAll();
+		
+/*		while(red.body.x<selectedRedStartPos[0])
 		{
 			red.body.velocity.x = 150;
 		}
@@ -257,6 +261,7 @@ console.log("In releaseRed\n");
 			red.body.velocity.y = -150;
 		}
 		red.body.velocity.y = 0;
+*/
 	}
 	//If the selected piece has not more jumps it can make, move to next turn. 
 	if(!recentlyJumped)
@@ -324,6 +329,7 @@ console.log("Leaving with piece\n");
 console.log("Leaving with nothing\n");
 	return null;
 }
+//------------------------------------------------------------------------------
 //checks to see if a spotis occupied by two pieces
 function checkOccupancy2(x, y) //looks for doubles
 {	
@@ -390,6 +396,7 @@ console.log("Leaving with true\n");
 console.log("Leaving with false\n");
 	return false;
 }
+//------------------------------------------------------------------------------
 //is the piece red?
 function isRed(red)
 {
@@ -411,6 +418,7 @@ console.log("Leaving with true\n");
 console.log("Leaving with false\n");
 	return false;
 }
+//------------------------------------------------------------------------------
 //is the piece black?
 function isBlack(black)
 {
@@ -432,6 +440,7 @@ console.log("Leaving with true\n");
 console.log("Leaving with false\n");
 	return false;
 }
+//-----------------------------------------------------------------------------
 //is the piece a red queen?
 function isRedQueen(red)
 {
@@ -453,6 +462,7 @@ console.log("Leaving with true\n");
 console.log("Leaving with false\n");
 	return false;
 }
+//-----------------------------------------------------------------------------
 //is the piece a black queen?
 function isBlackQueen(black)
 {
@@ -492,6 +502,9 @@ console.log("--toY: %i\n", toPosY);
 	extraX = red.body.x-extraX;
 	extra = red.body.y%100;
 	extraY = red.body.y-extraY;
+	tween = game.add.tween(red).to({x: extraX, y: extraY});
+	tween.onComplete.removeAll();
+/*
 	while(red.body.x>extraX)
 	{
 		red.body.velocity.x = -150;
@@ -502,6 +515,7 @@ console.log("--toY: %i\n", toPosY);
 		red.body.velocity.y = -150;
 	}
 	red.body.velocity.y = 0;
+*/
 	
 	//and make sure they're still on the board
 	if(red.body.x<0 || red.body.x>700 || red.body.y<0 || red.body.y>700)
