@@ -218,7 +218,7 @@ console.log("In releaseRed\n");
 	var red = reds.getChildAt(selectedRedIndex);
 
 	//checkIfRedCanMoveHere moves the piece, the checks its location.
-	if(checkIfRedCanMoveHere(red, selectedRedStartPos[0], selectedRedStartPos[1], pickedX, pixkedY))
+	if(checkIfRedCanMoveHere(red, selectedRedStartPos[0], selectedRedStartPos[1], pickedX, pickedY))
 	{	
 		//did it jump?
 		if(recentlyJumped)
