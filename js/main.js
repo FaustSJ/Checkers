@@ -57,7 +57,7 @@ console.log("Creating everything.\n");
 			{
 				if(k===0)////////////////////////////////
 				{
-					var red = reds.create(100, i*100, 'RedPiece');
+					var red = reds.create(150, i*150, 'RedPiece');
 					red.inputEnabled = true;
 					red.anchor.x = 0.5;
 					red.anchor.y = 0.5;
@@ -65,7 +65,7 @@ console.log("Creating everything.\n");
 				}
 				if(k===1)
 				{
-					var red = reds.create(300, i*100, 'RedPiece');	
+					var red = reds.create(350, i*150, 'RedPiece');	
 					red.inputEnabled = true;
 					red.anchor.x = 0.5;
 					red.anchor.y = 0.5;
@@ -73,7 +73,7 @@ console.log("Creating everything.\n");
 				}
 				if(k===2)
 				{
-					var red = reds.create(500, i*100, 'RedPiece');	
+					var red = reds.create(550, i*150, 'RedPiece');	
 					red.inputEnabled = true;
 					red.anchor.x = 0.5;
 					red.anchor.y = 0.5;
@@ -81,7 +81,7 @@ console.log("Creating everything.\n");
 				}
 				if(k===3)
 				{
-					var red = reds.create(700, i*100, 'RedPiece');	
+					var red = reds.create(750, i*150, 'RedPiece');	
 					red.inputEnabled = true;
 					red.anchor.x = 0.5;
 					red.anchor.y = 0.5;
@@ -92,7 +92,7 @@ console.log("Creating everything.\n");
 			{
 				if(k===0)
 				{
-					var red = reds.create(0, i*100, 'RedPiece');	
+					var red = reds.create(50, i*150, 'RedPiece');	
 					red.inputEnabled = true;
 					red.anchor.x = 0.5;
 					red.anchor.y = 0.5;
@@ -100,7 +100,7 @@ console.log("Creating everything.\n");
 				}
 				if(k===1)
 				{
-					var red = reds.create(200, i*100, 'RedPiece');	
+					var red = reds.create(250, i*150, 'RedPiece');	
 					red.inputEnabled = true;
 					red.anchor.x = 0.5;
 					red.anchor.y = 0.5;
@@ -108,7 +108,7 @@ console.log("Creating everything.\n");
 				}
 				if(k===2)
 				{
-					var red = reds.create(400, i*100, 'RedPiece');	
+					var red = reds.create(450, i*150, 'RedPiece');	
 					red.inputEnabled = true;
 					red.anchor.x = 0.5;
 					red.anchor.y = 0.5;
@@ -116,7 +116,7 @@ console.log("Creating everything.\n");
 				}
 				if(k===3)
 				{
-					var red = reds.create(600, i*100, 'RedPiece');	
+					var red = reds.create(650, i*150, 'RedPiece');	
 					red.inputEnabled = true;
 					red.anchor.x = 0.5;
 					red.anchor.y = 0.5;
