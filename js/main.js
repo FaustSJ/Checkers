@@ -1281,7 +1281,7 @@ console.log("Leaving listOfBlacksCanJump\n");
 //move on to the next turn
 function update()
 {
-	if(playerTurn && !oneIsSelected)
+	if(playerTurn && oneIsSelected)
 	{
 		game.input.onDown.add(releaseRed(), this);
 	}
