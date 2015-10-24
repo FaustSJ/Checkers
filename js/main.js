@@ -201,7 +201,7 @@ console.log("--Piece is a queen\n");
 			selectedRedIndex = reds.getChildIndex(red);
 		selectedRedStartPos[0] = red.body.x;
 		selectedRedStartPos[1] = red.body.y;
-	
+		oneIsSelected = true;
 console.log("--Index: %i \n", selectedRedIndex);
 console.log("--StartX: %i \n", selectedRedStartPos[0]);
 console.log("--StartY: %i \n", selectedRedStartPos[1]);
