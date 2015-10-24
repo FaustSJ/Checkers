@@ -13,7 +13,6 @@ function preload() {
 var board;
 var reds;
 var blacks;
-var selectedRed = null;
 var selectedRedIndex;
 var selectedRedStartPos = new Array(0,0);
 var playerTurn=true;
@@ -26,6 +25,9 @@ var blacksCanJump = {};
 var redQueensCanJump = {};
 var blackQueensCanJump = {};
 var tween;
+var oneIsSelected = false;
+var pickedX;
+var pickedY;
 
 //sets up the board and the pieces.
 function create() {
@@ -57,33 +59,33 @@ console.log("Creating everything.\n");
 				{
 					var red = reds.create(100, i*100, 'RedPiece');
 					red.inputEnabled = true;
-					red.input.enableDrag();
-					red.events.onDragStart.add(selectRed, this);
-					red.events.onDragStop.add(releaseRed, this);
+					red.anchor.x = 0.5;
+					red.anchor.y = 0.5;
+					red.events.onInputDown.add(selectRed, this);
 				}
 				if(k===1)
 				{
 					var red = reds.create(300, i*100, 'RedPiece');	
 					red.inputEnabled = true;
-					red.input.enableDrag();
-					red.events.onDragStart.add(selectRed, this);
-					red.events.onDragStop.add(releaseRed, this);
+					red.anchor.x = 0.5;
+					red.anchor.y = 0.5;
+					red.events.onInputDown.add(selectRed, this);
 				}
 				if(k===2)
 				{
 					var red = reds.create(500, i*100, 'RedPiece');	
 					red.inputEnabled = true;
-					red.input.enableDrag();
-					red.events.onDragStart.add(selectRed, this);
-					red.events.onDragStop.add(releaseRed, this);
+					red.anchor.x = 0.5;
+					red.anchor.y = 0.5;
+					red.events.onInputDown.add(selectRed, this);
 				}
 				if(k===3)
 				{
 					var red = reds.create(700, i*100, 'RedPiece');	
 					red.inputEnabled = true;
-					red.input.enableDrag();
-					red.events.onDragStart.add(selectRed, this);
-					red.events.onDragStop.add(releaseRed, this);
+					red.anchor.x = 0.5;
+					red.anchor.y = 0.5;
+					red.events.onInputDown.add(selectRed, this);
 				}	
 			}
 			else
@@ -92,33 +94,33 @@ console.log("Creating everything.\n");
 				{
 					var red = reds.create(0, i*100, 'RedPiece');	
 					red.inputEnabled = true;
-					red.input.enableDrag();
-					red.events.onDragStart.add(selectRed, this);
-					red.events.onDragStop.add(releaseRed, this);
+					red.anchor.x = 0.5;
+					red.anchor.y = 0.5;
+					red.events.onInputDown.add(selectRed, this);
 				}
 				if(k===1)
 				{
 					var red = reds.create(200, i*100, 'RedPiece');	
 					red.inputEnabled = true;
-					red.input.enableDrag();
-					red.events.onDragStart.add(selectRed, this);
-					red.events.onDragStop.add(releaseRed, this);
+					red.anchor.x = 0.5;
+					red.anchor.y = 0.5;
+					red.events.onInputDown.add(selectRed, this);
 				}
 				if(k===2)
 				{
 					var red = reds.create(400, i*100, 'RedPiece');	
 					red.inputEnabled = true;
-					red.input.enableDrag();
-					red.events.onDragStart.add(selectRed, this);
-					red.events.onDragStop.add(releaseRed, this);
+					red.anchor.x = 0.5;
+					red.anchor.y = 0.5;
+					red.events.onInputDown.add(selectRed, this);
 				}
 				if(k===3)
 				{
 					var red = reds.create(600, i*100, 'RedPiece');	
 					red.inputEnabled = true;
-					red.input.enableDrag();
-					red.events.onDragStart.add(selectRed, this);
-					red.events.onDragStop.add(releaseRed, this);
+					red.anchor.x = 0.5;
+					red.anchor.y = 0.5;
+					red.events.onInputDown.add(selectRed, this);
 				}	
 			}
 		}
@@ -184,34 +186,40 @@ function selectRed(red)
 {
 console.log("In selectRed\n");
 
-	selectedRed = red;
-	selectedRedIndex = -1;
-	if(redQueens.children.length>0)
+	if(!oneIsSelected)
 	{
-		if(isRedQueen(red))
+		selectedRedIndex = -1;
+		if(redQueens.children.length>0)
 		{
+			if(isRedQueen(red))
+			{
 console.log("--Piece is a queen\n");
-			selectedRedIndex = redQueens.getChildIndex(red);
+				selectedRedIndex = redQueens.getChildIndex(red);
+			}
 		}
-	}
-	if(selectedRedIndex===-1)
-		selectedRedIndex = reds.getChildIndex(red);
-	selectedRedStartPos[0] = red.body.x;
-	selectedRedStartPos[1] = red.body.y;
+		if(selectedRedIndex===-1)
+			selectedRedIndex = reds.getChildIndex(red);
+		selectedRedStartPos[0] = red.body.x;
+		selectedRedStartPos[1] = red.body.y;
 	
 console.log("--Index: %i \n", selectedRedIndex);
 console.log("--StartX: %i \n", selectedRedStartPos[0]);
 console.log("--StartY: %i \n", selectedRedStartPos[1]);
 console.log("Leaving selectRed\n");
+	}
 }
 //once the player drags the red piece, they drop it (unclick it)
 //			and the game checks if it is a valid move.
-function releaseRed(selectedRed)
+function releaseRed()
 {
 console.log("In releaseRed\n");
-	if(checkIfRedCanMoveHere(selectedRed, selectedRedStartPos[0], selectedRedStartPos[1], selectedRed.x, selectedRed.y))
-	{
-		var red = reds.getChildAt(selectedRedIndex);
+	pickedX = game.input.x;
+	pickedY = game.input.y;
+	var red = reds.getChildAt(selectedRedIndex);
+
+	//checkIfRedCanMoveHere moves the piece, the checks its location.
+	if(checkIfRedCanMoveHere(red, selectedRedStartPos[0], selectedRedStartPos[1], pickedX, pixkedY))
+	{	
 		//did it jump?
 		if(recentlyJumped)
 		{
@@ -226,10 +234,9 @@ console.log("In releaseRed\n");
 		{
 			var redQueen = redQueens.create(red.body.x, red.body.y, 'RedQueen');
 			redQueen.inputEnabled = true;
-			redQueen.input.enableDrag();
-			redQueen.events.onDragStart.add(selectRed, this);
-			redQueen.events.onDragStop.add(releaseRed, this);
-			setRedPos(redQueen, red.body.x, red.body.y);
+			redQueen.anchor.x = 0.5;
+			redQueen.anchor.y = 0.5;
+			redQueen.events.onInputDown.add(selectRed, this);
 			selectRed(redQueen);
 			red.kill();
 		}
@@ -237,7 +244,6 @@ console.log("In releaseRed\n");
 	}
 	else
 	{
-		var red = reds.getChildAt(selectedRedIndex);
 		tween = game.add.tween(red).to({x: selectedRedStartPos[0], y: selectedRedStartPos[1]});
 		tween.onComplete.removeAll();
 		
@@ -266,7 +272,6 @@ console.log("In releaseRed\n");
 	//If the selected piece has not more jumps it can make, move to next turn. 
 	if(!recentlyJumped)
 	{
-		selectedRed = null;
 		playerTurn = false;
 	}
 console.log("Leaving releaseRed\n");
@@ -278,7 +283,7 @@ function checkOccupancy1(x, y) //looks for singles
 console.log("In checkOccupancy1\n");
 	if(x<0 || x>700 || y<0 || y>700)
 	{
-console.log("Leaving with O.O.B.\n");
+console.log("Leaving with null, out of bounds\n");
 		return null;
 	}
 	var piece;
@@ -289,7 +294,7 @@ console.log("Leaving with O.O.B.\n");
 			continue;
 		if((piece.body.x===x)&&(piece.body.y===y))
 		{
-console.log("Leaving with piece\n");
+console.log("Leaving with red piece\n");
 			return piece;
 		}
 	}
@@ -300,7 +305,7 @@ console.log("Leaving with piece\n");
 			continue;
 		if((piece.body.x===x)&&(piece.body.y===y))
 		{
-console.log("Leaving with piece\n");
+console.log("Leaving with red queen piece\n");
 			return piece;
 		}
 	}
@@ -311,7 +316,7 @@ console.log("Leaving with piece\n");
 			continue;
 		if((piece.body.x===x)&&(piece.body.y===y))
 		{
-console.log("Leaving with piece\n");
+console.log("Leaving with black piece\n");
 			return piece;
 		}
 	}
@@ -322,11 +327,11 @@ console.log("Leaving with piece\n");
 			continue;
 		if((piece.body.x===x)&&(piece.body.y===y))
 		{
-console.log("Leaving with piece\n");
+console.log("Leaving with black queen piece\n");
 			return piece;
 		}
 	}
-console.log("Leaving with nothing\n");
+console.log("Leaving with null, nothing found\n");
 	return null;
 }
 //------------------------------------------------------------------------------
@@ -336,7 +341,7 @@ function checkOccupancy2(x, y) //looks for doubles
 console.log("In checkOccupancy2\n");
 	if(x<0 || x>700 || y<0 || y>700)
 	{
-console.log("Leaving with true\n");
+console.log("Leaving with true, out of bounds\n");
 		return true;
 	}
 	var occupants = 0; //shouldn't be more than 1
@@ -347,7 +352,10 @@ console.log("Leaving with true\n");
 		if(!piece.isAlive)
 			continue;
 		if((piece.body.x===x)&&(piece.body.y===y))
+		{
+console.log("--there is a red piece\n");
 			occupants++;
+		}
 		if(occupants=2)
 		{
 console.log("Leaving with true\n");
@@ -360,7 +368,10 @@ console.log("Leaving with true\n");
 		if(!piece.isAlive)
 			continue;
 		if((piece.body.x===x)&&(piece.body.y===y))
+		{
+console.log("--there is a red queen piece\n");
 			occupants++;
+		}
 		if(occupants=2)
 		{
 console.log("Leaving with true\n");
@@ -373,7 +384,10 @@ console.log("Leaving with true\n");
 		if(!piece.isAlive)
 			continue;
 		if((piece.body.x===x)&&(piece.body.y===y))
+		{
+console.log("--there is a black piece\n");
 			occupants++;
+		}
 		if(occupants=2)
 		{
 console.log("Leaving with true\n");
@@ -386,14 +400,17 @@ console.log("Leaving with true\n");
 		if(!piece.isAlive)
 			continue;
 		if((piece.body.x===x)&&(piece.body.y===y))
+		{
+console.log("--there is a black queen piece\n");
 			occupants++;
+		}
 		if(occupants=2)
 		{
 console.log("Leaving with true\n");
 			return true;
 		}
 	}
-console.log("Leaving with false\n");
+console.log("Leaving with false, occupancy is 1 or 0\n");
 	return false;
 }
 //------------------------------------------------------------------------------
@@ -495,15 +512,15 @@ console.log("--fromX: %i\n", fromPosX);
 console.log("--fromY: %i\n", fromPosY);
 console.log("--toX: %i\n", toPosX);
 console.log("--toY: %i\n", toPosY);
+
 	//first, adjust the coordinates
 	var extraX;
 	var extraY;
-	extra = red.body.x%100;
-	extraX = red.body.x-extraX;
-	extra = red.body.y%100;
-	extraY = red.body.y-extraY;
-	tween = game.add.tween(red).to({x: extraX, y: extraY});
-	tween.onComplete.removeAll();
+	extra = toPosX%150;
+	toPosX -= extraX;
+	extra = toPosY%150;
+	toPosY -= extraY;
+	
 /*
 	while(red.body.x>extraX)
 	{
@@ -518,21 +535,32 @@ console.log("--toY: %i\n", toPosY);
 */
 	
 	//and make sure they're still on the board
-	if(red.body.x<0 || red.body.x>700 || red.body.y<0 || red.body.y>700)
+	if(toPosX<0 || toPosX>700 || toPosY<0 || toPosY>700)
 	{
-console.log("Leaving with false\n");
+console.log("Leaving with false, out-of-bounds\n");
 		return false;
 	}
-	//and thet they actually moved
-	if(red.body.x===fromPosX && red.body.y===fromPosY)
+	//and that they actually relocated
+	if(toPosX===fromPosX && toPosY===fromPosY)
 	{
-console.log("Leaving with false\n");
+console.log("Leaving with false, didn't relocate\n");
 		return false;
 	}
+	//aaand that they aren't going too far
+	if((Math.abs(fromPosX-toPosX)>=300)&&(Math.abs(fromPosY-toPosY)>=300))
+	{
+console.log("Leaving with false, going too far\n");
+		return false;		
+	}
+	
+	//Now move the piece
+	tween = game.add.tween(red).to({x: toPosX, y: toPosY});
+	tween.onComplete.removeAll();
+	
 	//then check if the space is already occupied
 	if(checkOccupancy2(red.body.x, red.body.y))
 	{
-console.log("Leaving with false\n");
+console.log("Leaving with false, space occupied\n");
 		return false;
 	}
 	
@@ -542,14 +570,14 @@ console.log("Leaving with false\n");
 		//was it supposed to?
 		if(redsCanJump.indexOf(selectedRedIndex)===-1)
 		{
-console.log("Leaving with false\n");
+console.log("Leaving with false, can't jump that piece\n");
 			return false;
 		}
 		
 		//did jump in a legal direction?
 		if((!isRedQueen(red))&&(red.body.y<fromPosY))
 		{
-console.log("Leaving with false\n");
+console.log("Leaving with false, can't jump in that direction\n");
 			return false;
 		}
 		
@@ -561,13 +589,13 @@ console.log("Leaving with false\n");
 			var piece = checkOccupancy1(checkX, checkY);
 			if((!isBlack(piece))&&(!isBlackQueen(piece)))
 			{
-console.log("Leaving with false\n");
+console.log("Leaving with false, didn't jump over anything\n");
 				return false;
 			}
 			piece.kill();
 		}
 		recentlyJumped = true;
-console.log("Leaving with true\n");
+console.log("Leaving with true, it jumped\n");
 		return true;
 	}
 	else //it only moved one space
@@ -577,22 +605,22 @@ console.log("Leaving with true\n");
 			//was it supposed to jump?
 			if(redsCanJump.indexOf(selectedRedIndex)!=-1)
 			{
-console.log("Leaving with false\n");
+console.log("Leaving with false, has to jump\n");
 				return false;
 			}
 			
 			//did it move in a legal direction?
 			if((!isRedQueen(red))&&(red.body.y<fromPosY))
 			{
-console.log("Leaving with false\n");
+console.log("Leaving with false, can't move in that direction\n");
 				return false;
 			}
-console.log("Leaving with true\n");
+console.log("Leaving with true, it moved\n");
 			return true;
 		}
 		
 	}
-console.log("Leaving with false\n");
+console.log("Leaving with false, (ERROR)\n");
 	return false;
 }
 ////////////////////////////////////////////////////////////////////////////////
@@ -625,6 +653,9 @@ console.log("In moveBlack\n");
 						//move the black, kill the red
 						if(!checkOccupancy1(red.body.x+100, red.body.y-100))
 						{
+							var toX = black.body.x+100;
+							var toY = black.body.y-100;
+							/*
 							while(black.body.x < (red.body.x+100))
 							{
 								black.body.velocity.x = 150;
@@ -635,6 +666,9 @@ console.log("In moveBlack\n");
 								black.body.velocity.y = -150;
 							}
 							black.body.velocity.y = 0;
+							*/
+							tween = game.add.tween(black).to({x: toX, y: toY});
+							tween.onComplete.removeAll();
 							red.kill();
 							break;
 						}
@@ -645,6 +679,9 @@ console.log("In moveBlack\n");
 						//move the black, kill the red
 						if(!checkOccupancy1(red.body.x-100, red.body.y-100))
 						{
+							var toX = black.body.x-100;
+							var toY = black.body.y-100;
+							/*
 							while(black.body.x > (red.body.x-100))
 							{
 								black.body.velocity.x = -150;
@@ -655,6 +692,9 @@ console.log("In moveBlack\n");
 								black.body.velocity.y = -150;
 							}
 							black.body.velocity.y = 0;
+							*/
+							tween = game.add.tween(black).to({x: toX, y: toY});
+							tween.onComplete.removeAll();
 							red.kill();
 							break;
 						}
@@ -685,6 +725,9 @@ console.log("In moveBlack\n");
 						//move the black, kill the red
 						if(!checkOccupancy1(red.body.x+100, red.body.y+100))
 						{
+							var toX = black.body.x+100;
+							var toY = black.body.y+100;
+							/*
 							while(black.body.x < (red.body.x+100))
 							{
 								black.body.velocity.x = 150;
@@ -695,6 +738,9 @@ console.log("In moveBlack\n");
 								black.body.velocity.y = 150;
 							}
 							black.body.velocity.y = 0;
+							*/
+							tween = game.add.tween(black).to({x: toX, y: toY});
+							tween.onComplete.removeAll();
 							red.kill();
 							break;
 						}
@@ -705,6 +751,9 @@ console.log("In moveBlack\n");
 						//move the black, kill the red
 						if(!checkOccupancy1(red.body.x-100, red.body.y+100))
 						{
+							var toX = black.body.x-100;
+							var toY = black.body.y+100;
+							/*
 							while(black.body.x > (red.body.x-100))
 							{
 								black.body.velocity.x = -150;
@@ -715,6 +764,9 @@ console.log("In moveBlack\n");
 								black.body.velocity.y = 150;
 							}
 							black.body.velocity.y = 0;
+							*/
+							tween = game.add.tween(black).to({x: toX, y: toY});
+							tween.onComplete.removeAll();
 							red.kill();
 							break;
 						}
@@ -725,6 +777,9 @@ console.log("In moveBlack\n");
 						//move the black, kill the red
 						if(!checkOccupancy1(red.body.x+100, red.body.y-100))
 						{
+							var toX = black.body.x+100;
+							var toY = black.body.y-100;
+							/*
 							while(black.body.x < (red.body.x+100))
 							{
 								black.body.velocity.x = 150;
@@ -735,6 +790,9 @@ console.log("In moveBlack\n");
 								black.body.velocity.y = -150;
 							}
 							black.body.velocity.y = 0;
+							*/
+							tween = game.add.tween(black).to({x: toX, y: toY});
+							tween.onComplete.removeAll();
 							red.kill();
 							break;
 						}
@@ -745,6 +803,9 @@ console.log("In moveBlack\n");
 						//move the black, kill the red
 						if(!checkOccupancy1(red.body.x-100, red.body.y-100))
 						{
+							var toX = black.body.x-100;
+							var toY = black.body.y-100;
+							/*
 							while(black.body.x > (red.body.x-100))
 							{
 								black.body.velocity.x = -150;
@@ -755,6 +816,9 @@ console.log("In moveBlack\n");
 								black.body.velocity.y = -150;
 							}
 							black.body.velocity.y = 0;
+							*/
+							tween = game.add.tween(black).to({x: toX, y: toY});
+							tween.onComplete.removeAll();
 							red.kill();
 							break;
 						}
@@ -786,6 +850,7 @@ console.log("In moveBlack\n");
 				{
 					var toX = black.body.x+100;
 					var toY = black.body.y-100;
+					/*
 					while(black.body.x < toX)
 					{
 						black.body.velocity.x = 150;
@@ -796,12 +861,16 @@ console.log("In moveBlack\n");
 						black.body.velocity.y = -150;
 					}
 					black.body.velocity.y = 0;
+					*/
+					tween = game.add.tween(black).to({x: toX, y: toY});
+					tween.onComplete.removeAll();
 				}
 				var canMoveNW = checkOccupancy1(black.body.x-100, black.body.y-100);
 				if(canMoveNW)
 				{
 					var toX = black.body.x-100;
 					var toY = black.body.y-100;
+					/*
 					while(black.body.x > toX)
 					{
 						black.body.velocity.x = -150;
@@ -812,12 +881,16 @@ console.log("In moveBlack\n");
 						black.body.velocity.y = -150;
 					}
 					black.body.velocity.y = 0;
+					*/
+					tween = game.add.tween(black).to({x: toX, y: toY});
+					tween.onComplete.removeAll();
 				}
 				var canMoveSE = checkOccupancy1(black.body.x+100, black.body.y+100);
 				if(canMoveSE)
 				{
 					var toX = black.body.x+100;
 					var toY = black.body.y+100;
+					/*
 					while(black.body.x < toX)
 					{
 						black.body.velocity.x = 150;
@@ -828,12 +901,16 @@ console.log("In moveBlack\n");
 						black.body.velocity.y = 150;
 					}
 					black.body.velocity.y = 0;
+					*/
+					tween = game.add.tween(black).to({x: toX, y: toY});
+					tween.onComplete.removeAll();
 				}
 				var canMoveSW = checkOccupancy1(black.body.x-100, black.body.y+100);
 				if(canMoveSW)
 				{
 					var toX = black.body.x-100;
 					var toY = black.body.y+100;
+					/*
 					while(black.body.x > toX)
 					{
 						black.body.velocity.x = -150;
@@ -844,6 +921,9 @@ console.log("In moveBlack\n");
 						black.body.velocity.y = 150;
 					}
 					black.body.velocity.y = 0;
+					*/
+					tween = game.add.tween(black).to({x: toX, y: toY});
+					tween.onComplete.removeAll();
 				}
 			}
 		}
@@ -860,6 +940,7 @@ console.log("In moveBlack\n");
 				{
 					var toX = black.body.x+100;
 					var toY = black.body.y-100;
+					/*
 					while(black.body.x < toX)
 					{
 						black.body.velocity.x = 150;
@@ -870,12 +951,16 @@ console.log("In moveBlack\n");
 						black.body.velocity.y = -150;
 					}
 					black.body.velocity.y = 0;
+					*/
+					tween = game.add.tween(black).to({x: toX, y: toY});
+					tween.onComplete.removeAll();
 				}
 				var canMoveNW = checkOccupancy1(black.body.x-100, black.body.y-100);
 				if(canMoveNW)
 				{
 					var toX = black.body.x-100;
 					var toY = black.body.y-100;
+					/*
 					while(black.body.x > toX)
 					{
 						black.body.velocity.x = -150;
@@ -886,6 +971,9 @@ console.log("In moveBlack\n");
 						black.body.velocity.y = -150;
 					}
 					black.body.velocity.y = 0;
+					*/
+					tween = game.add.tween(black).to({x: toX, y: toY});
+					tween.onComplete.removeAll();
 				}
 			}
 		}
@@ -917,7 +1005,7 @@ console.log("In checkIfTHISRedCanJump\n");
 				//is is jumpable?
 				if(!checkOccupancy1(black.body.x+100, black.body.y+100))
 				{
-console.log("Leaving with true\n");
+console.log("Leaving with true, to the SE\n");
 					return true;
 				}
 			}
@@ -927,7 +1015,7 @@ console.log("Leaving with true\n");
 				//is is jumpable?
 				if(!checkOccupancy1(black.body.x-100, black.body.y+100))
 				{
-console.log("Leaving with true\n");
+console.log("Leaving with true, to the SW\n");
 					return true;
 				}
 			}
@@ -937,7 +1025,7 @@ console.log("Leaving with true\n");
 				//is is jumpable?
 				if(!checkOccupancy1(black.body.x+100, black.body.y-100))
 				{
-console.log("Leaving with true\n");
+console.log("Leaving with true, to the NE\n");
 					return true;
 				}
 			}
@@ -947,7 +1035,7 @@ console.log("Leaving with true\n");
 				//is is jumpable?
 				if(!checkOccupancy1(black.body.x-100, black.body.y-100))
 				{
-console.log("Leaving with true\n");
+console.log("Leaving with true, to the NW\n");
 					return true;
 				}
 			}
@@ -966,7 +1054,7 @@ console.log("Leaving with true\n");
 				//is is jumpable?
 				if(!checkOccupancy1(black.body.x+100, black.body.y+100))
 				{
-console.log("Leaving with true\n");
+console.log("Leaving with true, to the SE\n");
 					return true;
 				}
 			}
@@ -976,15 +1064,16 @@ console.log("Leaving with true\n");
 				//is is jumpable?
 				if(!checkOccupancy1(black.body.x-100, black.body.y+100))
 				{
-console.log("Leaving with true\n");
+console.log("Leaving with true, to the SW\n");
 					return true;
 				}
 			}
 		}
 	}
-console.log("Leaving with false\n");
+console.log("Leaving with false, can't jump anywhere\n");
 	return false;
 }
+//------------------------------------------------------------------------------
 //are there any jumps available for reds?
 function checkIfARedCanJump()
 {
@@ -1012,9 +1101,10 @@ console.log("Leaving with true\n");
 			return true;
 		}
 	}
-console.log("Leaving with false\n");
+console.log("Leaving with false, no reds can jump\n");
 	return false;	
 }
+//------------------------------------------------------------------------------
 //which reds can jump?
 function listOfRedsCanJump()
 {
@@ -1040,7 +1130,7 @@ console.log("In listOfRedsCanJump\n");
 	}
 console.log("Leaving listOfRedsCanJump\n");
 }
-//-----------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //are there any jumps available for a specific black?
 function checkIfTHISBlackCanJump(black)
 {
@@ -1062,7 +1152,7 @@ console.log("In checkIfTHISBlackCanJump\n");
 				//is is jumpable?
 				if(!checkOccupancy1(red.body.x+100, red.body.y+100))
 				{
-console.log("Leaving with true\n");
+console.log("Leaving with true, to the SE\n");
 					return true;
 				}
 			}
@@ -1072,7 +1162,7 @@ console.log("Leaving with true\n");
 				//is is jumpable?
 				if(!checkOccupancy1(red.body.x-100, red.body.y+100))
 				{
-console.log("Leaving with true\n");
+console.log("Leaving with true, to the SW\n");
 					return true;
 				}
 			}
@@ -1082,7 +1172,7 @@ console.log("Leaving with true\n");
 				//is is jumpable?
 				if(!checkOccupancy1(red.body.x+100, red.body.y-100))
 				{
-console.log("Leaving with true\n");
+console.log("Leaving with true, to the NE\n");
 					return true;
 				}
 			}
@@ -1092,7 +1182,7 @@ console.log("Leaving with true\n");
 				//is is jumpable?
 				if(!checkOccupancy1(red.body.x-100, red.body.y-100))
 				{
-console.log("Leaving with true\n");
+console.log("Leaving with true, to the NW\n");
 					return true;
 				}
 			}
@@ -1111,7 +1201,7 @@ console.log("Leaving with true\n");
 				//is is jumpable?
 				if(!checkOccupancy1(red.body.x+100, red.body.y-100))
 				{
-console.log("Leaving with true\n");
+console.log("Leaving with true, to the NE\n");
 					return true;
 				}
 			}
@@ -1121,15 +1211,16 @@ console.log("Leaving with true\n");
 				//is is jumpable?
 				if(!checkOccupancy1(red.body.x-100, red.body.y-100))
 				{
-console.log("Leaving with true\n");
+console.log("Leaving with true, to the NW\n");
 					return true;
 				}
 			}
 		}
 	}
-console.log("Leaving with false\n");
+console.log("Leaving with false, this black can't jump\n");
 	return false;
 }
+//------------------------------------------------------------------------------
 //are there any jumps available for blacks?
 function checkIfABlackCanJump()
 {
@@ -1157,9 +1248,10 @@ console.log("Leaving with true\n");
 			return true;
 		}
 	}
-console.log("Leaving with false\n");
+console.log("Leaving with false, no blacks can jump\n");
 	return false;
 }
+//------------------------------------------------------------------------------
 //which blacks can jump?
 function listOfBlacksCanJump()
 {
@@ -1189,6 +1281,10 @@ console.log("Leaving listOfBlacksCanJump\n");
 //move on to the next turn
 function update()
 {
+	if(playerTurn && !oneIsSelected)
+	{
+		game.input.onDown.add(releaseRed(), this);
+	}
 	if(!playerTurn)
 		moveBlack();
 }
