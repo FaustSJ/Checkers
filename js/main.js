@@ -35,21 +35,13 @@ var redtest;
 function create() {
 console.log("Creating everything.\n");
 //sets up the board and the mouse input
-	game.physics.startSystem(Phaser.Physics.ARCADE);
 	board = game.add.sprite(0, 0, 'CheckerBoard');
-	game.physics.startSystem(Phaser.Physics.ARCADE);
 	redQueens = game.add.group();
-	redQueens.enableBody = true;
-	redQueens.physicsBodyType = Phaser.Physics.ARCADE;
 	blackQueens = game.add.group();
-	blackQueens.enableBody = true;
-     blackQueens.physicsBodyType = Phaser.Physics.ARCADE;
 
 //the game pieces
 	//seting up the red pieces
 	reds = game.add.group();
-	reds.enableBody = true;
-     reds.physicsBodyType = Phaser.Physics.ARCADE;
 	var alternate = true;
 	for(var i = 0; i<3; i++) //rows, y
 	{
@@ -131,8 +123,6 @@ console.log("Creating everything.\n");
 	
 	//seting up the black pieces
 	blacks = game.add.group();
-	blacks.enableBody = true;
-     blacks.physicsBodyType = Phaser.Physics.ARCADE;
 	alternate = true;
 	for(var i = 1; i<4; i++) //rows, y
 	{
@@ -209,8 +199,7 @@ console.log("--StartX: %i \n", selectedRedStartPos[0]);
 console.log("--StartY: %i \n", selectedRedStartPos[1]);
 console.log("Leaving selectRed\n");
 	}
-	redtest = game.add.sprite(250, 250, 'RedPiece', 1);
-	tween = game.add.tween(redtest).to({x: 400, y: 400}, 1000, Phaser.Easing.Bounce.Out, true);
+	tween = game.add.tween(red).to({x: 400, y: 400}, 1000, Phaser.Easing.Bounce.Out, true);
 	tween.onComplete.removeAll();
 }
 //once the player drags the red piece, they drop it (unclick it)
