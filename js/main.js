@@ -29,6 +29,8 @@ var oneIsSelected = false;
 var pickedX;
 var pickedY;
 
+var redtest;
+
 //sets up the board and the pieces.
 function create() {
 console.log("Creating everything.\n");
@@ -207,7 +209,8 @@ console.log("--StartX: %i \n", selectedRedStartPos[0]);
 console.log("--StartY: %i \n", selectedRedStartPos[1]);
 console.log("Leaving selectRed\n");
 	}
-	tween = game.add.tween(red).to({x: 400, y: 400}, 500, Phaser.Easing.Linear.None);
+	redtest = game.add.sprite(250, 250, 'RedPiece', 1);
+	tween = game.add.tween(redtest).to({x: 400, y: 400}, 1000, Phaser.Easing.Bounce.Out, true);
 	tween.onComplete.removeAll();
 }
 //once the player drags the red piece, they drop it (unclick it)
