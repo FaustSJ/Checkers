@@ -55,7 +55,7 @@ console.log("Creating everything.\n");
 					red.inputEnabled = true;
 					red.anchor.x = 0.5;
 					red.anchor.y = 0.5;
-					red.events.onInputDown.add(selectRed, this);
+					red.events.onInputDown.add(selectRed, this, red);
 				}
 				if(k===1)
 				{
@@ -63,7 +63,7 @@ console.log("Creating everything.\n");
 					red.inputEnabled = true;
 					red.anchor.x = 0.5;
 					red.anchor.y = 0.5;
-					red.events.onInputDown.add(selectRed, this);
+					red.events.onInputDown.add(selectRed, this, red);
 				}
 				if(k===2)
 				{
@@ -71,7 +71,7 @@ console.log("Creating everything.\n");
 					red.inputEnabled = true;
 					red.anchor.x = 0.5;
 					red.anchor.y = 0.5;
-					red.events.onInputDown.add(selectRed, this);
+					red.events.onInputDown.add(selectRed, this, red);
 				}
 				if(k===3)
 				{
@@ -79,7 +79,7 @@ console.log("Creating everything.\n");
 					red.inputEnabled = true;
 					red.anchor.x = 0.5;
 					red.anchor.y = 0.5;
-					red.events.onInputDown.add(selectRed, this);
+					red.events.onInputDown.add(selectRed, this, red);
 				}	
 			}
 			else
@@ -90,7 +90,7 @@ console.log("Creating everything.\n");
 					red.inputEnabled = true;
 					red.anchor.x = 0.5;
 					red.anchor.y = 0.5;
-					red.events.onInputDown.add(selectRed, this);
+					red.events.onInputDown.add(selectRed, this, red);
 				}
 				if(k===1)
 				{
@@ -98,7 +98,7 @@ console.log("Creating everything.\n");
 					red.inputEnabled = true;
 					red.anchor.x = 0.5;
 					red.anchor.y = 0.5;
-					red.events.onInputDown.add(selectRed, this);
+					red.events.onInputDown.add(selectRed, this, red);
 				}
 				if(k===2)
 				{
@@ -106,7 +106,7 @@ console.log("Creating everything.\n");
 					red.inputEnabled = true;
 					red.anchor.x = 0.5;
 					red.anchor.y = 0.5;
-					red.events.onInputDown.add(selectRed, this);
+					red.events.onInputDown.add(selectRed, this, red);
 				}
 				if(k===3)
 				{
@@ -114,7 +114,7 @@ console.log("Creating everything.\n");
 					red.inputEnabled = true;
 					red.anchor.x = 0.5;
 					red.anchor.y = 0.5;
-					red.events.onInputDown.add(selectRed, this);
+					red.events.onInputDown.add(selectRed, this, red);
 				}	
 			}
 		}
@@ -240,28 +240,6 @@ console.log("In releaseRed\n");
 		tween.onComplete.removeAll();
 		red.x = selectedRedStartPos[0];
 		red.y = selectedRedStartPos[1];
-		
-/*		while(red.x<selectedRedStartPos[0])
-		{
-			red.velocity.x = 150;
-		}
-		red.velocity.x = 0;
-		while(red.x>selectedRedStartPos[0])
-		{
-			red.velocity.x = -150;
-		}
-		red.velocity.x = 0;
-		while(red.y<selectedRedStartPos[1])
-		{
-			red.velocity.y = 150;
-		}
-		red.velocity.y = 0;
-		while(red.y>selectedRedStartPos[1])
-		{
-			red.velocity.y = -150;
-		}
-		red.velocity.y = 0;
-*/
 	}
 	//If the selected piece has not more jumps it can make, move to next turn. 
 	if(!recentlyJumped)
@@ -515,19 +493,6 @@ console.log("--toY: %i\n", toPosY);
 	extra = toPosY%100;
 	toPosY -= extra;
 	toPosY += 50;
-	
-/*
-	while(red.x>extraX)
-	{
-		red.velocity.x = -150;
-	}
-	red.velocity.x = 0;
-	while(red.y>extraY)
-	{
-		red.velocity.y = -150;
-	}
-	red.velocity.y = 0;
-*/
 
 console.log("--adjustedXPos: %i\n", toPosX);
 console.log("--adjustedYPos: %i\n", toPosY);
@@ -658,18 +623,7 @@ console.log("In moveBlack\n");
 						{
 							var toX = black.x+100;
 							var toY = black.y-100;
-							/*
-							while(black.x < (red.x+100))
-							{
-								black.velocity.x = 150;
-							}
-							black.velocity.x = 0;
-							while(black.y > (red.y-100))
-							{
-								black.velocity.y = -150;
-							}
-							black.velocity.y = 0;
-							*/
+							
 							tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
 							tween.onComplete.removeAll();
 							black.x = toX;
@@ -686,18 +640,6 @@ console.log("In moveBlack\n");
 						{
 							var toX = black.x-100;
 							var toY = black.y-100;
-							/*
-							while(black.x > (red.x-100))
-							{
-								black.velocity.x = -150;
-							}
-							black.velocity.x = 0;
-							while(black.y > (red.y-100))
-							{
-								black.velocity.y = -150;
-							}
-							black.velocity.y = 0;
-							*/
 							tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
 							tween.onComplete.removeAll();
 							black.x = toX;
@@ -734,18 +676,6 @@ console.log("In moveBlack\n");
 						{
 							var toX = black.x+100;
 							var toY = black.y+100;
-							/*
-							while(black.x < (red.x+100))
-							{
-								black.velocity.x = 150;
-							}
-							black.velocity.x = 0;
-							while(black.y < (red.y+100))
-							{
-								black.velocity.y = 150;
-							}
-							black.velocity.y = 0;
-							*/
 							tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
 							tween.onComplete.removeAll();
 							black.x = toX;
@@ -762,18 +692,6 @@ console.log("In moveBlack\n");
 						{
 							var toX = black.x-100;
 							var toY = black.y+100;
-							/*
-							while(black.x > (red.x-100))
-							{
-								black.velocity.x = -150;
-							}
-							black.velocity.x = 0;
-							while(black.y < (red.y+100))
-							{
-								black.velocity.y = 150;
-							}
-							black.velocity.y = 0;
-							*/
 							tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
 							tween.onComplete.removeAll();
 							black.x = toX;
@@ -790,18 +708,6 @@ console.log("In moveBlack\n");
 						{
 							var toX = black.x+100;
 							var toY = black.y-100;
-							/*
-							while(black.x < (red.x+100))
-							{
-								black.velocity.x = 150;
-							}
-							black.velocity.x = 0;							
-							while(black.y > (red.y-100))
-							{
-								black.velocity.y = -150;
-							}
-							black.velocity.y = 0;
-							*/
 							tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
 							tween.onComplete.removeAll();
 							black.x = toX;
@@ -818,18 +724,6 @@ console.log("In moveBlack\n");
 						{
 							var toX = black.x-100;
 							var toY = black.y-100;
-							/*
-							while(black.x > (red.x-100))
-							{
-								black.velocity.x = -150;
-							}
-							black.velocity.x = 0;
-							while(black.y > (red.y-100))
-							{
-								black.velocity.y = -150;
-							}
-							black.velocity.y = 0;
-							*/
 							tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
 							tween.onComplete.removeAll();
 							black.x = toX;
@@ -865,18 +759,6 @@ console.log("In moveBlack\n");
 				{
 					var toX = black.x+100;
 					var toY = black.y-100;
-					/*
-					while(black.x < toX)
-					{
-						black.velocity.x = 150;
-					}
-					black.velocity.x = 0;
-					while(black.y > toY)
-					{
-						black.velocity.y = -150;
-					}
-					black.velocity.y = 0;
-					*/
 					tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
 					tween.onComplete.removeAll();
 					black.x = toX;
@@ -887,18 +769,6 @@ console.log("In moveBlack\n");
 				{
 					var toX = black.x-100;
 					var toY = black.y-100;
-					/*
-					while(black.x > toX)
-					{
-						black.velocity.x = -150;
-					}
-					black.velocity.x = 0;
-					while(black.y > toY)
-					{
-						black.velocity.y = -150;
-					}
-					black.velocity.y = 0;
-					*/
 					tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
 					tween.onComplete.removeAll();
 					black.x = toX;
@@ -909,18 +779,6 @@ console.log("In moveBlack\n");
 				{
 					var toX = black.x+100;
 					var toY = black.y+100;
-					/*
-					while(black.x < toX)
-					{
-						black.velocity.x = 150;
-					}
-					black.velocity.x = 0;
-					while(black.y < toY)
-					{
-						black.velocity.y = 150;
-					}
-					black.velocity.y = 0;
-					*/
 					tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
 					tween.onComplete.removeAll();
 					black.x = toX;
@@ -931,18 +789,6 @@ console.log("In moveBlack\n");
 				{
 					var toX = black.x-100;
 					var toY = black.y+100;
-					/*
-					while(black.x > toX)
-					{
-						black.velocity.x = -150;
-					}
-					black.velocity.x = 0;
-					while(black.y < toY)
-					{
-						black.velocity.y = 150;
-					}
-					black.velocity.y = 0;
-					*/
 					tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
 					tween.onComplete.removeAll();
 					black.x = toX;
@@ -963,18 +809,6 @@ console.log("In moveBlack\n");
 				{
 					var toX = black.x+100;
 					var toY = black.y-100;
-					/*
-					while(black.x < toX)
-					{
-						black.velocity.x = 150;
-					}
-					black.velocity.x = 0;
-					while(black.y > toY)
-					{
-						black.velocity.y = -150;
-					}
-					black.velocity.y = 0;
-					*/
 					tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
 					tween.onComplete.removeAll();
 					black.x = toX;
@@ -985,18 +819,6 @@ console.log("In moveBlack\n");
 				{
 					var toX = black.x-100;
 					var toY = black.y-100;
-					/*
-					while(black.x > toX)
-					{
-						black.velocity.x = -150;
-					}
-					black.velocity.x = 0;
-					while(black.y > toY)
-					{
-						black.velocity.y = -150;
-					}
-					black.velocity.y = 0;
-					*/
 					tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
 					tween.onComplete.removeAll();
 					black.x = toX;
@@ -1009,6 +831,7 @@ console.log("In moveBlack\n");
 	if(!recentlyJumped)
 		playerTurn = true;
 console.log("Leaving moveBlack\n");
+console.log("--------------------------------\n");
 }
 ////////////////////////////////////////////////////////////////////////////////
 //are there any jumps available for a specific red?
