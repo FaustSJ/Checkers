@@ -264,12 +264,12 @@ console.log("--adjustedYPos: %i\n", pickedY);
 			var found = false;
 			for(i = 0; i<redsCanJump.length; i++)
 			{
-				if(redsCanJump[i]===selectedRedIndex)&&(!isRedQueen(red))
+				if((redsCanJump[i]===selectedRedIndex)&&(!isRedQueen(red)))
 					found = true;
 			}
 			for(i = 0; i<redQueensCanJump.length; i++)
 			{
-				if(redQueensCanJump[i]===selectedRedIndex)&&(isRedQueen(red))
+				if((redQueensCanJump[i]===selectedRedIndex)&&(isRedQueen(red)))
 					found = true;
 			}
 			if(!found)
@@ -491,10 +491,7 @@ console.log("---a black has jumped\n");
 					}
 				}
 				//can it jump again?
-				if(!checkIfTHISBlackCanJump(black))
-				{
-					recentlyJumped = false;
-				}	
+				recentlyJumped = checkIfTHISBlackCanJump(black);		
 			}
 		}
 		//--------------------------------------------------------------------
@@ -583,10 +580,7 @@ console.log("---a black queen has jumped\n");
 				listOfBlacksCanJump();
 				listOfRedsCanJump();
 				//can it jump again?
-				if(!checkIfTHISBlackCanJump(black))
-				{
-					recentlyJumped = false;
-				}	
+				recentlyJumped = checkIfTHISBlackCanJump(black);	
 			}
 		}
 		
