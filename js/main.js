@@ -229,6 +229,10 @@ console.log("In releaseRed\n");
 	pickedY = game.input.y;
 	var red = reds.getChildAt(selectedRedIndex);
 	
+	//update the lists
+	listOfBlacksCanJump();
+	listOfRedsCanJump();
+	
 console.log("--preAdjXPos: %i\n", pickedX);
 console.log("--perAdjYPos: %i\n", pickedY);
 	//first, adjust the coordinates
@@ -248,13 +252,27 @@ console.log("--adjustedYPos: %i\n", pickedY);
 	{	
 		tween = game.add.tween(red).to({x: pickedX, y: pickedY}, 1000, Phaser.Easing.Linear.None, true);
 		tween.onComplete.removeAll();
-		red.x = toPosX;
-		red.y = toPosY;
+		red.x = pickedX;
+		red.y = pickedY;
 		//did it jump?
 		if(recentlyJumped)
 		{
+			//update the lists
+			listOfBlacksCanJump();
+			listOfRedsCanJump();
 			//does it have more jumps to make?
-			if(!checkIfTHISRedCanJump(red))
+			var found = false;
+			for(i = 0; i<redsCanJump.length; i++)
+			{
+				if(redsCanJump[i]===selectedRedIndex)&&(!isRedQueen(red))
+					found = true;
+			}
+			for(i = 0; i<redQueensCanJump.length; i++)
+			{
+				if(redQueensCanJump[i]===selectedRedIndex)&&(isRedQueen(red))
+					found = true;
+			}
+			if(!found)
 			{
 				recentlyJumped = false;
 			}
@@ -274,18 +292,12 @@ console.log("--adjustedYPos: %i\n", pickedY);
 		}
 		
 	}
-/*	else
-	{
-		tween = game.add.tween(red).to({x: selectedRedStartPos[0], y: selectedRedStartPos[1]}, 1000, Phaser.Easing.Linear.None, true);
-		tween.onComplete.removeAll();
-		red.x = selectedRedStartPos[0];
-		red.y = selectedRedStartPos[1];
-	}*/
 	//If the selected piece has not more jumps it can make, move to next turn. 
 	if(!recentlyJumped)
 	{
 		oneIsSelected = false;
-		playerTurn = false;
+		if(red.x!==selectedRedStartPos[0])
+			playerTurn = false;
 	}
 console.log("Leaving releaseRed\n");
 }
@@ -300,27 +312,38 @@ console.log("--fromY: %i\n", fromPosY);
 console.log("--toX: %i\n", toPosX);
 console.log("--toY: %i\n", toPosY);
 
-	//and make sure they're still on the board
+	//first, make sure it's still on the board...
 	if(toPosX<0 || toPosX>750 || toPosY<0 || toPosY>750)
 	{
 		console.log("Leaving with false, out-of-bounds\n");
 		return false;
 	}
-	//and that they actually relocated
+	//...that it actually relocated...
 	if(toPosX===fromPosX && toPosY===fromPosY)
 	{
 		console.log("Leaving with false, didn't relocate\n");
 		return false;
 	}
-	//aaand that they aren't going too far
-	if((Math.abs(fromPosX-toPosX)>=300)&&(Math.abs(fromPosY-toPosY)>=300))
+	//...that it moved in a legal direction...
+	if((!isRedQueen(red)) && (toPosY<fromPosY))
+	{
+		console.log("Leaving with false, can't move backwards\n");
+		return false;
+	}
+	if(toPosX===fromPosX)
+	{
+		console.log("Leaving with false, must move diagonally\n");
+	}
+		
+	//...aaand that it isn't going too far
+	if((Math.abs(fromPosX-toPosX)>200)||(Math.abs(fromPosY-toPosY)>200))
 	{
 		console.log("Leaving with false, going too far\n");
 		return false;		
 	}
 
 	//then check if the space is already occupied
-	if(checkOccupancy(toPosX, toPosY)===null)
+	if(checkOccupancy(toPosX, toPosY)!==null)
 	{
 		console.log("Leaving with false, space occupied\n");
 		return false;
@@ -330,25 +353,24 @@ console.log("--toY: %i\n", toPosY);
 	if((Math.abs(fromPosX-toPosX)===200)&&(Math.abs(fromPosY-toPosY)===200))
 	{
 		//was it supposed to?
-		if(redsCanJump[selectedRedIndex]===-1)
+		var found = false;
+		for(i = 0; i<redsCanJump.length; i++)
+		{
+			if(redsCanJump[i]===selectedRedIndex)
+				found = true;
+		}
+		if(!found)
 		{
 			console.log("Leaving with false, can't jump that piece\n");
-			return false;
-		}
-		
-		//did jump in a legal direction?
-		if((!isRedQueen(red))&&(toPosY<fromPosY))
-		{
-			console.log("Leaving with false, can't jump in that direction\n");
 			return false;
 		}
 		
 		//did it actually jump over anything?
 		var checkX = (toPosX+fromPosX)/2;
 		var checkY = (toPosY+fromPosY)/2;
-		if(checkOccupancy(checkX, checkY)!=null)
+		var piece = checkOccupancy(checkX, checkY);
+		if(piece !==null)
 		{
-			var piece = checkOccupancy(checkX, checkY);
 			if((!isBlack(piece))&&(!isBlackQueen(piece)))
 			{
 				console.log("Leaving with false, didn't jump over anything\n");
@@ -357,7 +379,7 @@ console.log("--toY: %i\n", toPosY);
 			piece.kill();
 		}
 		recentlyJumped = true;
-		console.log("Leaving with true, it jumped\n");
+		console.log("Leaving with true, it can jump\n");
 		return true;
 	}
 	else //it only moved one space
@@ -365,19 +387,19 @@ console.log("--toY: %i\n", toPosY);
 		if((Math.abs(fromPosX-toPosX)===100)&&(Math.abs(fromPosY-toPosY)===100))
 		{
 			//was it supposed to jump?
-			if(redsCanJump[selectedRedIndex]!=-1)
+			var found = false;
+			for(i = 0; i<redsCanJump.length; i++)
 			{
-				console.log("Leaving with false, has to jump\n");
+				if(redsCanJump[i]===selectedRedIndex)
+					found = true;
+			}
+			if(found)
+			{
+				console.log("Leaving with false, supposed to jump\n");
 				return false;
 			}
 			
-			//did it move in a legal direction?
-			if((!isRedQueen(red))&&(toPosY<fromPosY))
-			{
-				console.log("Leaving with false, can't move in that direction\n");
-				return false;
-			}
-			console.log("Leaving with true, it moved\n");
+			console.log("Leaving with true, it can move\n");
 			return true;
 		}
 	}
@@ -388,12 +410,17 @@ console.log("--toY: %i\n", toPosY);
 function moveBlack()
 {
 console.log("In moveBlack\n");
+	//update the lists
+	listOfBlacksCanJump();
+	listOfRedsCanJump();
 	var black;
-	var pick = Math.random();
+	
 	//can any blacks jump?
-	if(checkIfABlackCanJump())
+	if((blacksCanJump.length!==0)||(blackQueensCanJump.length!==0))
 	{
-		//grab from queen or regular index list
+		var pick = Math.random();
+		
+		//randomly grab from queen or regular index list
 		if(pick<0.5 && blacksCanJump.length>0)
 		{
 			black = blacks.getChildAt(blacksCanJump[0]);
@@ -413,14 +440,14 @@ console.log("In moveBlack\n");
 						//move the black, kill the red
 						if(checkOccupancy(red.x+100, red.y-100)===null)
 						{
-							var toX = black.x+100;
-							var toY = black.y-100;
+							var toX = black.x+200;
+							var toY = black.y-200;
 							
 							tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
 							tween.onComplete.removeAll();
 							black.x = toX;
 							black.y = toY;
-							
+console.log("---a black has jumped\n");
 							//did it make it to the other side?
 							if((black.y===50) && !isBlackQueen(black))
 							{
@@ -441,13 +468,13 @@ console.log("In moveBlack\n");
 						//move the black, kill the red
 						if(checkOccupancy(red.x-100, red.y-100)===null)
 						{
-							var toX = black.x-100;
-							var toY = black.y-100;
+							var toX = black.x-200;
+							var toY = black.y-200;
 							tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
 							tween.onComplete.removeAll();
 							black.x = toX;
 							black.y = toY;
-							
+console.log("---a black has jumped\n");
 							//did it make it to the other side?
 							if((black.y===50) && !isBlackQueen(black))
 							{
@@ -470,6 +497,7 @@ console.log("In moveBlack\n");
 				}	
 			}
 		}
+		//--------------------------------------------------------------------
 		if(pick>=0.5 && blackQueensCanJump>0)
 		{
 			black = blackQueens.getChildAt(blacksCanJump[0]);
@@ -488,23 +516,13 @@ console.log("In moveBlack\n");
 						//move the black, kill the red
 						if(checkOccupancy(red.x+100, red.y+100)===null)
 						{
-							var toX = black.x+100;
-							var toY = black.y+100;
+							var toX = black.x+200;
+							var toY = black.y+200;
 							tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
 							tween.onComplete.removeAll();
 							black.x = toX;
 							black.y = toY;
-							
-							//did it make it to the other side?
-							if((black.y===50) && !isBlackQueen(black))
-							{
-								var blackQueen = blackQueens.create(black.x, black.y, 'RedQueen');
-								blackQueen.anchor.x = 0.5;
-								blackQueen.anchor.y = 0.5;
-								black.kill();
-								black = blackQueen;
-							}
-							
+console.log("---a black queen has jumped\n");
 							red.kill();
 							break;
 						}
@@ -515,23 +533,13 @@ console.log("In moveBlack\n");
 						//move the black, kill the red
 						if(checkOccupancy(red.x-100, red.y+100)===null)
 						{
-							var toX = black.x-100;
-							var toY = black.y+100;
+							var toX = black.x-200;
+							var toY = black.y+200;
 							tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
 							tween.onComplete.removeAll();
 							black.x = toX;
 							black.y = toY;
-							
-							//did it make it to the other side?
-							if((black.y===50) && !isBlackQueen(black))
-							{
-								var blackQueen = blackQueens.create(black.x, black.y, 'RedQueen');
-								blackQueen.anchor.x = 0.5;
-								blackQueen.anchor.y = 0.5;
-								black.kill();
-								black = blackQueen;
-							}
-							
+console.log("---a black queen has jumped\n");
 							red.kill();
 							break;
 						}
@@ -542,23 +550,13 @@ console.log("In moveBlack\n");
 						//move the black, kill the red
 						if(checkOccupancy(red.x+100, red.y-100)===null)
 						{
-							var toX = black.x+100;
-							var toY = black.y-100;
+							var toX = black.x+200;
+							var toY = black.y-200;
 							tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
 							tween.onComplete.removeAll();
 							black.x = toX;
 							black.y = toY;
-							
-							//did it make it to the other side?
-							if((black.y===50) && !isBlackQueen(black))
-							{
-								var blackQueen = blackQueens.create(black.x, black.y, 'RedQueen');
-								blackQueen.anchor.x = 0.5;
-								blackQueen.anchor.y = 0.5;
-								black.kill();
-								black = blackQueen;
-							}
-							
+console.log("---a black queen has jumped\n");
 							red.kill();
 							break;
 						}
@@ -569,28 +567,21 @@ console.log("In moveBlack\n");
 						//move the black, kill the red
 						if(!checkOccupancy(red.x-100, red.y-100)===null)
 						{
-							var toX = black.x-100;
-							var toY = black.y-100;
+							var toX = black.x-200;
+							var toY = black.y-200;
 							tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
 							tween.onComplete.removeAll();
 							black.x = toX;
 							black.y = toY;
-							
-							//did it make it to the other side?
-							if((black.y===50) && !isBlackQueen(black))
-							{
-								var blackQueen = blackQueens.create(black.x, black.y, 'RedQueen');
-								blackQueen.anchor.x = 0.5;
-								blackQueen.anchor.y = 0.5;
-								black.kill();
-								black = blackQueen;
-							}
-							
+console.log("---a black queen has jumped\n");
 							red.kill();
 							break;
 						}
 					}
 				}
+				//update the lists
+				listOfBlacksCanJump();
+				listOfRedsCanJump();
 				//can it jump again?
 				if(!checkIfTHISBlackCanJump(black))
 				{
@@ -601,10 +592,13 @@ console.log("In moveBlack\n");
 		
 	}
 	else
-	{//if a black can't jump, pick a random black and move it.
+	{
+	//------------------------------------------------------------------------
+console.log("---no blacks can jump, moving a random black\n");
+		//if a black can't jump, pick a random black and move it.
 		var either = Math.random();
 		
-		if(either<0.5 && blackQueens.children.length!=0)
+		if(either<0.5 && blackQueens.children.length!==0)
 		{
 			for(var i=0; i<blackQueens.children.length; i++)
 			{
@@ -621,15 +615,8 @@ console.log("In moveBlack\n");
 					tween.onComplete.removeAll();
 					black.x = toX;
 					black.y = toY;
-					//did it make it to the other side?
-					if((black.y===50) && !isBlackQueen(black))
-					{
-						var blackQueen = blackQueens.create(black.x, black.y, 'RedQueen');
-						blackQueen.anchor.x = 0.5;
-						blackQueen.anchor.y = 0.5;
-						black.kill();
-						black = blackQueen;
-					}
+console.log("---a black queen had been moved\n");
+					break;
 				}
 				var canMoveNW = checkOccupancy(black.x-100, black.y-100);
 				if(canMoveNW===null)
@@ -640,15 +627,8 @@ console.log("In moveBlack\n");
 					tween.onComplete.removeAll();
 					black.x = toX;
 					black.y = toY;
-					//did it make it to the other side?
-					if((black.y===50) && !isBlackQueen(black))
-					{
-						var blackQueen = blackQueens.create(black.x, black.y, 'RedQueen');
-						blackQueen.anchor.x = 0.5;
-						blackQueen.anchor.y = 0.5;
-						black.kill();
-						black = blackQueen;
-					}
+console.log("---a black queen has been moved\n");
+					break;
 				}
 				var canMoveSE = checkOccupancy(black.x+100, black.y+100);
 				if(canMoveSE===null)
@@ -659,15 +639,8 @@ console.log("In moveBlack\n");
 					tween.onComplete.removeAll();
 					black.x = toX;
 					black.y = toY;
-					//did it make it to the other side?
-					if((black.y===50) && !isBlackQueen(black))
-					{
-						var blackQueen = blackQueens.create(black.x, black.y, 'RedQueen');
-						blackQueen.anchor.x = 0.5;
-						blackQueen.anchor.y = 0.5;
-						black.kill();
-						black = blackQueen;
-					}
+console.log("---a black queen has been moved\n");
+					break;
 				}
 				var canMoveSW = checkOccupancy(black.x-100, black.y+100);
 				if(canMoveSW===null)
@@ -678,19 +651,12 @@ console.log("In moveBlack\n");
 					tween.onComplete.removeAll();
 					black.x = toX;
 					black.y = toY;
-					//did it make it to the other side?
-					if((black.y===50) && !isBlackQueen(black))
-					{
-						var blackQueen = blackQueens.create(black.x, black.y, 'RedQueen');
-						blackQueen.anchor.x = 0.5;
-						blackQueen.anchor.y = 0.5;
-						black.kill();
-						black = blackQueen;
-					}
+console.log("---a black queen has been moved\n");
+					break;
 				}
 			}
 		}
-		else
+		else//----------------------------------------------------------------
 		{
 			for(var i=0; i<blacks.children.length; i++)
 			{
@@ -707,6 +673,7 @@ console.log("In moveBlack\n");
 					tween.onComplete.removeAll();
 					black.x = toX;
 					black.y = toY;
+console.log("---a black has been moved\n");
 					//did it make it to the other side?
 					if((black.y===50) && !isBlackQueen(black))
 					{
@@ -716,6 +683,7 @@ console.log("In moveBlack\n");
 						black.kill();
 						black = blackQueen;
 					}
+					break;
 				}
 				var canMoveNW = checkOccupancy(black.x-100, black.y-100);
 				if(canMoveNW===null)
@@ -726,6 +694,7 @@ console.log("In moveBlack\n");
 					tween.onComplete.removeAll();
 					black.x = toX;
 					black.y = toY;
+console.log("---a black has been moved\n");
 					//did it make it to the other side?
 					if((black.y===50) && !isBlackQueen(black))
 					{
@@ -735,6 +704,7 @@ console.log("In moveBlack\n");
 						black.kill();
 						black = blackQueen;
 					}
+					break;
 				}
 			}
 		}
@@ -899,7 +869,6 @@ function checkIfTHISRedCanJump(red)
 {
 console.log("In checkIfTHISRedCanJump\n");
 	var black;
-	var black2;
 	var jumpable = false;
 	//is it a queen?
 	if(isRedQueen(red)) 
@@ -984,43 +953,11 @@ console.log("Leaving with false, can't jump anywhere\n");
 	return false;
 }
 //------------------------------------------------------------------------------
-//are there any jumps available for reds?
-function checkIfARedCanJump()
-{
-console.log("In checkIfARedCanJump\n");
-	var red;
-	for(var i=0; i<reds.children.length; i++)
-	{
-		red = reds.getChildAt(i);
-		if(!red.isAlive)
-			continue;
-		if(checkIfTHISRedCanJump(red))
-		{
-console.log("Leaving with true\n");
-			return true;
-		}
-	}
-	for(var k=0; k<redQueens.children.length; k++)
-	{
-		red = redQueens.getChildAt(k);
-		if(!red.isAlive)
-			continue;
-		if(checkIfTHISRedCanJump(red))
-		{
-console.log("Leaving with true\n");
-			return true;
-		}
-	}
-console.log("Leaving with false, no reds can jump\n");
-	return false;	
-}
-//------------------------------------------------------------------------------
 //are there any jumps available for a specific black?
 function checkIfTHISBlackCanJump(black)
 {
 console.log("In checkIfTHISBlackCanJump\n");
 	var red;
-	var red2;
 	var jumpable = false;
 	//is it a queen?
 	if(isBlackQueen(black)) 
@@ -1102,37 +1039,6 @@ console.log("Leaving with true, to the NW\n");
 		}
 	}
 console.log("Leaving with false, this black can't jump\n");
-	return false;
-}
-//------------------------------------------------------------------------------
-//are there any jumps available for blacks?
-function checkIfABlackCanJump()
-{
-console.log("In checkIfABlackCanJump\n");
-	var black;
-	for(var i=0; i<blacks.children.length; i++)
-	{
-		black = blacks.getChildAt(i);
-		if(!black.isAlive)
-			continue;
-		if(checkIfTHISBlackCanJump(black))
-		{
-console.log("Leaving with true\n");
-			return true;
-		}
-	}
-	for(var k=0; k<blackQueens.children.length; k++)
-	{
-		black = blackQueens.getChildAt(k);
-		if(!black.isAlive)
-			continue;
-		if(checkIfTHISBlackCanJump(black))
-		{
-console.log("Leaving with true\n");
-			return true;
-		}
-	}
-console.log("Leaving with false, no blacks can jump\n");
 	return false;
 }
 ////////////////////////////////////////////////////////////////////////////////
