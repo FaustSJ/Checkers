@@ -554,6 +554,8 @@ console.log("--beforeMoveY: %i\n", red.y);
 	//Now move the piece
 	tween = game.add.tween(red).to({x: toPosX, y: toPosY}, 1000, Phaser.Easing.Bounce.Out, true);
 	tween.onComplete.removeAll();
+	red.x = toPosX;
+	red.y = toPosY;
 console.log("--afterMoveX: %i\n", red.x);
 console.log("--afterMoveY: %i\n", red.y);	
 
