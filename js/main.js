@@ -512,10 +512,10 @@ console.log("--toY: %i\n", toPosY);
 	var extraY;
 	extra = toPosX%150;
 console.log("--extraX: %i\n", extra);
-	toPosX -= extraX;
+	toPosX -= extra;
 	extra = toPosY%150;
 console.log("--extraY: %i\n", extra);
-	toPosY -= extraY;
+	toPosY -= extra;
 	
 /*
 	while(red.x>extraX)
