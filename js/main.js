@@ -199,8 +199,6 @@ console.log("--StartX: %i \n", selectedRedStartPos[0]);
 console.log("--StartY: %i \n", selectedRedStartPos[1]);
 console.log("Leaving selectRed\n");
 	}
-	//tween = game.add.tween(red).to({x: 400, y: 400}, 1000, Phaser.Easing.Bounce.Out, true);
-	//tween.onComplete.removeAll();
 }
 //once the player drags the red piece, they drop it (unclick it)
 //			and the game checks if it is a valid move.
@@ -508,14 +506,14 @@ console.log("--toX: %i\n", toPosX);
 console.log("--toY: %i\n", toPosY);
 
 	//first, adjust the coordinates
-	var extraX;
-	var extraY;
-	extra = toPosX%150;
-console.log("--extraX: %i\n", extra);
+	var extra1;
+	var extra2;
+	extra1 = toPosX%100;
 	toPosX -= extra;
-	extra = toPosY%150;
-console.log("--extraY: %i\n", extra);
+	toPosX += 50;
+	extra1 = toPosY%100;
 	toPosY -= extra;
+	toPosY += 50;
 	
 /*
 	while(red.x>extraX)
@@ -553,12 +551,12 @@ console.log("--adjustedYPos: %i\n", toPosY);
 	}
 
 console.log("--beforeMoveX: %i\n", red.x);
-console.log("--beforeMoveX: %i\n", red.y);
+console.log("--beforeMoveY: %i\n", red.y);
 	//Now move the piece
-	tween = game.add.tween(red).to({x: toPosX, y: toPosY});
+	tween = game.add.tween(red).to({x: toPosX, y: toPosY}, 1000, Phaser.Easing.Bounce.Out, true);
 	tween.onComplete.removeAll();
 console.log("--afterMoveX: %i\n", red.x);
-console.log("--afterMoveX: %i\n", red.y);	
+console.log("--afterMoveY: %i\n", red.y);	
 
 	//then check if the space is already occupied
 	if(checkOccupancy2(red.x, red.y))
