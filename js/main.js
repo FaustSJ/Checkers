@@ -207,6 +207,8 @@ console.log("--StartX: %i \n", selectedRedStartPos[0]);
 console.log("--StartY: %i \n", selectedRedStartPos[1]);
 console.log("Leaving selectRed\n");
 	}
+	tween = game.add.tween(red).to({x: 400, y: 400});
+	tween.onComplete.removeAll();
 }
 //once the player drags the red piece, they drop it (unclick it)
 //			and the game checks if it is a valid move.
