@@ -506,12 +506,11 @@ console.log("--toX: %i\n", toPosX);
 console.log("--toY: %i\n", toPosY);
 
 	//first, adjust the coordinates
-	var extra1;
-	var extra2;
-	extra1 = toPosX%100;
+	var extra;
+	extra = toPosX%100;
 	toPosX -= extra;
 	toPosX += 50;
-	extra1 = toPosY%100;
+	extra = toPosY%100;
 	toPosY -= extra;
 	toPosY += 50;
 	
