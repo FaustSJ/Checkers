@@ -199,8 +199,8 @@ console.log("--StartX: %i \n", selectedRedStartPos[0]);
 console.log("--StartY: %i \n", selectedRedStartPos[1]);
 console.log("Leaving selectRed\n");
 	}
-	tween = game.add.tween(red).to({x: 400, y: 400}, 1000, Phaser.Easing.Bounce.Out, true);
-	tween.onComplete.removeAll();
+	//tween = game.add.tween(red).to({x: 400, y: 400}, 1000, Phaser.Easing.Bounce.Out, true);
+	//tween.onComplete.removeAll();
 }
 //once the player drags the red piece, they drop it (unclick it)
 //			and the game checks if it is a valid move.
@@ -511,8 +511,10 @@ console.log("--toY: %i\n", toPosY);
 	var extraX;
 	var extraY;
 	extra = toPosX%150;
+console.log("--extraX: %i\n", extra);
 	toPosX -= extraX;
 	extra = toPosY%150;
+console.log("--extraY: %i\n", extra);
 	toPosY -= extraY;
 	
 /*
