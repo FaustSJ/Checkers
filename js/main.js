@@ -438,7 +438,7 @@ console.log("---a black must jump\n");
 				for(i = 0; i<12; i++)
 				{
 					var red = reds.getChildAt(i);
-					if(!red.isAlive)
+					if(!red.alive)
 						continue;
 					//is there a red piece to NE?
 					if((red.x===black.x+100) && (red.y===black.y-100)) /*NE*/
@@ -511,7 +511,7 @@ console.log("---a black has jumped\n");
 				for( i = 0; i<12; i++)
 				{
 					var red = reds.getChildAt(i);
-					if(!red.isAlive)
+					if(!red.alive)
 						continue;
 					//is there a red piece to SE?
 					if((red.x===black.x+100) && (red.y===black.y+100)) /*SE*/
@@ -603,7 +603,7 @@ console.log("---no blacks can jump, moving a random black\n");
 			for( i=0; i<blackQueensAmount; i++)
 			{
 				var black = blackQueens.getChildAt(i);
-				if(!black.isAlive)
+				if(!black.alive)
 					continue;
 				//if it can move, move it
 				var canMoveNE = checkOccupancy(black.x+100, black.y-100);
@@ -661,7 +661,7 @@ console.log("---a black queen has been moved\n");
 			for( i=0; i<12; i++)
 			{
 				var black = blacks.getChildAt(i);
-				if(!black.isAlive)
+				if(!black.alive)
 					continue;
 				//if it can move, move it
 				var canMoveNE = checkOccupancy(black.x+100, black.y-100);
@@ -730,7 +730,7 @@ console.log("Leaving with null, out of bounds\n");
 	for( i=0; i<12; i++)
 	{
 		var piece = reds.getChildAt(i);
-		if(!piece.isAlive)
+		if(!piece.alive)
 			continue;
 		if((piece.x===x)&&(piece.y===y))
 		{
@@ -741,7 +741,7 @@ console.log("Leaving with red piece\n");
 	for(k=0; k<redQueensAmount; k++)
 	{
 		var piece = redQueens.getChildAt(k);
-		if(!piece.isAlive)
+		if(!piece.alive)
 			continue;
 		if((piece.x===x)&&(piece.y===y))
 		{
@@ -752,7 +752,7 @@ console.log("Leaving with red queen piece\n");
 	for( i=0; i<12; i++)
 	{
 		var piece = blacks.getChildAt(i);
-		if(!piece.isAlive)
+		if(!piece.alive)
 			continue;
 		if((piece.x===x)&&(piece.y===y))
 		{
@@ -763,7 +763,7 @@ console.log("Leaving with black piece\n");
 	for( k=0; k<blackQueensAmount; k++)
 	{
 		var piece = blackQueens.getChildAt(k);
-		if(!piece.isAlive)
+		if(!piece.alive)
 			continue;
 		if((piece.x===x)&&(piece.y===y))
 		{
@@ -782,7 +782,7 @@ console.log("In isRed\n");
 	for(i=0; i<12; i++)
 	{
 		var red2 = reds.getChildAt(i);
-		if(!red2.isAlive)
+		if(!red2.alive)
 			continue;
 		if(red.x===red2.x && red.y===red2.y)
 		{
@@ -801,7 +801,7 @@ console.log("In isBlack\n");
 	for(i=0; i<12; i++)
 	{
 		var black2 = blacks.getChildAt(i);
-		if(!black2.isAlive)
+		if(!black2.alive)
 			continue;
 		if(black.x===black2.x && black.y===black2.y)
 		{
@@ -822,7 +822,7 @@ console.log("In isRedQueen\n");
 		for(i=0; i<redQueensAmount; i++)
 		{
 			var red2 = redQueens.getChildAt(i);
-			if(!red2.isAlive)
+			if(!red2.alive)
 				continue;
 			if(red.x===red2.x && red.y===red2.y)
 			{
@@ -844,7 +844,7 @@ console.log("In isBlackQueen\n");
 		for(i=0; i<blackQueensAmount; i++)
 		{
 			var black2 = blackQueens.getChildAt(i);
-			if(!black2.isAlive)
+			if(!black2.alive)
 				continue;
 			if(black.x===black2.x && black.y===black2.y)
 			{
@@ -868,7 +868,7 @@ console.log("In checkIfTHISRedCanJump\n");
 		for( i = 0; i<12; i++)
 		{
 			var black = blacks.getChildAt(i);
-			if(!black.isAlive)
+			if(!black.alive)
 				continue;
 			//is there a black piece to SE?
 			if((black.x===red.x+100) && (black.y===red.y+100)) /*SE*/
@@ -917,7 +917,7 @@ console.log("Leaving with true, to the NW\n");
 		for( i = 0; i<12; i++)
 		{
 			var black = blacks.getChildAt(i);
-			if(!black.isAlive)
+			if(!black.alive)
 				continue;
 			//is there a black piece to SE?
 			if((black.x===red.x+100) && (black.y===red.y+100)) /*SE*/
@@ -956,7 +956,7 @@ console.log("In checkIfTHISBlackCanJump\n");
 		for( i = 0; i<12; i++)
 		{
 			var red = reds.getChildAt(i);
-			if(!red.isAlive)
+			if(!red.alive)
 				continue;
 			//is there a red piece to SE?
 			if((red.x===black.x+100) && (red.y===black.y+100)) /*SE*/
@@ -1005,7 +1005,7 @@ console.log("Leaving with true, to the NW\n");
 		for( i = 0; i<12; i++)
 		{
 			var red = reds.getChildAt(i);
-			if(!red.isAlive)
+			if(!red.alive)
 				continue;
 			//is there a black piece to NE?
 			if((red.x===black.x+100) && (red.y===black.y-100)) /*NE*/
@@ -1044,7 +1044,7 @@ console.log("In listOfRedsCanJump\n");
 	for( i=0; i<12; i++)
 	{
 		var red = reds.getChildAt(i);
-		if(!red.isAlive)
+		if(!red.alive)
 			continue;
 		if(checkIfTHISRedCanJump(red))
 			redsCanJump.push(reds.getChildIndex(red));
@@ -1052,7 +1052,7 @@ console.log("In listOfRedsCanJump\n");
 	for( k=0; k<redQueensAmount; k++)
 	{
 		var red = redQueens.getChildAt(k);
-		if(!red.isAlive)
+		if(!red.alive)
 			continue;
 		if(checkIfTHISRedCanJump(red))
 			redQueensCanJump.push(redQueens.getChildIndex(red));
@@ -1069,7 +1069,7 @@ console.log("In listOfBlacksCanJumps\n");
 	for( i=0; i<12; i++)
 	{
 		var black = blacks.getChildAt(i);
-		if(!black.isAlive)
+		if(!black.alive)
 			continue;
 		if(checkIfTHISBlackCanJump(black))
 			blacksCanJump.push(blacks.getChildIndex(black));
@@ -1077,7 +1077,7 @@ console.log("In listOfBlacksCanJumps\n");
 	for( k=0; k<blackQueensAmount; k++)
 	{
 		var black = blackQueens.getChildAt(k);
-		if(!black.isAlive)
+		if(!black.alive)
 			continue;
 		if(checkIfTHISBlackCanJump(red))
 			blackQueensCanJump.push(blackQueens.getChildIndex(black));
