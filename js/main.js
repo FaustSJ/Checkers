@@ -533,34 +533,41 @@ console.log("--toY: %i\n", toPosY);
 	}
 	red.body.velocity.y = 0;
 */
-	
+
+console.log("--adjustedXPos: %i\n", toPosX);
+console.log("--adjustedYPos: %i\n", toPosY);
+
 	//and make sure they're still on the board
 	if(toPosX<0 || toPosX>700 || toPosY<0 || toPosY>700)
 	{
-console.log("Leaving with false, out-of-bounds\n");
+		console.log("Leaving with false, out-of-bounds\n");
 		return false;
 	}
 	//and that they actually relocated
 	if(toPosX===fromPosX && toPosY===fromPosY)
 	{
-console.log("Leaving with false, didn't relocate\n");
+		console.log("Leaving with false, didn't relocate\n");
 		return false;
 	}
 	//aaand that they aren't going too far
 	if((Math.abs(fromPosX-toPosX)>=300)&&(Math.abs(fromPosY-toPosY)>=300))
 	{
-console.log("Leaving with false, going too far\n");
+		console.log("Leaving with false, going too far\n");
 		return false;		
 	}
-	
+
+console.log("--beforeMoveX: %i\n", red.x);
+console.log("--beforeMoveX: %i\n", red.y);
 	//Now move the piece
 	tween = game.add.tween(red).to({x: toPosX, y: toPosY});
 	tween.onComplete.removeAll();
-	
+console.log("--afterMoveX: %i\n", red.x);
+console.log("--afterMoveX: %i\n", red.y);	
+
 	//then check if the space is already occupied
 	if(checkOccupancy2(red.body.x, red.body.y))
 	{
-console.log("Leaving with false, space occupied\n");
+		console.log("Leaving with false, space occupied\n");
 		return false;
 	}
 	
@@ -570,14 +577,14 @@ console.log("Leaving with false, space occupied\n");
 		//was it supposed to?
 		if(redsCanJump.indexOf(selectedRedIndex)===-1)
 		{
-console.log("Leaving with false, can't jump that piece\n");
+			console.log("Leaving with false, can't jump that piece\n");
 			return false;
 		}
 		
 		//did jump in a legal direction?
 		if((!isRedQueen(red))&&(red.body.y<fromPosY))
 		{
-console.log("Leaving with false, can't jump in that direction\n");
+			console.log("Leaving with false, can't jump in that direction\n");
 			return false;
 		}
 		
@@ -589,13 +596,13 @@ console.log("Leaving with false, can't jump in that direction\n");
 			var piece = checkOccupancy1(checkX, checkY);
 			if((!isBlack(piece))&&(!isBlackQueen(piece)))
 			{
-console.log("Leaving with false, didn't jump over anything\n");
+				console.log("Leaving with false, didn't jump over anything\n");
 				return false;
 			}
 			piece.kill();
 		}
 		recentlyJumped = true;
-console.log("Leaving with true, it jumped\n");
+		console.log("Leaving with true, it jumped\n");
 		return true;
 	}
 	else //it only moved one space
@@ -605,22 +612,21 @@ console.log("Leaving with true, it jumped\n");
 			//was it supposed to jump?
 			if(redsCanJump.indexOf(selectedRedIndex)!=-1)
 			{
-console.log("Leaving with false, has to jump\n");
+				console.log("Leaving with false, has to jump\n");
 				return false;
 			}
 			
 			//did it move in a legal direction?
 			if((!isRedQueen(red))&&(red.body.y<fromPosY))
 			{
-console.log("Leaving with false, can't move in that direction\n");
+				console.log("Leaving with false, can't move in that direction\n");
 				return false;
 			}
-console.log("Leaving with true, it moved\n");
+			console.log("Leaving with true, it moved\n");
 			return true;
 		}
-		
 	}
-console.log("Leaving with false, (ERROR)\n");
+	console.log("Leaving with false, (ERROR)\n");
 	return false;
 }
 ////////////////////////////////////////////////////////////////////////////////
@@ -1283,7 +1289,7 @@ function update()
 {
 	if(playerTurn && oneIsSelected)
 	{
-		game.input.onDown.add(releaseRed(), this);
+		game.input.onDown.add(releaseRed, this);
 	}
 	if(!playerTurn)
 		moveBlack();
