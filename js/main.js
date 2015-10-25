@@ -224,80 +224,83 @@ console.log("Leaving selectRed\n");
 //			and the game checks if it is a valid move.
 function releaseRed()
 {
-console.log("In releaseRed\n");
-	pickedX = game.input.x;
-	pickedY = game.input.y;
-	var red = reds.getChildAt(selectedRedIndex);
-	
-	//update the lists
-	listOfBlacksCanJump();
-	listOfRedsCanJump();
-	
-console.log("--preAdjXPos: %i\n", pickedX);
-console.log("--perAdjYPos: %i\n", pickedY);
-	//first, adjust the coordinates
-	var extra;
-	extra = pickedX%100;
-	pickedX -= extra;
-	pickedX += 50;
-	extra = pickedY%100;
-	pickedY -= extra;
-	pickedY += 50;
-
-console.log("--adjustedXPos: %i\n", pickedX);
-console.log("--adjustedYPos: %i\n", pickedY);
-
-	//checkIfRedCanMoveHere moves the piece, the checks its location.
-	if(checkIfRedCanMoveHere(red, selectedRedStartPos[0], selectedRedStartPos[1], pickedX, pickedY))
-	{	
-		tween = game.add.tween(red).to({x: pickedX, y: pickedY}, 1000, Phaser.Easing.Linear.None, true);
-		tween.onComplete.removeAll();
-		red.x = pickedX;
-		red.y = pickedY;
-		//did it jump?
-		if(recentlyJumped)
-		{
-			//update the lists
-			listOfBlacksCanJump();
-			listOfRedsCanJump();
-			//does it have more jumps to make?
-			var found = false;
-			for(i = 0; i<redsCanJump.length; i++)
-			{
-				if((redsCanJump[i]===selectedRedIndex)&&(!isRedQueen(red)))
-					found = true;
-			}
-			for(i = 0; i<redQueensCanJump.length; i++)
-			{
-				if((redQueensCanJump[i]===selectedRedIndex)&&(isRedQueen(red)))
-					found = true;
-			}
-			if(!found)
-			{
-				recentlyJumped = false;
-			}
-		}
-		//did it make it to the other side?
-		if((red.y===750) && !isRedQueen(red))
-		{
-			var redQueen = redQueens.create(red.x, red.y, 'RedQueen');
-			redQueen.inputEnabled = true;
-			redQueen.anchor.x = 0.5;
-			redQueen.anchor.y = 0.5;
-			redQueen.events.onInputDown.add(selectRed, this, red);
-			oneIsSelected = false;
-			selectRed(redQueen);
-			red.kill();
-			red = redQueen;
-		}
-		
-	}
-	//If the selected piece has not more jumps it can make, move to next turn. 
-	if(!recentlyJumped)
+	if(oneIsSelected)
 	{
-		oneIsSelected = false;
-		if(red.x!==selectedRedStartPos[0])
-			playerTurn = false;
+	console.log("In releaseRed\n");
+		pickedX = game.input.x;
+		pickedY = game.input.y;
+		var red = reds.getChildAt(selectedRedIndex);
+		
+		//update the lists
+		listOfBlacksCanJump();
+		listOfRedsCanJump();
+		
+	console.log("--preAdjXPos: %i\n", pickedX);
+	console.log("--perAdjYPos: %i\n", pickedY);
+		//first, adjust the coordinates
+		var extra;
+		extra = pickedX%100;
+		pickedX -= extra;
+		pickedX += 50;
+		extra = pickedY%100;
+		pickedY -= extra;
+		pickedY += 50;
+	
+	console.log("--adjustedXPos: %i\n", pickedX);
+	console.log("--adjustedYPos: %i\n", pickedY);
+	
+		//checkIfRedCanMoveHere moves the piece, the checks its location.
+		if(checkIfRedCanMoveHere(red, selectedRedStartPos[0], selectedRedStartPos[1], pickedX, pickedY))
+		{	
+			tween = game.add.tween(red).to({x: pickedX, y: pickedY}, 1000, Phaser.Easing.Linear.None, true);
+			tween.onComplete.removeAll();
+			red.x = pickedX;
+			red.y = pickedY;
+			//did it jump?
+			if(recentlyJumped)
+			{
+				//update the lists
+				listOfBlacksCanJump();
+				listOfRedsCanJump();
+				//does it have more jumps to make?
+				var found = false;
+				for(i = 0; i<redsCanJump.length; i++)
+				{
+					if((redsCanJump[i]===selectedRedIndex)&&(!isRedQueen(red)))
+						found = true;
+				}
+				for(i = 0; i<redQueensCanJump.length; i++)
+				{
+					if((redQueensCanJump[i]===selectedRedIndex)&&(isRedQueen(red)))
+						found = true;
+				}
+				if(!found)
+				{
+					recentlyJumped = false;
+				}
+			}
+			//did it make it to the other side?
+			if((red.y===750) && !isRedQueen(red))
+			{
+				var redQueen = redQueens.create(red.x, red.y, 'RedQueen');
+				redQueen.inputEnabled = true;
+				redQueen.anchor.x = 0.5;
+				redQueen.anchor.y = 0.5;
+				redQueen.events.onInputDown.add(selectRed, this, red);
+				oneIsSelected = false;
+				selectRed(redQueen);
+				red.kill();
+				red = redQueen;
+			}
+			
+		}
+		//If the selected piece has not more jumps it can make, move to next turn. 
+		if(!recentlyJumped)
+		{
+			oneIsSelected = false;
+			if(red.x!==selectedRedStartPos[0])
+				playerTurn = false;
+		}
 	}
 console.log("Leaving releaseRed\n");
 }
@@ -419,7 +422,7 @@ console.log("In moveBlack\n");
 	if((blacksCanJump.length!==0)||(blackQueensCanJump.length!==0))
 	{
 		var pick = Math.random();
-		
+console.log("---a black must jump\n");
 		//randomly grab from queen or regular index list
 		if(pick<0.5 && blacksCanJump.length>0)
 		{
