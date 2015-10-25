@@ -236,7 +236,7 @@ console.log("In releaseRed\n");
 	}
 	else
 	{
-		tween = game.add.tween(red).to({x: selectedRedStartPos[0], y: selectedRedStartPos[1]}, 1000, "Linear", true);
+		tween = game.add.tween(red).to({x: selectedRedStartPos[0], y: selectedRedStartPos[1]}, 1000, Phaser.Easing.Linear.None, true);
 		tween.onComplete.removeAll();
 		red.x = selectedRedStartPos[0];
 		red.y = selectedRedStartPos[1];
@@ -554,7 +554,7 @@ console.log("--adjustedYPos: %i\n", toPosY);
 console.log("--beforeMoveX: %i\n", red.x);
 console.log("--beforeMoveY: %i\n", red.y);
 	//Now move the piece
-	tween = game.add.tween(red).to({x: toPosX, y: toPosY}, 1000, "Linear", true);
+	tween = game.add.tween(red).to({x: toPosX, y: toPosY}, 1000, Phaser.Easing.Linear.None, true);
 	tween.onComplete.removeAll();
 	red.x = toPosX;
 	red.y = toPosY;
@@ -670,7 +670,7 @@ console.log("In moveBlack\n");
 							}
 							black.velocity.y = 0;
 							*/
-							tween = game.add.tween(black).to({x: toX, y: toY}, 1000, "Linear", true);
+							tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
 							tween.onComplete.removeAll();
 							black.x = toX;
 							black.y = toY;
@@ -698,7 +698,7 @@ console.log("In moveBlack\n");
 							}
 							black.velocity.y = 0;
 							*/
-							tween = game.add.tween(black).to({x: toX, y: toY}, 1000, "Linear", true);
+							tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
 							tween.onComplete.removeAll();
 							black.x = toX;
 							black.y = toY;
@@ -746,7 +746,7 @@ console.log("In moveBlack\n");
 							}
 							black.velocity.y = 0;
 							*/
-							tween = game.add.tween(black).to({x: toX, y: toY}, 1000, "Linear", true);
+							tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
 							tween.onComplete.removeAll();
 							black.x = toX;
 							black.y = toY;
@@ -774,7 +774,7 @@ console.log("In moveBlack\n");
 							}
 							black.velocity.y = 0;
 							*/
-							tween = game.add.tween(black).to({x: toX, y: toY}, 1000, "Linear", true);
+							tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
 							tween.onComplete.removeAll();
 							black.x = toX;
 							black.y = toY;
@@ -802,7 +802,7 @@ console.log("In moveBlack\n");
 							}
 							black.velocity.y = 0;
 							*/
-							tween = game.add.tween(black).to({x: toX, y: toY}, 1000, "Linear", true);
+							tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
 							tween.onComplete.removeAll();
 							black.x = toX;
 							black.y = toY;
@@ -830,7 +830,7 @@ console.log("In moveBlack\n");
 							}
 							black.velocity.y = 0;
 							*/
-							tween = game.add.tween(black).to({x: toX, y: toY}, 1000, "Linear", true);
+							tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
 							tween.onComplete.removeAll();
 							black.x = toX;
 							black.y = toY;
@@ -877,7 +877,7 @@ console.log("In moveBlack\n");
 					}
 					black.velocity.y = 0;
 					*/
-					tween = game.add.tween(black).to({x: toX, y: toY}, 1000, "Linear", true);
+					tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
 					tween.onComplete.removeAll();
 					black.x = toX;
 					black.y = toY;
@@ -899,7 +899,7 @@ console.log("In moveBlack\n");
 					}
 					black.velocity.y = 0;
 					*/
-					tween = game.add.tween(black).to({x: toX, y: toY}, 1000, "Linear", true);
+					tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
 					tween.onComplete.removeAll();
 					black.x = toX;
 					black.y = toY;
@@ -921,7 +921,7 @@ console.log("In moveBlack\n");
 					}
 					black.velocity.y = 0;
 					*/
-					tween = game.add.tween(black).to({x: toX, y: toY}, 1000, "Linear", true);
+					tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
 					tween.onComplete.removeAll();
 					black.x = toX;
 					black.y = toY;
@@ -943,7 +943,7 @@ console.log("In moveBlack\n");
 					}
 					black.velocity.y = 0;
 					*/
-					tween = game.add.tween(black).to({x: toX, y: toY}, 1000, "Linear", true);
+					tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
 					tween.onComplete.removeAll();
 					black.x = toX;
 					black.y = toY;
@@ -975,7 +975,7 @@ console.log("In moveBlack\n");
 					}
 					black.velocity.y = 0;
 					*/
-					tween = game.add.tween(black).to({x: toX, y: toY}, 1000, "Linear", true);
+					tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
 					tween.onComplete.removeAll();
 					black.x = toX;
 					black.y = toY;
@@ -997,7 +997,7 @@ console.log("In moveBlack\n");
 					}
 					black.velocity.y = 0;
 					*/
-					tween = game.add.tween(black).to({x: toX, y: toY}, 1000, "Linear", true);
+					tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
 					tween.onComplete.removeAll();
 					black.x = toX;
 					black.y = toY;
