@@ -284,36 +284,35 @@ console.log("-->listOfRedsCanJump");
 console.log("<--releaseRed\n");
 				//does it have more jumps to make?
 				var found = false;
-				 
+console.log("--can it jump?");				 
 				for(a = 0; a<redsCanJump.length; a++)
 				{
-					console.log("-->isRedQueen");
 					if((redsCanJump[a]===selectedRedIndex)&&(!isRedQueen(red)))
 					{
 						found = true;
+console.log("--yes");
 					}
-					console.log("<--\n");
 				}
 				 
 				for(a = 0; a<redQueensCanJump.length; a++)
 				{
-					console.log("-->isRedQueen");
 					if((redQueensCanJump[a]===selectedRedIndex)&&(isRedQueen(red)))
 					{
 						found = true;
+console.log("--yes");
 					}
-					console.log("<--\n");
 				}
 				if(!found)
 				{
 					recentlyJumped = false;
+console.log("--no");
 				}
 			}
 			//did it make it to the other side?
 console.log("-->isRedQueen");
 			if((red.y===750) && !isRedQueen(red))
 			{
-console.log("<--releaseRed\n");
+console.log("--no, make it a queen\n");
 				var redQueen = redQueens.create(red.x, red.y, 'RedQueen');
 				redQueen.inputEnabled = true;
 				redQueen.anchor.x = 0.5;
@@ -500,7 +499,7 @@ console.log("---a black must jump\n");
 					if((red.x===black.x+100) && (red.y===black.y-100)) /*NE*/
 					{
 						//move the black, kill the red
-console.log("-->checkOccupancy");
+console.log("-->checkOccupancy at NE");
 						var checker = checkOccupancy(red.x+100, red.y-100);
 console.log("<--moveBlack\n");
 						if(checker.x===222)
@@ -512,12 +511,12 @@ console.log("<--moveBlack\n");
 							tween.onComplete.removeAll();
 							black.x = toX;
 							black.y = toY;
-console.log("---a black has jumped\n");
+console.log("---a black has jumped to %i , %i \n", toX, toY);
 							//did it make it to the other side?
 console.log("-->isBlackQueen");
 							if((black.y===50) && !isBlackQueen(black))
 							{
-console.log("<--moveBlack\n");
+console.log("--no, make it a queen\n");
 								var blackQueen = blackQueens.create(black.x, black.y, 'RedQueen');
 								blackQueen.anchor.x = 0.5;
 								blackQueen.anchor.y = 0.5;
@@ -533,7 +532,7 @@ console.log("<--moveBlack\n");
 					if((red.x===black.x-100) && (red.y===black.y-100))  /*NW*/ 
 					{
 						//move the black, kill the red
-console.log("-->checkOccupancy");
+console.log("-->checkOccupancy at NW");
 						var checker = checkOccupancy(red.x-100, red.y-100);
 console.log("<--moveBlack\n");
 						if(checker.x===222)
@@ -544,12 +543,12 @@ console.log("<--moveBlack\n");
 							tween.onComplete.removeAll();
 							black.x = toX;
 							black.y = toY;
-console.log("---a black has jumped\n");
+console.log("---a black has jumped to %i , %i \n", toX, toY);
 							//did it make it to the other side?
 console.log("-->isBlackQueen");
 							if((black.y===50) && !isBlackQueen(black))
 							{
-console.log("<--moveBlack\n");
+console.log("--no, make it a queen\n");
 								var blackQueen = blackQueens.create(black.x, black.y, 'RedQueen');
 								blackQueen.anchor.x = 0.5;
 								blackQueen.anchor.y = 0.5;
@@ -587,7 +586,7 @@ console.log("<--moveBlack\n");
 					//is there a red piece to SE?
 					if((red.x===black.x+100) && (red.y===black.y+100)) /*SE*/
 					{
-console.log("-->checkOccupancy");
+console.log("-->checkOccupancy to SE");
 						var checker = checkOccupancy(red.x+100, red.y+100);
 						//move the black, kill the red
 console.log("<--moveBlack\n");
@@ -599,7 +598,7 @@ console.log("<--moveBlack\n");
 							tween.onComplete.removeAll();
 							black.x = toX;
 							black.y = toY;
-console.log("---a black queen has jumped\n");
+console.log("---a black queen has jumped to %i , %i \n", toX, toY);
 							red.visible = false;
 							break;
 						}
@@ -607,7 +606,7 @@ console.log("---a black queen has jumped\n");
 					//is there a red piece to SW?
 					if((red.x===black.x-100) && (red.y===black.y+100)) /*SW*/
 					{
-console.log("-->checkOccupancy");
+console.log("-->checkOccupancy to SW");
 						//move the black, kill the red
 						var checker = checkOccupancy(red.x-100, red.y+100);
 console.log("<--moveBlack\n");
@@ -619,7 +618,7 @@ console.log("<--moveBlack\n");
 							tween.onComplete.removeAll();
 							black.x = toX;
 							black.y = toY;
-console.log("---a black queen has jumped\n");
+console.log("---a black queen has jumped to %i , %i \n", toX, toY);
 							red.visible = false;
 							break;
 						}
@@ -627,7 +626,7 @@ console.log("---a black queen has jumped\n");
 					//is there a red piece to NE?
 					if((red.x===black.x+100) && (red.y===black.y-100)) /*NE*/
 					{
-console.log("-->checkOccupancy");
+console.log("-->checkOccupancy to NE");
 						//move the black, kill the red
 						var checker = checkOccupancy(red.x+100, red.y-100);
 console.log("<--moveBlack\n");
@@ -639,7 +638,7 @@ console.log("<--moveBlack\n");
 							tween.onComplete.removeAll();
 							black.x = toX;
 							black.y = toY;
-console.log("---a black queen has jumped\n");
+console.log("---a black queen has jumped to %i , %i \n", toX, toY);
 							red.visible = false;
 							break;
 						}
@@ -647,7 +646,7 @@ console.log("---a black queen has jumped\n");
 					//is there a red piece to NW?
 					if((red.x===black.x-100) && (red.y===black.y-100))  /*NW*/ 
 					{
-console.log("-->checkOccupancy");
+console.log("-->checkOccupancy at NW");
 						//move the black, kill the red
 						var checker = checkOccupancy(red.x-100, red.y-100);
 						if(checker.x===222)
@@ -659,7 +658,7 @@ console.log("<--moveBlack\n");
 							tween.onComplete.removeAll();
 							black.x = toX;
 							black.y = toY;
-console.log("---a black queen has jumped\n");
+console.log("---a black queen has jumped to %i , %i \n", toX, toY);
 							red.visible = false;
 							break;
 						}
@@ -698,7 +697,7 @@ console.log("---no blacks can jump, moving a random black\n");
 					continue;
 				}
 				//if it can move, move it
-console.log("-->checkOccupancy");
+console.log("-->checkOccupancy at NE");
 				var canMoveNE = checkOccupancy(black.x+100, black.y-100);
 console.log("<--moveBlack");
 				if(canMoveNE.x===222)
@@ -709,10 +708,10 @@ console.log("<--moveBlack");
 					tween.onComplete.removeAll();
 					black.x = toX;
 					black.y = toY;
-console.log("---a black queen had been moved\n");
+console.log("---a black queen had been moved to %i , %i \n", toX, toY);
 					break;
 				}
-console.log("-->checkOccupancy");
+console.log("-->checkOccupancy at NW");
 				var canMoveNW = checkOccupancy(black.x-100, black.y-100);
 console.log("<--moveBlack");
 				if(canMoveNW.x===222)
@@ -723,10 +722,10 @@ console.log("<--moveBlack");
 					tween.onComplete.removeAll();
 					black.x = toX;
 					black.y = toY;
-console.log("---a black queen has been moved\n");
+console.log("---a black queen has been moved to %i , %i \n", toX, toY);
 					break;
 				}
-console.log("-->checkOccupancy");
+console.log("-->checkOccupancy at SE");
 				var canMoveSE = checkOccupancy(black.x+100, black.y+100);
 console.log("<--moveBlack");
 				if(canMoveSE.x===222)
@@ -737,10 +736,10 @@ console.log("<--moveBlack");
 					tween.onComplete.removeAll();
 					black.x = toX;
 					black.y = toY;
-console.log("---a black queen has been moved\n");
+console.log("---a black queen has been moved to %i , %i \n", toX, toY);
 					break;
 				}
-console.log("-->checkOccupancy");
+console.log("-->checkOccupancy at SW");
 				var canMoveSW = checkOccupancy(black.x-100, black.y+100);
 console.log("<--moveBlack");
 				if(canMoveSW.x===222)
@@ -751,7 +750,7 @@ console.log("<--moveBlack");
 					tween.onComplete.removeAll();
 					black.x = toX;
 					black.y = toY;
-console.log("---a black queen has been moved\n");
+console.log("---a black queen has been moved to %i , %i \n", toX, toY);
 					break;
 				}
 			}
@@ -778,12 +777,12 @@ console.log("<--moveBlack");
 					tween.onComplete.removeAll();
 					black.x = toX;
 					black.y = toY;
-console.log("---a black has been moved\n");
+console.log("---a black has been moved to %i , %i \n", toX, toY);
 					//did it make it to the other side?
 console.log("-->isBlackQueen");
 					if((black.y===50) && !isBlackQueen(black))
 					{
-console.log("<--moveBlack");
+console.log("--no, it is now a queen");
 						var blackQueen = blackQueens.create(black.x, black.y, 'RedQueen');
 						blackQueen.anchor.x = 0.5;
 						blackQueen.anchor.y = 0.5;
@@ -803,12 +802,12 @@ console.log("<--moveBlack");
 					tween.onComplete.removeAll();
 					black.x = toX;
 					black.y = toY;
-console.log("---a black has been moved\n");
+console.log("---a black has been moved to %i , %i \n", toX, toY);
 					//did it make it to the other side?
 console.log("-->isBlackQueen");
 					if((black.y===50) && !isBlackQueen(black))
 					{
-console.log("<--moveBlack");
+console.log("--no, made a queen");
 						var blackQueen = blackQueens.create(black.x, black.y, 'RedQueen');
 						blackQueen.anchor.x = 0.5;
 						blackQueen.anchor.y = 0.5;
@@ -850,7 +849,7 @@ console.log("Leaving with dud, out of bounds\n");
 		}
 		if((piece.x===x)&&(piece.y===y))
 		{
-console.log("Leaving with red piece\n");
+console.log("Leaving with red piece found at %i , %i\n", x, y);
 			return piece;
 		}
 	}
@@ -863,7 +862,7 @@ console.log("Leaving with red piece\n");
 		}
 		if((piece.x===x)&&(piece.y===y))
 		{
-console.log("Leaving with red queen piece\n");
+console.log("Leaving with red queen piece found at %i , %i\n", x, y);
 			return piece;
 		}
 	}
@@ -877,7 +876,7 @@ console.log("Leaving with red queen piece\n");
 		}
 		if((piece.x===x)&&(piece.y===y))
 		{
-console.log("Leaving with black piece\n");
+console.log("Leaving with black piece found at %i , %i\n", x, y);
 			return piece;
 		}
 	}
@@ -891,18 +890,16 @@ console.log("Leaving with black piece\n");
 		}
 		if((piece.x===x)&&(piece.y===y))
 		{
-console.log("Leaving with black queen piece\n");
+console.log("Leaving with black queen piece found at %i , %i\n", x, y);
 			return piece;
 		}
 	}
-console.log("Leaving with dud, nothing found\n");
 	return dud;
 }
 //------------------------------------------------------------------------------
 //is the piece red?
 function isRed(red)
 {
-console.log("In isRed\n");
 	 
 	for(f=0; f<12; f++)
 	{
@@ -913,18 +910,15 @@ console.log("In isRed\n");
 		}
 		if(red.x===red2.x && red.y===red2.y)
 		{
-console.log("Leaving with true\n");
 			return true;
 		}
 	}
-console.log("Leaving with false\n");
 	return false;
 }
 //------------------------------------------------------------------------------
 //is the piece black?
 function isBlack(black)
 {
-console.log("In isBlack\n");
 	 
 	for(g=0; g<12; g++)
 	{
@@ -935,18 +929,15 @@ console.log("In isBlack\n");
 		}
 		if(black.x===black2.x && black.y===black2.y)
 		{
-console.log("Leaving with true\n");
 			return true;
 		}
 	}
-console.log("Leaving with false\n");
 	return false;
 }
 //-----------------------------------------------------------------------------
 //is the piece a red queen?
 function isRedQueen(red)
 {
-console.log("In isRedQueen\n");
 	if(redQueensAmount>0)
 	{
 		 
@@ -959,19 +950,16 @@ console.log("In isRedQueen\n");
 			}
 			if(red.x===red2.x && red.y===red2.y)
 			{
-console.log("Leaving with true\n");
 				return true;
 			}
 		}
 	}
-console.log("Leaving with false\n");
 	return false;
 }
 //-----------------------------------------------------------------------------
 //is the piece a black queen?
 function isBlackQueen(black)
 {
-console.log("In isBlackQueen\n");
 	if(blackQueensAmount>0)
 	{
 		 
@@ -984,19 +972,16 @@ console.log("In isBlackQueen\n");
 			}
 			if(black.x===black2.x && black.y===black2.y)
 			{
-console.log("Leaving with true\n");
 				return true;
 			}
 		}
 	}
-console.log("Leaving with false\n");
 	return false;
 }
 //------------------------------------------------------------------------------
 //are there any jumps available for a specific red?
 function checkIfTHISRedCanJump(red)
 {
-console.log("In checkIfTHISRedCanJump\n");
 	var jumpable = false;
 	//is it a queen?
 	if(isRedQueen(red)) 
@@ -1016,7 +1001,7 @@ console.log("In checkIfTHISRedCanJump\n");
 				var checker = checkOccupancy(black.x+100, black.y+100);
 				if(checker.x===222)
 				{
-console.log("Leaving with true, to the SE\n");
+console.log("A red queen can jump to the SE\n");
 					return true;
 				}
 			}
@@ -1027,7 +1012,7 @@ console.log("Leaving with true, to the SE\n");
 				var checker = checkOccupancy(black.x-100, black.y+100);
 				if(checker.x===222)
 				{
-console.log("Leaving with true, to the SW\n");
+console.log("A red queen can jump to the SW\n");
 					return true;
 				}
 			}
@@ -1038,7 +1023,7 @@ console.log("Leaving with true, to the SW\n");
 				var checker = checkOccupancy(black.x+100, black.y-100);
 				if(checker.x===222)
 				{
-console.log("Leaving with true, to the NE\n");
+console.log("A red queen can jump to the NE\n");
 					return true;
 				}
 			}
@@ -1049,7 +1034,7 @@ console.log("Leaving with true, to the NE\n");
 				var checker = checkOccupancy(black.x-100, black.y-100);
 				if(checker.x===222)
 				{
-console.log("Leaving with true, to the NW\n");
+console.log("A red queen can jump to the NW\n");
 					return true;
 				}
 			}
@@ -1072,7 +1057,7 @@ console.log("Leaving with true, to the NW\n");
 				var checker = checkOccupancy(black.x+100, black.y+100);
 				if(checker.x===222)
 				{
-console.log("Leaving with true, to the SE\n");
+console.log("A red can jump to the SE\n");
 					return true;
 				}
 			}
@@ -1083,20 +1068,18 @@ console.log("Leaving with true, to the SE\n");
 				var checker = checkOccupancy(black.x-100, black.y+100);
 				if(checker.x===222)
 				{
-console.log("Leaving with true, to the SW\n");
+console.log("A red can jump to the SW\n");
 					return true;
 				}
 			}
 		}
 	}
-console.log("Leaving with false, can't jump anywhere\n");
 	return false;
 }
 //------------------------------------------------------------------------------
 //are there any jumps available for a specific black?
 function checkIfTHISBlackCanJump(black)
 {
-console.log("In checkIfTHISBlackCanJump\n");
 	var jumpable = false;
 	//is it a queen?
 	if(isBlackQueen(black)) 
@@ -1116,7 +1099,7 @@ console.log("In checkIfTHISBlackCanJump\n");
 				var checker = checkOccupancy(red.x+100, red.y+100);
 				if(checker.x===222)
 				{
-console.log("Leaving with true, to the SE\n");
+console.log("A black queen can jump to the SE\n");
 					return true;
 				}
 			}
@@ -1127,7 +1110,7 @@ console.log("Leaving with true, to the SE\n");
 				var checker = checkOccupancy(red.x-100, red.y+100);
 				if(checker.x===222)
 				{
-console.log("Leaving with true, to the SW\n");
+console.log("A black queen can jump to the SW\n");
 					return true;
 				}
 			}
@@ -1138,7 +1121,7 @@ console.log("Leaving with true, to the SW\n");
 				var checker = checkOccupancy(red.x+100, red.y-100);
 				if(checker.x===222)
 				{
-console.log("Leaving with true, to the NE\n");
+console.log("A black queen can jump to the NE\n");
 					return true;
 				}
 			}
@@ -1149,7 +1132,7 @@ console.log("Leaving with true, to the NE\n");
 				var checker = checkOccupancy(red.x-100, red.y-100);
 				if(checker.x===222)
 				{
-console.log("Leaving with true, to the NW\n");
+console.log("A black queen can jump to the NW\n");
 					return true;
 				}
 			}
@@ -1171,7 +1154,7 @@ console.log("Leaving with true, to the NW\n");
 				var checker = checkOccupancy(red.x+100, red.y-100);
 				if(checker.x===222)
 				{
-console.log("Leaving with true, to the NE\n");
+console.log("A black can jump to the NE\n");
 					return true;
 				}
 			}
@@ -1182,13 +1165,12 @@ console.log("Leaving with true, to the NE\n");
 				var checker = checkOccupancy(red.x-100, red.y-100);
 				if(checker.x===222)
 				{
-console.log("Leaving with true, to the NW\n");
+console.log("A black can jump to the NW\n");
 					return true;
 				}
 			}
 		}
 	}
-console.log("Leaving with false, this black can't jump\n");
 	return false;
 }
 ////////////////////////////////////////////////////////////////////////////////
@@ -1197,7 +1179,6 @@ console.log("Leaving with false, this black can't jump\n");
 //which reds can jump?
 function listOfRedsCanJump()
 {
-console.log("In listOfRedsCanJump\n");
 	redsCanJump = [];
 	redQueensCanJump = [];
 	
@@ -1205,7 +1186,6 @@ console.log("In listOfRedsCanJump\n");
 	
 	for(p = 0; p<12; p++)
 	{
-console.log("p is %i\n", p);
 		red = reds.getChildAt(p);
 		if(!red.visible)
 		{
@@ -1228,13 +1208,12 @@ console.log("p is %i\n", p);
 			redQueensCanJump.push(redQueens.getChildIndex(red));
 		}
 	}
-console.log("Leaving listOfRedsCanJump\n");
 }
 //------------------------------------------------------------------------------
 //which blacks can jump?
 function listOfBlacksCanJump()
 {
-console.log("In listOfBlacksCanJumps\n");
+
 	blacksCanJump = [];
 	blackQueensCanJump = [];
 	for(r=0; r<12; r++)
@@ -1261,7 +1240,7 @@ console.log("In listOfBlacksCanJumps\n");
 			blackQueensCanJump.push(blackQueens.getChildIndex(black));
 		}
 	}
-console.log("Leaving listOfBlacksCanJump\n");
+
 }
 //------------------------------------------------------------------------------
 //move on to the next turn
