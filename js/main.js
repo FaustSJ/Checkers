@@ -317,7 +317,7 @@ console.log("<--releaseRed\n");
 console.log("-->");
 				selectRed(redQueen);
 console.log("<--releaseRed\n");
-				red.kill();
+				red.visible = false;
 				red = redQueen;
 				livingRedQueensAmount += 1;
 				livingRedsAmount -= 1;
@@ -422,7 +422,7 @@ console.log("<--checkIfRedCanMoveHere\n");
 				console.log("Leaving with false, didn't jump over anything\n");
 				return false;
 			}
-			piece.kill();
+			piece.visible = false;
 		}
 		recentlyJumped = true;
 		console.log("Leaving with true, it can jump\n");
@@ -485,7 +485,7 @@ console.log("---a black must jump\n");
 				for(i = 0; i<12; i++)
 				{
 					var red = reds.getChildAt(i);
-					if(!red.alive)
+					if(!red.visible)
 					{
 						continue;
 					}
@@ -513,11 +513,11 @@ console.log("<--moveBlack\n");
 								var blackQueen = blackQueens.create(black.x, black.y, 'RedQueen');
 								blackQueen.anchor.x = 0.5;
 								blackQueen.anchor.y = 0.5;
-								black.kill();
+								black.visible = false;
 								black = blackQueen;
 							}
 							
-							red.kill();
+							red.visible = false;
 							break;
 						}
 					}
@@ -544,11 +544,11 @@ console.log("<--moveBlack\n");
 								var blackQueen = blackQueens.create(black.x, black.y, 'RedQueen');
 								blackQueen.anchor.x = 0.5;
 								blackQueen.anchor.y = 0.5;
-								black.kill();
+								black.visible = false;
 								black = blackQueen;
 							}
 							
-							red.kill();
+							red.visible = false;
 							break;
 						}
 					}
@@ -571,7 +571,7 @@ console.log("<--moveBlack\n");
 				for( i = 0; i<12; i++)
 				{
 					var red = reds.getChildAt(i);
-					if(!red.alive)
+					if(!red.visible)
 					{
 						continue;
 					}
@@ -590,7 +590,7 @@ console.log("<--moveBlack\n");
 							black.x = toX;
 							black.y = toY;
 console.log("---a black queen has jumped\n");
-							red.kill();
+							red.visible = false;
 							break;
 						}
 					}
@@ -609,7 +609,7 @@ console.log("<--moveBlack\n");
 							black.x = toX;
 							black.y = toY;
 console.log("---a black queen has jumped\n");
-							red.kill();
+							red.visible = false;
 							break;
 						}
 					}
@@ -628,7 +628,7 @@ console.log("<--moveBlack\n");
 							black.x = toX;
 							black.y = toY;
 console.log("---a black queen has jumped\n");
-							red.kill();
+							red.visible = false;
 							break;
 						}
 					}
@@ -647,7 +647,7 @@ console.log("<--moveBlack\n");
 							black.x = toX;
 							black.y = toY;
 console.log("---a black queen has jumped\n");
-							red.kill();
+							red.visible = false;
 							break;
 						}
 					}
@@ -680,7 +680,7 @@ console.log("---no blacks can jump, moving a random black\n");
 			for( i=0; i<blackQueensAmount; i++)
 			{
 				var black = blackQueens.getChildAt(i);
-				if(!black.alive)
+				if(!black.visible)
 				{
 					continue;
 				}
@@ -749,7 +749,7 @@ console.log("---a black queen has been moved\n");
 			for( i=0; i<12; i++)
 			{
 				var black = blacks.getChildAt(i);
-				if(!black.alive)
+				if(!black.visible)
 				{
 					continue;
 				}
@@ -774,7 +774,7 @@ console.log("<--\n");
 						var blackQueen = blackQueens.create(black.x, black.y, 'RedQueen');
 						blackQueen.anchor.x = 0.5;
 						blackQueen.anchor.y = 0.5;
-						black.kill();
+						black.visible = false;
 						black = blackQueen;
 					}
 					break;
@@ -799,7 +799,7 @@ console.log("<--\n");
 						var blackQueen = blackQueens.create(black.x, black.y, 'RedQueen');
 						blackQueen.anchor.x = 0.5;
 						blackQueen.anchor.y = 0.5;
-						black.kill();
+						black.visible = false;
 						black = blackQueen;
 					}
 					break;
@@ -831,7 +831,7 @@ console.log("Leaving with null, out of bounds\n");
 	for(i=0; i<12; i++)
 	{
 		var piece = reds.getChildAt(i);
-		if(!piece.alive)
+		if(!piece.visible)
 		{
 			continue;
 		}
@@ -844,7 +844,7 @@ console.log("Leaving with red piece\n");
 	for(k=0; k<redQueensAmount; k++)
 	{
 		var piece = redQueens.getChildAt(k);
-		if(!piece.alive)
+		if(!piece.visible)
 		{
 			continue;
 		}
@@ -858,7 +858,7 @@ console.log("Leaving with red queen piece\n");
 	for(i=0; i<12; i++)
 	{
 		var piece = blacks.getChildAt(i);
-		if(!piece.alive)
+		if(!piece.visible)
 		{
 			continue;
 		}
@@ -872,7 +872,7 @@ console.log("Leaving with black piece\n");
 	for( k=0; k<blackQueensAmount; k++)
 	{
 		var piece = blackQueens.getChildAt(k);
-		if(!piece.alive)
+		if(!piece.visible)
 		{
 			continue;
 		}
@@ -894,7 +894,7 @@ console.log("In isRed\n");
 	for(i=0; i<12; i++)
 	{
 		var red2 = reds.getChildAt(i);
-		if(!red2.alive)
+		if(!red2.visible)
 		{
 			continue;
 		}
@@ -916,7 +916,7 @@ console.log("In isBlack\n");
 	for(i=0; i<12; i++)
 	{
 		var black2 = blacks.getChildAt(i);
-		if(!black2.alive)
+		if(!black2.visible)
 		{
 			continue;
 		}
@@ -940,7 +940,7 @@ console.log("In isRedQueen\n");
 		for(i=0; i<redQueensAmount; i++)
 		{
 			var red2 = redQueens.getChildAt(i);
-			if(!red2.alive)
+			if(!red2.visible)
 			{
 				continue;
 			}
@@ -965,7 +965,7 @@ console.log("In isBlackQueen\n");
 		for(i=0; i<blackQueensAmount; i++)
 		{
 			var black2 = blackQueens.getChildAt(i);
-			if(!black2.alive)
+			if(!black2.visible)
 			{
 				continue;
 			}
@@ -992,7 +992,7 @@ console.log("In checkIfTHISRedCanJump\n");
 		for( i = 0; i<12; i++)
 		{
 			var black = blacks.getChildAt(i);
-			if(!black.alive)
+			if(!black.visible)
 			{
 				continue;
 			}
@@ -1044,7 +1044,7 @@ console.log("Leaving with true, to the NW\n");
 		for( i = 0; i<12; i++)
 		{
 			var black = blacks.getChildAt(i);
-			if(!black.alive)
+			if(!black.visible)
 			{
 				continue;
 			}
@@ -1086,7 +1086,7 @@ console.log("In checkIfTHISBlackCanJump\n");
 		for( i = 0; i<12; i++)
 		{
 			var red = reds.getChildAt(i);
-			if(!red.alive)
+			if(!red.visible)
 			{
 				continue;
 			}
@@ -1137,7 +1137,7 @@ console.log("Leaving with true, to the NW\n");
 		for( i = 0; i<12; i++)
 		{
 			var red = reds.getChildAt(i);
-			if(!red.alive)
+			if(!red.visible)
 			{
 				continue;
 			}
@@ -1175,13 +1175,16 @@ function listOfRedsCanJump()
 console.log("In listOfRedsCanJump\n");
 	redsCanJump = [];
 	redQueensCanJump = [];
-	 
-	for( i=0; i<12; i++)
+	
+	var red;
+	
+	for(i = 0; i<12; i++)
 	{
 console.log("i is %i\n", i);
-		var red = reds.getChildAt(i);
-		if(!red.alive)
+		red = reds.getChildAt(i);
+		if(!red.visible)
 		{
+console.log("...in continue?\n");
 			continue;
 		}
 		if(checkIfTHISRedCanJump(red))
@@ -1192,8 +1195,8 @@ console.log("i is %i\n", i);
 console.log("i is %i\n", i);
 	for( k=0; k<redQueensAmount; k++)
 	{
-		var red = redQueens.getChildAt(k);
-		if(!red.alive)
+		red = redQueens.getChildAt(k);
+		if(!red.visible)
 		{
 			continue;
 		}
@@ -1214,7 +1217,7 @@ console.log("In listOfBlacksCanJumps\n");
 	for( i=0; i<12; i++)
 	{
 		var black = blacks.getChildAt(i);
-		if(!black.alive)
+		if(!black.visible)
 		{
 			continue;
 		}
@@ -1226,7 +1229,7 @@ console.log("In listOfBlacksCanJumps\n");
 	for( k=0; k<blackQueensAmount; k++)
 	{
 		var black = blackQueens.getChildAt(k);
-		if(!black.alive)
+		if(!black.visible)
 		{
 			continue;
 		}
