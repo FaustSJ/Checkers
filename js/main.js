@@ -1206,16 +1206,16 @@ console.log("In listOfRedsCanJump\n");
 	for(i = 0; i<12; i++)
 	{
 console.log("i is %i\n", i);
-		/*red = reds.getChildAt(i);
-		if(!red.visible)
-		{
+		red = reds.getChildAt(i);
+		//if(!red.visible)
+		//{
 console.log("...in continue?\n");
-			continue;
-		}
+		//	continue;
+		//}
 		if(checkIfTHISRedCanJump(red))
 		{
 			redsCanJump.push(reds.getChildIndex(red));
-		}*/
+		}
 	}
 console.log("i is %i\n", i);
 	for( k=0; k<redQueensAmount; k++)
