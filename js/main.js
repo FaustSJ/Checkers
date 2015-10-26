@@ -285,20 +285,20 @@ console.log("<--releaseRed\n");
 				//does it have more jumps to make?
 				var found = false;
 				 
-				for(i = 0; i<redsCanJump.length; i++)
+				for(a = 0; a<redsCanJump.length; a++)
 				{
 					console.log("-->isRedQueen");
-					if((redsCanJump[i]===selectedRedIndex)&&(!isRedQueen(red)))
+					if((redsCanJump[a]===selectedRedIndex)&&(!isRedQueen(red)))
 					{
 						found = true;
 					}
 					console.log("<--\n");
 				}
 				 
-				for(i = 0; i<redQueensCanJump.length; i++)
+				for(a = 0; a<redQueensCanJump.length; a++)
 				{
 					console.log("-->isRedQueen");
-					if((redQueensCanJump[i]===selectedRedIndex)&&(isRedQueen(red)))
+					if((redQueensCanJump[a]===selectedRedIndex)&&(isRedQueen(red)))
 					{
 						found = true;
 					}
@@ -401,9 +401,9 @@ console.log("<--checkIfRedCanMoveHere\n");
 		//was it supposed to?
 		var found = false;
 		 
-		for(i = 0; i<redsCanJump.length; i++)
+		for(b = 0; b<redsCanJump.length; b++)
 		{
-			if(redsCanJump[i]===selectedRedIndex)
+			if(redsCanJump[b]===selectedRedIndex)
 			{
 				found = true;
 			}
@@ -442,9 +442,9 @@ console.log("<--checkIfRedCanMoveHere\n");
 			//was it supposed to jump?
 			var found = false;
 			 
-			for(i = 0; i<redsCanJump.length; i++)
+			for(b = 0; b<redsCanJump.length; b++)
 			{
-				if(redsCanJump[i]===selectedRedIndex)
+				if(redsCanJump[b]===selectedRedIndex)
 				{
 					found = true;
 				}
@@ -489,9 +489,9 @@ console.log("---a black must jump\n");
 			while(recentlyJumped)
 			{
 				 
-				for(i = 0; i<12; i++)
+				for(c = 0; c<12; c++)
 				{
-					var red = reds.getChildAt(i);
+					var red = reds.getChildAt(c);
 					if(!red.visible)
 					{
 						continue;
@@ -577,9 +577,9 @@ console.log("<--moveBlack\n");
 			while(recentlyJumped)
 			{
 				 
-				for( i = 0; i<12; i++)
+				for( c = 0; c<12; c++)
 				{
-					var red = reds.getChildAt(i);
+					var red = reds.getChildAt(c);
 					if(!red.visible)
 					{
 						continue;
@@ -690,9 +690,9 @@ console.log("---no blacks can jump, moving a random black\n");
 		if(either<0.5 && blackQueensAmount!==0)
 		{
 			 
-			for( i=0; i<blackQueensAmount; i++)
+			for( c=0; c<blackQueensAmount; c++)
 			{
-				var black = blackQueens.getChildAt(i);
+				var black = blackQueens.getChildAt(c);
 				if(!black.visible)
 				{
 					continue;
@@ -759,9 +759,9 @@ console.log("---a black queen has been moved\n");
 		else//----------------------------------------------------------------
 		{
 			 
-			for( i=0; i<12; i++)
+			for( c=0; c<12; c++)
 			{
-				var black = blacks.getChildAt(i);
+				var black = blacks.getChildAt(c);
 				if(!black.visible)
 				{
 					continue;
@@ -841,9 +841,9 @@ console.log("Leaving with dud, out of bounds\n");
 		return dud;
 	}
 	 
-	for(i=0; i<12; i++)
+	for(d=0; d<12; d++)
 	{
-		var piece = reds.getChildAt(i);
+		var piece = reds.getChildAt(d);
 		if(!piece.visible)
 		{
 			continue;
@@ -854,9 +854,9 @@ console.log("Leaving with red piece\n");
 			return piece;
 		}
 	}
-	for(k=0; k<redQueensAmount; k++)
+	for(e=0; e<redQueensAmount; e++)
 	{
-		var piece = redQueens.getChildAt(k);
+		var piece = redQueens.getChildAt(e);
 		if(!piece.visible)
 		{
 			continue;
@@ -868,9 +868,9 @@ console.log("Leaving with red queen piece\n");
 		}
 	}
 
-	for(i=0; i<12; i++)
+	for(d=0; d<12; d++)
 	{
-		var piece = blacks.getChildAt(i);
+		var piece = blacks.getChildAt(d);
 		if(!piece.visible)
 		{
 			continue;
@@ -882,9 +882,9 @@ console.log("Leaving with black piece\n");
 		}
 	}
 
-	for( k=0; k<blackQueensAmount; k++)
+	for( e=0; e<blackQueensAmount; e++)
 	{
-		var piece = blackQueens.getChildAt(k);
+		var piece = blackQueens.getChildAt(e);
 		if(!piece.visible)
 		{
 			continue;
@@ -904,9 +904,9 @@ function isRed(red)
 {
 console.log("In isRed\n");
 	 
-	for(i=0; i<12; i++)
+	for(f=0; f<12; f++)
 	{
-		var red2 = reds.getChildAt(i);
+		var red2 = reds.getChildAt(f);
 		if(!red2.visible)
 		{
 			continue;
@@ -926,9 +926,9 @@ function isBlack(black)
 {
 console.log("In isBlack\n");
 	 
-	for(i=0; i<12; i++)
+	for(g=0; g<12; g++)
 	{
-		var black2 = blacks.getChildAt(i);
+		var black2 = blacks.getChildAt(g);
 		if(!black2.visible)
 		{
 			continue;
@@ -950,9 +950,9 @@ console.log("In isRedQueen\n");
 	if(redQueensAmount>0)
 	{
 		 
-		for(i=0; i<redQueensAmount; i++)
+		for(h=0; h<redQueensAmount; h++)
 		{
-			var red2 = redQueens.getChildAt(i);
+			var red2 = redQueens.getChildAt(h);
 			if(!red2.visible)
 			{
 				continue;
@@ -975,9 +975,9 @@ console.log("In isBlackQueen\n");
 	if(blackQueensAmount>0)
 	{
 		 
-		for(i=0; i<blackQueensAmount; i++)
+		for(j=0; j<blackQueensAmount; j++)
 		{
-			var black2 = blackQueens.getChildAt(i);
+			var black2 = blackQueens.getChildAt(j);
 			if(!black2.visible)
 			{
 				continue;
@@ -1002,9 +1002,9 @@ console.log("In checkIfTHISRedCanJump\n");
 	if(isRedQueen(red)) 
 	{
 		 
-		for( i = 0; i<12; i++)
+		for( m = 0; m<12; m++)
 		{
-			var black = blacks.getChildAt(i);
+			var black = blacks.getChildAt(m);
 			if(!black.visible)
 			{
 				continue;
@@ -1058,9 +1058,9 @@ console.log("Leaving with true, to the NW\n");
 	else //if red is not a queen
 	{
 		 
-		for( i = 0; i<12; i++)
+		for( m = 0; m<12; m++)
 		{
-			var black = blacks.getChildAt(i);
+			var black = blacks.getChildAt(m);
 			if(!black.visible)
 			{
 				continue;
@@ -1102,9 +1102,9 @@ console.log("In checkIfTHISBlackCanJump\n");
 	if(isBlackQueen(black)) 
 	{
 		 
-		for( i = 0; i<12; i++)
+		for( n = 0; n<12; n++)
 		{
-			var red = reds.getChildAt(i);
+			var red = reds.getChildAt(n);
 			if(!red.visible)
 			{
 				continue;
@@ -1157,9 +1157,9 @@ console.log("Leaving with true, to the NW\n");
 	}
 	else //if black is not a queen
 	{
-		for( i = 0; i<12; i++)
+		for( n = 0; n<12; n++)
 		{
-			var red = reds.getChildAt(i);
+			var red = reds.getChildAt(n);
 			if(!red.visible)
 			{
 				continue;
@@ -1203,24 +1203,22 @@ console.log("In listOfRedsCanJump\n");
 	
 	var red;
 	
-	for(i = 0; i<12; i++)
+	for(p = 0; p<12; p++)
 	{
-console.log("i is %i\n", i);
-		red = reds.getChildAt(i);
-		//if(!red.visible)
-		//{
-console.log("...in continue?\n");
-		//	continue;
-		//}
+console.log("p is %i\n", p);
+		red = reds.getChildAt(p);
+		if(!red.visible)
+		{
+			continue;
+		}
 		if(checkIfTHISRedCanJump(red))
 		{
 			redsCanJump.push(reds.getChildIndex(red));
 		}
 	}
-console.log("i is %i\n", i);
-	for( k=0; k<redQueensAmount; k++)
+	for( q=0; q<redQueensAmount; q++)
 	{
-		red = redQueens.getChildAt(k);
+		red = redQueens.getChildAt(q);
 		if(!red.visible)
 		{
 			continue;
@@ -1239,9 +1237,9 @@ function listOfBlacksCanJump()
 console.log("In listOfBlacksCanJumps\n");
 	blacksCanJump = [];
 	blackQueensCanJump = [];
-	for(i=0; i<12; i++)
+	for(r=0; r<12; r++)
 	{
-		var black = blacks.getChildAt(i);
+		var black = blacks.getChildAt(r);
 		if(!black.visible)
 		{
 			continue;
@@ -1251,9 +1249,9 @@ console.log("In listOfBlacksCanJumps\n");
 			blacksCanJump.push(blacks.getChildIndex(black));
 		}
 	}
-	for( k=0; k<blackQueensAmount; k++)
+	for( s=0; s<blackQueensAmount; s++)
 	{
-		var black = blackQueens.getChildAt(k);
+		var black = blackQueens.getChildAt(s);
 		if(!black.visible)
 		{
 			continue;
