@@ -20,10 +20,10 @@ var redCanJump = false;
 var blackCanJump = false;
 var mustJump = false;
 var recentlyJumped = false;
-var redsCanJump = {};
-var blacksCanJump = {};
-var redQueensCanJump = {};
-var blackQueensCanJump = {};
+var redsCanJump = [];
+var blacksCanJump = [];
+var redQueensCanJump = [];
+var blackQueensCanJump = [];
 var tween;
 var oneIsSelected = false;
 var pickedX;
@@ -254,7 +254,7 @@ function releaseRed()
 		//checkIfRedCanMoveHere moves the piece, the checks its location.
 		if(checkIfRedCanMoveHere(red, selectedRedStartPos[0], selectedRedStartPos[1], pickedX, pickedY))
 		{	
-			tween = game.add.tween(red).to({x: pickedX, y: pickedY}, 1000, Phaser.Easing.Linear.None, true);
+			tween = game.add.tween(red).to({x: pickedX, y: pickedY}, 500, Phaser.Easing.Linear.None, true);
 			tween.onComplete.removeAll();
 			red.x = pickedX;
 			red.y = pickedY;
@@ -449,7 +449,7 @@ console.log("---a black must jump\n");
 							var toX = black.x+200;
 							var toY = black.y-200;
 							
-							tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
+							tween = game.add.tween(black).to({x: toX, y: toY}, 500, Phaser.Easing.Linear.None, true);
 							tween.onComplete.removeAll();
 							black.x = toX;
 							black.y = toY;
@@ -476,7 +476,7 @@ console.log("---a black has jumped\n");
 						{
 							var toX = black.x-200;
 							var toY = black.y-200;
-							tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
+							tween = game.add.tween(black).to({x: toX, y: toY}, 500, Phaser.Easing.Linear.None, true);
 							tween.onComplete.removeAll();
 							black.x = toX;
 							black.y = toY;
@@ -521,7 +521,7 @@ console.log("---a black has jumped\n");
 						{
 							var toX = black.x+200;
 							var toY = black.y+200;
-							tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
+							tween = game.add.tween(black).to({x: toX, y: toY}, 500, Phaser.Easing.Linear.None, true);
 							tween.onComplete.removeAll();
 							black.x = toX;
 							black.y = toY;
@@ -538,7 +538,7 @@ console.log("---a black queen has jumped\n");
 						{
 							var toX = black.x-200;
 							var toY = black.y+200;
-							tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
+							tween = game.add.tween(black).to({x: toX, y: toY}, 500, Phaser.Easing.Linear.None, true);
 							tween.onComplete.removeAll();
 							black.x = toX;
 							black.y = toY;
@@ -555,7 +555,7 @@ console.log("---a black queen has jumped\n");
 						{
 							var toX = black.x+200;
 							var toY = black.y-200;
-							tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
+							tween = game.add.tween(black).to({x: toX, y: toY}, 500, Phaser.Easing.Linear.None, true);
 							tween.onComplete.removeAll();
 							black.x = toX;
 							black.y = toY;
@@ -572,7 +572,7 @@ console.log("---a black queen has jumped\n");
 						{
 							var toX = black.x-200;
 							var toY = black.y-200;
-							tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
+							tween = game.add.tween(black).to({x: toX, y: toY}, 500, Phaser.Easing.Linear.None, true);
 							tween.onComplete.removeAll();
 							black.x = toX;
 							black.y = toY;
@@ -611,7 +611,7 @@ console.log("---no blacks can jump, moving a random black\n");
 				{
 					var toX = black.x+100;
 					var toY = black.y-100;
-					tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
+					tween = game.add.tween(black).to({x: toX, y: toY}, 500, Phaser.Easing.Linear.None, true);
 					tween.onComplete.removeAll();
 					black.x = toX;
 					black.y = toY;
@@ -623,7 +623,7 @@ console.log("---a black queen had been moved\n");
 				{
 					var toX = black.x-100;
 					var toY = black.y-100;
-					tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
+					tween = game.add.tween(black).to({x: toX, y: toY}, 500, Phaser.Easing.Linear.None, true);
 					tween.onComplete.removeAll();
 					black.x = toX;
 					black.y = toY;
@@ -635,7 +635,7 @@ console.log("---a black queen has been moved\n");
 				{
 					var toX = black.x+100;
 					var toY = black.y+100;
-					tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
+					tween = game.add.tween(black).to({x: toX, y: toY}, 500, Phaser.Easing.Linear.None, true);
 					tween.onComplete.removeAll();
 					black.x = toX;
 					black.y = toY;
@@ -647,7 +647,7 @@ console.log("---a black queen has been moved\n");
 				{
 					var toX = black.x-100;
 					var toY = black.y+100;
-					tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
+					tween = game.add.tween(black).to({x: toX, y: toY}, 500, Phaser.Easing.Linear.None, true);
 					tween.onComplete.removeAll();
 					black.x = toX;
 					black.y = toY;
@@ -669,7 +669,7 @@ console.log("---a black queen has been moved\n");
 				{
 					var toX = black.x+100;
 					var toY = black.y-100;
-					tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
+					tween = game.add.tween(black).to({x: toX, y: toY}, 500, Phaser.Easing.Linear.None, true);
 					tween.onComplete.removeAll();
 					black.x = toX;
 					black.y = toY;
@@ -690,7 +690,7 @@ console.log("---a black has been moved\n");
 				{
 					var toX = black.x-100;
 					var toY = black.y-100;
-					tween = game.add.tween(black).to({x: toX, y: toY}, 1000, Phaser.Easing.Linear.None, true);
+					tween = game.add.tween(black).to({x: toX, y: toY}, 500, Phaser.Easing.Linear.None, true);
 					tween.onComplete.removeAll();
 					black.x = toX;
 					black.y = toY;
@@ -1039,8 +1039,8 @@ console.log("Leaving with false, this black can't jump\n");
 function listOfRedsCanJump()
 {
 console.log("In listOfRedsCanJump\n");
-	redsCanJump = {};
-	redQueensCanJump = {};
+	redsCanJump = [];
+	redQueensCanJump = [];
 	for( i=0; i<12; i++)
 	{
 		var red = reds.getChildAt(i);
@@ -1064,8 +1064,8 @@ console.log("Leaving listOfRedsCanJump\n");
 function listOfBlacksCanJump()
 {
 console.log("In listOfBlacksCanJumps\n");
-	blacksCanJump = {};
-	blackQueensCanJump = {};
+	blacksCanJump = [];
+	blackQueensCanJump = [];
 	for( i=0; i<12; i++)
 	{
 		var black = blacks.getChildAt(i);
