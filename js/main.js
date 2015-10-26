@@ -461,7 +461,7 @@ console.log("<--checkIfRedCanMoveHere\n");
 			return true;
 		}
 	}
-	console.log("Leaving with false, (ERROR)\n");
+	console.log("Leaving with false, can't move like a chess knight.\n");
 	return false;
 }
 ////////////////////////////////////////////////////////////////////////////////
@@ -691,18 +691,25 @@ console.log("---no blacks can jump, moving a random black\n");
 		
 		if(either<0.5 && blackQueensAmount!==0)
 		{
-			 
-			for( c=0; c<blackQueensAmount; c++)
+			var moved = false;
+			while(!moved)
 			{
+				var black = dud;
+				while(black.visible===false)
+				{
+					var numPick = game.rnd.integerInRange(0, blackQueensAmount);
+					black = blacks.getChildAt(numPick);
+				}
+				
 				var black = blackQueens.getChildAt(c);
 				if(!black.visible)
 				{
 					continue;
 				}
 				//if it can move, move it
-console.log("-->checkOccupancy at NE");
+	console.log("-->checkOccupancy at NE");
 				var canMoveNE = checkOccupancy(black.x+100, black.y-100);
-console.log("<--moveBlack");
+	console.log("<--moveBlack");
 				if(canMoveNE.x===222)
 				{
 					var toX = black.x+100;
@@ -711,12 +718,12 @@ console.log("<--moveBlack");
 					tween.onComplete.removeAll();
 					black.x = toX;
 					black.y = toY;
-console.log("---a black queen had been moved to %i , %i \n", toX, toY);
+	console.log("---a black queen had been moved to %i , %i \n", toX, toY);
 					break;
 				}
-console.log("-->checkOccupancy at NW");
+	console.log("-->checkOccupancy at NW");
 				var canMoveNW = checkOccupancy(black.x-100, black.y-100);
-console.log("<--moveBlack");
+	console.log("<--moveBlack");
 				if(canMoveNW.x===222)
 				{
 					var toX = black.x-100;
@@ -725,12 +732,12 @@ console.log("<--moveBlack");
 					tween.onComplete.removeAll();
 					black.x = toX;
 					black.y = toY;
-console.log("---a black queen has been moved to %i , %i \n", toX, toY);
+	console.log("---a black queen has been moved to %i , %i \n", toX, toY);
 					break;
 				}
-console.log("-->checkOccupancy at SE");
+	console.log("-->checkOccupancy at SE");
 				var canMoveSE = checkOccupancy(black.x+100, black.y+100);
-console.log("<--moveBlack");
+	console.log("<--moveBlack");
 				if(canMoveSE.x===222)
 				{
 					var toX = black.x+100;
@@ -739,12 +746,12 @@ console.log("<--moveBlack");
 					tween.onComplete.removeAll();
 					black.x = toX;
 					black.y = toY;
-console.log("---a black queen has been moved to %i , %i \n", toX, toY);
+	console.log("---a black queen has been moved to %i , %i \n", toX, toY);
 					break;
 				}
-console.log("-->checkOccupancy at SW");
+	console.log("-->checkOccupancy at SW");
 				var canMoveSW = checkOccupancy(black.x-100, black.y+100);
-console.log("<--moveBlack");
+	console.log("<--moveBlack");
 				if(canMoveSW.x===222)
 				{
 					var toX = black.x-100;
@@ -753,25 +760,27 @@ console.log("<--moveBlack");
 					tween.onComplete.removeAll();
 					black.x = toX;
 					black.y = toY;
-console.log("---a black queen has been moved to %i , %i \n", toX, toY);
+	console.log("---a black queen has been moved to %i , %i \n", toX, toY);
 					break;
 				}
 			}
 		}
 		else//----------------------------------------------------------------
 		{
-			 
-			for( c=0; c<12; c++)
+			var moved =false;
+			while(!moved)
 			{
-				var black = blacks.getChildAt(c);
-				if(!black.visible)
+				var black = dud;
+				while(black.visible===false)
 				{
-					continue;
+					var numPick = game.rnd.integerInRange(0, 11);
+					black = blacks.getChildAt(numPick);
 				}
+	
 				//if it can move, move it
-console.log("-->checkOccupancy");
+	console.log("-->checkOccupancy");
 				var canMoveNE = checkOccupancy(black.x+100, black.y-100);
-console.log("<--moveBlack");
+	console.log("<--moveBlack");
 				if(canMoveNE.x===222)
 				{
 					var toX = black.x+100;
@@ -780,12 +789,12 @@ console.log("<--moveBlack");
 					tween.onComplete.removeAll();
 					black.x = toX;
 					black.y = toY;
-console.log("---a black has been moved to %i , %i \n", toX, toY);
+	console.log("---a black has been moved to %i , %i \n", toX, toY);
 					//did it make it to the other side?
-console.log("-->isBlackQueen");
+	console.log("-->isBlackQueen");
 					if((black.y===50) && !isBlackQueen(black))
 					{
-console.log("--no, it is now a queen");
+	console.log("--no, it is now a queen");
 						var blackQueen = blackQueens.create(black.x, black.y, 'RedQueen');
 						blackQueen.anchor.x = 0.5;
 						blackQueen.anchor.y = 0.5;
@@ -794,9 +803,9 @@ console.log("--no, it is now a queen");
 					}
 					break;
 				}
-console.log("-->checkOccupancy");
+	console.log("-->checkOccupancy");
 				var canMoveNW = checkOccupancy(black.x-100, black.y-100);
-console.log("<--moveBlack");
+	console.log("<--moveBlack");
 				if(canMoveNW.x===222)
 				{
 					var toX = black.x-100;
@@ -805,12 +814,12 @@ console.log("<--moveBlack");
 					tween.onComplete.removeAll();
 					black.x = toX;
 					black.y = toY;
-console.log("---a black has been moved to %i , %i \n", toX, toY);
+	console.log("---a black has been moved to %i , %i \n", toX, toY);
 					//did it make it to the other side?
-console.log("-->isBlackQueen");
+	console.log("-->isBlackQueen");
 					if((black.y===50) && !isBlackQueen(black))
 					{
-console.log("--no, made a queen");
+	console.log("--no, made a queen");
 						var blackQueen = blackQueens.create(black.x, black.y, 'RedQueen');
 						blackQueen.anchor.x = 0.5;
 						blackQueen.anchor.y = 0.5;
