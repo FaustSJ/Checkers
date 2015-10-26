@@ -475,7 +475,7 @@ console.log("---a black must jump\n");
 					{
 						//move the black, kill the red
 console.log("-->");
-						if(checkOccupancy(red.x+100, red.y-100)===null)
+						if(!checkOccupancy(red.x+100, red.y-100))
 						{
 console.log("<--moveBlack\n");
 							var toX = black.x+200;
@@ -507,7 +507,7 @@ console.log("<--moveBlack\n");
 					{
 						//move the black, kill the red
 console.log("-->");
-						if(checkOccupancy(red.x-100, red.y-100)===null)
+						if(!checkOccupancy(red.x-100, red.y-100))
 						{
 console.log("<--moveBlack\n");
 							var toX = black.x-200;
@@ -558,7 +558,7 @@ console.log("<--moveBlack\n");
 					{
 console.log("-->");
 						//move the black, kill the red
-						if(checkOccupancy(red.x+100, red.y+100)===null)
+						if(!checkOccupancy(red.x+100, red.y+100))
 						{
 console.log("<--moveBlack\n");
 							var toX = black.x+200;
@@ -577,7 +577,7 @@ console.log("---a black queen has jumped\n");
 					{
 console.log("-->");
 						//move the black, kill the red
-						if(checkOccupancy(red.x-100, red.y+100)===null)
+						if(!checkOccupancy(red.x-100, red.y+100))
 						{
 console.log("<--moveBlack\n");
 							var toX = black.x-200;
@@ -596,7 +596,7 @@ console.log("---a black queen has jumped\n");
 					{
 console.log("-->");
 						//move the black, kill the red
-						if(checkOccupancy(red.x+100, red.y-100)===null)
+						if(!checkOccupancy(red.x+100, red.y-100))
 						{
 console.log("<--moveBlack\n");
 							var toX = black.x+200;
@@ -615,7 +615,7 @@ console.log("---a black queen has jumped\n");
 					{
 console.log("-->");
 						//move the black, kill the red
-						if(!checkOccupancy(red.x-100, red.y-100)===null)
+						if(!checkOccupancy(red.x-100, red.y-100))
 						{
 console.log("<--moveBlack\n");
 							var toX = black.x-200;
@@ -663,7 +663,7 @@ console.log("---no blacks can jump, moving a random black\n");
 console.log("-->");
 				var canMoveNE = checkOccupancy(black.x+100, black.y-100);
 console.log("<--\n");
-				if(canMoveNE===null)
+				if(!canMoveNE)
 				{
 					var toX = black.x+100;
 					var toY = black.y-100;
@@ -677,7 +677,7 @@ console.log("---a black queen had been moved\n");
 console.log("-->");
 				var canMoveNW = checkOccupancy(black.x-100, black.y-100);
 console.log("<--\n");
-				if(canMoveNW===null)
+				if(!canMoveNW)
 				{
 					var toX = black.x-100;
 					var toY = black.y-100;
@@ -691,7 +691,7 @@ console.log("---a black queen has been moved\n");
 console.log("-->");
 				var canMoveSE = checkOccupancy(black.x+100, black.y+100);
 console.log("<--\n");
-				if(canMoveSE===null)
+				if(!canMoveSE)
 				{
 					var toX = black.x+100;
 					var toY = black.y+100;
@@ -705,7 +705,7 @@ console.log("---a black queen has been moved\n");
 console.log("-->");
 				var canMoveSW = checkOccupancy(black.x-100, black.y+100);
 console.log("<--\n");
-				if(canMoveSW===null)
+				if(!canMoveSW)
 				{
 					var toX = black.x-100;
 					var toY = black.y+100;
@@ -729,7 +729,7 @@ console.log("---a black queen has been moved\n");
 console.log("-->");
 				var canMoveNE = checkOccupancy(black.x+100, black.y-100);
 console.log("<--\n");
-				if(canMoveNE===null)
+				if(!canMoveNE)
 				{
 					var toX = black.x+100;
 					var toY = black.y-100;
@@ -754,7 +754,7 @@ console.log("<--\n");
 console.log("-->");
 				var canMoveNW = checkOccupancy(black.x-100, black.y-100);
 console.log("<--\n");
-				if(canMoveNW===null)
+				if(!canMoveNW)
 				{
 					var toX = black.x-100;
 					var toY = black.y-100;
@@ -944,7 +944,7 @@ console.log("In checkIfTHISRedCanJump\n");
 			if((black.x===red.x+100) && (black.y===red.y+100)) /*SE*/
 			{
 				//is is jumpable?
-				if(checkOccupancy(black.x+100, black.y+100)===null)
+				if(!checkOccupancy(black.x+100, black.y+100))
 				{
 console.log("Leaving with true, to the SE\n");
 					return true;
@@ -954,7 +954,7 @@ console.log("Leaving with true, to the SE\n");
 			if((black.x===red.x-100) && (black.y===red.y+100)) /*SW*/
 			{
 				//is is jumpable?
-				if(checkOccupancy(black.x-100, black.y+100)===null)
+				if(!checkOccupancy(black.x-100, black.y+100))
 				{
 console.log("Leaving with true, to the SW\n");
 					return true;
@@ -964,7 +964,7 @@ console.log("Leaving with true, to the SW\n");
 			if((black.x===red.x+100) && (black.y===red.y-100)) /*NE*/
 			{
 				//is is jumpable?
-				if(checkOccupancy(black.x+100, black.y-100)===null)
+				if(!checkOccupancy(black.x+100, black.y-100))
 				{
 console.log("Leaving with true, to the NE\n");
 					return true;
@@ -974,7 +974,7 @@ console.log("Leaving with true, to the NE\n");
 			if((black.x===red.x-100) && (black.y===red.y-100))  /*NW*/ 
 			{
 				//is is jumpable?
-				if(checkOccupancy(black.x-100, black.y-100)===null)
+				if(!checkOccupancy(black.x-100, black.y-100))
 				{
 console.log("Leaving with true, to the NW\n");
 					return true;
@@ -993,7 +993,7 @@ console.log("Leaving with true, to the NW\n");
 			if((black.x===red.x+100) && (black.y===red.y+100)) /*SE*/
 			{
 				//is is jumpable?
-				if(checkOccupancy(black.x+100, black.y+100)===null)
+				if(!checkOccupancy(black.x+100, black.y+100))
 				{
 console.log("Leaving with true, to the SE\n");
 					return true;
@@ -1003,7 +1003,7 @@ console.log("Leaving with true, to the SE\n");
 			if((black.x===red.x-100) && (black.y===red.y+100)) /*SW*/
 			{
 				//is is jumpable?
-				if(checkOccupancy(black.x-100, black.y+100)===null)
+				if(!checkOccupancy(black.x-100, black.y+100))
 				{
 console.log("Leaving with true, to the SW\n");
 					return true;
@@ -1032,7 +1032,7 @@ console.log("In checkIfTHISBlackCanJump\n");
 			if((red.x===black.x+100) && (red.y===black.y+100)) /*SE*/
 			{
 				//is is jumpable?
-				if(checkOccupancy(red.x+100, red.y+100)===null)
+				if(!checkOccupancy(red.x+100, red.y+100))
 				{
 console.log("Leaving with true, to the SE\n");
 					return true;
@@ -1042,7 +1042,7 @@ console.log("Leaving with true, to the SE\n");
 			if((red.x===black.x-100) && (red.y===black.y+100)) /*SW*/
 			{
 				//is is jumpable?
-				if(checkOccupancy(red.x-100, red.y+100)===null)
+				if(!checkOccupancy(red.x-100, red.y+100))
 				{
 console.log("Leaving with true, to the SW\n");
 					return true;
@@ -1052,7 +1052,7 @@ console.log("Leaving with true, to the SW\n");
 			if((red.x===black.x+100) && (red.y===black.y-100)) /*NE*/
 			{
 				//is is jumpable?
-				if(checkOccupancy(red.x+100, red.y-100)===null)
+				if(!checkOccupancy(red.x+100, red.y-100))
 				{
 console.log("Leaving with true, to the NE\n");
 					return true;
@@ -1062,7 +1062,7 @@ console.log("Leaving with true, to the NE\n");
 			if((red.x===black.x-100) && (red.y===black.y-100))  /*NW*/ 
 			{
 				//is is jumpable?
-				if(checkOccupancy(red.x-100, red.y-100)===null)
+				if(!checkOccupancy(red.x-100, red.y-100))
 				{
 console.log("Leaving with true, to the NW\n");
 					return true;
@@ -1077,21 +1077,21 @@ console.log("Leaving with true, to the NW\n");
 			var red = reds.getChildAt(i);
 			if(!red.alive)
 				continue;
-			//is there a black piece to NE?
+			//is there a red piece to NE?
 			if((red.x===black.x+100) && (red.y===black.y-100)) /*NE*/
 			{
 				//is is jumpable?
-				if(checkOccupancy(red.x+100, red.y-100)===null)
+				if(!checkOccupancy(red.x+100, red.y-100))
 				{
 console.log("Leaving with true, to the NE\n");
 					return true;
 				}
 			}
-			//is there a black piece to NW?
+			//is there a red piece to NW?
 			if((red.x===black.x-100) && (red.y===black.y-100))  /*NW*/ 
 			{
 				//is is jumpable?
-				if(checkOccupancy(red.x-100, red.y-100)===null)
+				if(!checkOccupancy(red.x-100, red.y-100))
 				{
 console.log("Leaving with true, to the NW\n");
 					return true;
@@ -1118,7 +1118,9 @@ console.log("In listOfRedsCanJump\n");
 			continue;
 		if(checkIfTHISRedCanJump(red))
 			redsCanJump.push(reds.getChildIndex(red));
+console.log("i is %i\n", i);
 	}
+console.log("i is %i\n", i);
 	for( k=0; k<redQueensAmount; k++)
 	{
 		var red = redQueens.getChildAt(k);
