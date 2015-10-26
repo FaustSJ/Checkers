@@ -234,10 +234,11 @@ console.log("Leaving selectRed\n");
 //			and the game checks if it is a valid move.
 function releaseRed()
 {
+console.log("In releaseRed\n");
 	if(oneIsSelected)
 	{
 		//if a jump is possible, can the selected one jump?
-		for(a = 0; a<redsCanJump.length; a++)
+		/*for(a = 0; a<redsCanJump.length; a++)
 		{
 			if((redsCanJump[a]===selectedRedIndex)&&(!isRedQueen(red)))
 			{
@@ -256,10 +257,10 @@ function releaseRed()
 console.log("Leaving releaseRed, a jump must be made!\n");
 			oneIsSelected = false;
 			return;
-		}
+		}*/
 		
 		delayBlack = game.time.now;
-	console.log("In releaseRed\n");
+
 		pickedX = game.input.x;
 		pickedY = game.input.y;
 		var red = reds.getChildAt(selectedRedIndex);
@@ -345,7 +346,6 @@ console.log("<--releaseRed\n");
 				livingRedQueensAmount += 1;
 				livingRedsAmount -= 1;
 			}
-			
 		}
 		//If the selected piece has not more jumps it can make, move to next turn. 
 		if(!recentlyJumped)
