@@ -238,7 +238,9 @@ console.log("In releaseRed\n");
 	if(oneIsSelected)
 	{
 		//if a jump is possible, can the selected one jump?
-		/*for(a = 0; a<redsCanJump.length; a++)
+		
+		var found = false;
+		for(a = 0; a<redsCanJump.length; a++)
 		{
 			if((redsCanJump[a]===selectedRedIndex)&&(!isRedQueen(red)))
 			{
@@ -257,7 +259,7 @@ console.log("In releaseRed\n");
 console.log("Leaving releaseRed, a jump must be made!\n");
 			oneIsSelected = false;
 			return;
-		}*/
+		}
 		
 		delayBlack = game.time.now;
 
@@ -303,7 +305,7 @@ console.log("-->checkIfRedCanMoveHere");
 console.log("-->Updating listOfRedsCanJump");
 				listOfRedsCanJump();
 				//does it have more jumps to make?
-				var found = false;
+				found = false;
 console.log("--can it jump?");				 
 				for(a = 0; a<redsCanJump.length; a++)
 				{
@@ -347,7 +349,7 @@ console.log("<--releaseRed\n");
 				livingRedsAmount -= 1;
 			}
 		}
-		//If the selected piece has not more jumps it can make, move to next turn. 
+		//If the selected piece has no more jumps it can make, move to next turn. 
 		if(!recentlyJumped)
 		{
 			oneIsSelected = false;
@@ -469,6 +471,7 @@ console.log("<--checkIfRedCanMoveHere\n");
 			}
 			
 			console.log("Leaving with true, it can move\n");
+			recentlyJumped = false;
 			return true;
 		}
 	}
