@@ -30,6 +30,7 @@ var pickedX;
 var pickedY;
 var delayBlack;
 var dud;//substitutes null check
+var oob;//out-of-bounds var
 
 var redQueensAmount = 0;
 var blackQueensAmount = 0;
@@ -45,6 +46,8 @@ console.log("Creating everything.\n");
 
 	dud = game.add.sprite(222,222,'BlackQueen');
 	dud.visible = false;
+	oob = game.add.sprite(666,666,'RedQueen');
+	oob.visible = false;
 //the game pieces
 	//seting up the red pieces
 	reds = game.add.group();
@@ -836,8 +839,8 @@ function checkOccupancy(x, y) //looks for singles
 console.log("In checkOccupancy\n");
 	if(x<0 || x>750 || y<0 || y>750)
 	{
-console.log("Leaving with dud, out of bounds\n");
-		return dud;
+console.log("Leaving with oob, out of bounds\n");
+		return oob;
 	}
 	 
 	for(d=0; d<12; d++)
