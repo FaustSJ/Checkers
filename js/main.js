@@ -932,6 +932,8 @@ function isRedQueen(red)
 {
 	if(redQueensAmount>0)
 	{
+console.log("in isRedQueen");
+console.log("redx and redy are %i , %i", red.x, red.y);
 		for(h=0; h<redQueensAmount; h++)
 		{
 			var red2 = redQueens.getChildAt(h);
@@ -939,6 +941,7 @@ function isRedQueen(red)
 			{
 				continue;
 			}
+console.log("The queen's coords are %i , %i", red2.x, red2.y);
 			if(red.x===red2.x && red.y===red2.y)
 			{
 				return true;
