@@ -343,13 +343,13 @@ console.log("--make it a queen\n");
 				redQueen.anchor.y = 0.5;
 				redQueen.events.onInputDown.add(selectRed, this, red);
 				oneIsSelected = false;
-console.log("-->selectRed");
-				selectRed(redQueen);
-console.log("<--releaseRed\n");
 				red.visible = false;
 				red = redQueen;
 				livingRedQueensAmount += 1;
 				livingRedsAmount -= 1;
+console.log("-->selectRed");
+				selectRed(redQueen);
+console.log("<--releaseRed\n");
 			}
 		}
 		//If the selected piece has no more jumps it can make, move to next turn. 
