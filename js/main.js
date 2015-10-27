@@ -241,6 +241,9 @@ function releaseRed()
 console.log("In releaseRed\n");
 	if(oneIsSelected)
 	{	
+		//update the list
+		listOfRedsCanJump();
+		
 		//if a jump is possible, can the selected one jump?	
 		var found = false;
 		for(a = 0; a<redsCanJump.length; a++)
@@ -269,11 +272,7 @@ console.log("Leaving releaseRed, a jump must be made!\n");
 		pickedX = game.input.x;
 		pickedY = game.input.y;
 		var red = reds.getChildAt(selectedRedIndex);
-		
-		//update the list
-		listOfRedsCanJump();
-
-		
+	
 	console.log("--grabedRedX: %i\n", red.x);
 	console.log("--grabedRedY: %i\n", red.y);	
 	console.log("--preAdjXPos: %i\n", pickedX);
