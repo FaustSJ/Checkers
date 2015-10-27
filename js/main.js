@@ -1175,17 +1175,17 @@ function listOfRedsCanJump()
 	redQueensCanJump = [];
 	var red;
 	var count = 0;
-	for(p = 0; p<12; p++)
+	for(bleh = 0; bleh<12; bleh++)
 	{
-		red = reds.getChildAt(p);
+		red = reds.getChildAt(bleh);
 		if(!red.visible)
 		{
 			continue;
 		}
 		if(checkIfTHISRedCanJump(red))
 		{
-			redsCanJump.push(p);
-console.log("redsCanJump containsindex %i",redsCanJump[count]);
+			redsCanJump.push(bleh);
+console.log("redsCanJump containsindex %i or %i",redsCanJump[count], bleh);
 			count++;
 		}
 	}
