@@ -351,7 +351,7 @@ console.log("<--releaseRed\n");
 				livingRedQueensAmount += 1;
 				livingRedsAmount -= 1;
 			}
-
+		}
 		//If the selected piece has no more jumps it can make, move to next turn. 
 		if(!recentlyJumped)
 		{
