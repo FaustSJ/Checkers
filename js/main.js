@@ -245,7 +245,6 @@ console.log("In releaseRed\n");
 		var found = false;
 		for(a = 0; a<redsCanJump.length; a++)
 		{
-console.log("redsCanJump containsindex %i",redsCanJump[a]);
 			if((redsCanJump[a]===selectedRedIndex)&&(!isRedQueen(red)))
 			{
 				found = true;
@@ -1184,7 +1183,8 @@ function listOfRedsCanJump()
 		}
 		if(checkIfTHISRedCanJump(red))
 		{
-			redsCanJump.push(reds.getChildIndex(red));
+			redsCanJump.push(p);
+console.log("redsCanJump containsindex %i",redsCanJump[a]);
 		}
 	}
 	for( q=0; q<redQueensAmount; q++)
@@ -1196,7 +1196,7 @@ function listOfRedsCanJump()
 		}
 		if(checkIfTHISRedCanJump(red))
 		{
-			redQueensCanJump.push(redQueens.getChildIndex(red));
+			redQueensCanJump.push(q);
 		}
 	}
 }
@@ -1215,7 +1215,7 @@ function listOfBlacksCanJump()
 		}
 		if(checkIfTHISBlackCanJump(black))
 		{
-			blacksCanJump.push(blacks.getChildIndex(black));
+			blacksCanJump.push(r);
 		}
 	}
 	for( s=0; s<blackQueensAmount; s++)
@@ -1227,7 +1227,7 @@ function listOfBlacksCanJump()
 		}
 		if(checkIfTHISBlackCanJump(red))
 		{
-			blackQueensCanJump.push(blackQueens.getChildIndex(black));
+			blackQueensCanJump.push(s);
 		}
 	}
 }
