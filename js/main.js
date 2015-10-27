@@ -341,8 +341,7 @@ console.log("--make it a queen\n");
 				oneIsSelected = false;
 				red.visible = false;
 				red = redQueen;
-				livingRedQueensAmount += 1;
-				livingRedsAmount -= 1;
+				RedQueensAmount += 1;
 				selectRed(redQueen);
 			}
 		}
