@@ -530,6 +530,7 @@ console.log("---a black has jumped to %i , %i \n", toX, toY);
 							{
 console.log("--making black a queen\n");
 								var blackQueen = blackQueens.create(toX, toY, 'BlackQueen');
+								blackQueensAmount += 1;
 								blackQueen.anchor.x = 0.5;
 								blackQueen.anchor.y = 0.5;
 								black.visible = false;
@@ -560,6 +561,7 @@ console.log("---a black has jumped to %i , %i \n", toX, toY);
 							{
 console.log("--making black a queen\n");
 								var blackQueen = blackQueens.create(toX, toY, 'BlackQueen');
+								blackQueensAmount += 1;
 								blackQueen.anchor.x = 0.5;
 								blackQueen.anchor.y = 0.5;
 								black.visible = false;
@@ -788,6 +790,7 @@ console.log("---no blacks can jump, moving a random black\n");
 					{
 	console.log("--making black a queen");
 						var blackQueen = blackQueens.create(toX, toY, 'BlackQueen');
+						blackQueensAmount += 1;
 						blackQueen.anchor.x = 0.5;
 						blackQueen.anchor.y = 0.5;
 						black.visible = false;
@@ -811,6 +814,7 @@ console.log("---no blacks can jump, moving a random black\n");
 					{
 	console.log("--making black a queen");
 						var blackQueen = blackQueens.create(toX, toY, 'BlackQueen');
+						blackQueensAmount += 1;
 						blackQueen.anchor.x = 0.5;
 						blackQueen.anchor.y = 0.5;
 						black.visible = false;
@@ -941,8 +945,6 @@ function isRedQueen(red)
 {
 	if(redQueensAmount>0)
 	{
-console.log("in isRedQueen");
-console.log("redx and redy are %i , %i", red.x, red.y);
 		for(h=0; h<redQueensAmount; h++)
 		{
 			var red2 = redQueens.getChildAt(h);
@@ -950,7 +952,7 @@ console.log("redx and redy are %i , %i", red.x, red.y);
 			{
 				continue;
 			}
-console.log("The queen's coords are %i , %i", red2.x, red2.y);
+
 			if(red.x===red2.x && red.y===red2.y)
 			{
 				return true;
@@ -965,6 +967,8 @@ function isBlackQueen(black)
 {
 	if(blackQueensAmount>0)
 	{
+console.log("in isRedQueen");
+console.log("redx and redy are %i , %i", red.x, red.y);
 		for(j=0; j<blackQueensAmount; j++)
 		{
 			var black2 = blackQueens.getChildAt(j);
@@ -974,6 +978,7 @@ function isBlackQueen(black)
 			}
 			if(black.x===black2.x && black.y===black2.y)
 			{
+console.log("The queen's coords are %i , %i", red2.x, red2.y);
 				return true;
 			}
 		}
