@@ -309,7 +309,7 @@ console.log("--make it a queen\n");
 				red.visible = false;
 				red = redQueen;
 				redQueensAmount += 1;
-				selectRed(redQueen);
+				selectedRedIndex = redQueens.getChildIndex(red);
 			}
 			//did it jump?
 			if(recentlyJumped)
