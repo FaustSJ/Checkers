@@ -340,7 +340,7 @@ console.log("--make it a queen\n");
 				oneIsSelected = false;
 				red.visible = false;
 				red = redQueen;
-				RedQueensAmount += 1;
+				redQueensAmount += 1;
 				selectRed(redQueen);
 			}
 		}
