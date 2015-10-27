@@ -296,6 +296,21 @@ console.log("-->checkIfRedCanMoveHere");
 			red.y = pickedY;
 			selectedRedStartPos[0] = pickedX;
 			selectedRedStartPos[1] = pickedY;
+			//did it make it to the other side?
+			if((red.y===750) && !isRedQueen(red))
+			{
+console.log("--make it a queen\n");
+				var redQueen = redQueens.create(red.x, red.y, 'RedQueen');
+				redQueen.inputEnabled = true;
+				redQueen.anchor.x = 0.5;
+				redQueen.anchor.y = 0.5;
+				redQueen.events.onInputDown.add(selectRed, this, red);
+				oneIsSelected = false;
+				red.visible = false;
+				red = redQueen;
+				redQueensAmount += 1;
+				selectRed(redQueen);
+			}
 			//did it jump?
 			if(recentlyJumped)
 			{
@@ -327,21 +342,6 @@ console.log("--yes");
 					recentlyJumped = false;
 console.log("--no");
 				}
-			}
-			//did it make it to the other side?
-			if((red.y===750) && !isRedQueen(red))
-			{
-console.log("--make it a queen\n");
-				var redQueen = redQueens.create(red.x, red.y, 'RedQueen');
-				redQueen.inputEnabled = true;
-				redQueen.anchor.x = 0.5;
-				redQueen.anchor.y = 0.5;
-				redQueen.events.onInputDown.add(selectRed, this, red);
-				oneIsSelected = false;
-				red.visible = false;
-				red = redQueen;
-				redQueensAmount += 1;
-				selectRed(redQueen);
 			}
 		}
 		//If the selected piece has no more jumps it can make, move to next turn. 
@@ -932,7 +932,6 @@ function isRedQueen(red)
 {
 	if(redQueensAmount>0)
 	{
-		 
 		for(h=0; h<redQueensAmount; h++)
 		{
 			var red2 = redQueens.getChildAt(h);
@@ -954,7 +953,6 @@ function isBlackQueen(black)
 {
 	if(blackQueensAmount>0)
 	{
-		 
 		for(j=0; j<blackQueensAmount; j++)
 		{
 			var black2 = blackQueens.getChildAt(j);
