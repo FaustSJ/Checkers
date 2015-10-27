@@ -415,17 +415,23 @@ console.log("-->checkOccupancy of %i , %i \n", toPosX, toPosY);
 	{
 		//was it supposed to?
 		var found = false;
-		 
 		for(b = 0; b<redsCanJump.length; b++)
 		{
-			if(redsCanJump[b]===selectedRedIndex)
+			if((redsCanJump[b]===selectedRedIndex)&&(!isRedQueen(red)))
 			{
 				found = true;
 			}
 		}
-		if(!found)
+		for(b = 0; b<redQueensCanJump.length; b++)
 		{
-			console.log("Leaving with false, can't jump that piece\n");
+			if((redQueensCanJump[b]===selectedRedIndex)&&(isRedQueen(red)))
+			{
+				found = true;
+			}
+		}
+		if((redsCanJump.length>0 || redQueensCanJump.length>0) && !found)
+		{
+			console.log("Leaving with false, that piece can't jump\n");
 			return false;
 		}
 		
