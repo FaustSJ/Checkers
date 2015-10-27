@@ -1212,7 +1212,6 @@ function listOfRedsCanJump()
 		if(checkIfTHISRedCanJump(red))
 		{
 			redsCanJump.push(bleh);
-console.log("redsCanJump containsindex %i or %i",redsCanJump[count], bleh);
 			count++;
 		}
 	}
@@ -1254,7 +1253,7 @@ function listOfBlacksCanJump()
 		{
 			continue;
 		}
-		if(checkIfTHISBlackCanJump(red))
+		if(checkIfTHISBlackCanJump(black))
 		{
 			blackQueensCanJump.push(s);
 		}
