@@ -968,7 +968,7 @@ function isBlackQueen(black)
 	if(blackQueensAmount>0)
 	{
 console.log("in isRedQueen");
-console.log("redx and redy are %i , %i", red.x, red.y);
+console.log("redx and redy are %i , %i", black.x, black.y);
 		for(j=0; j<blackQueensAmount; j++)
 		{
 			var black2 = blackQueens.getChildAt(j);
@@ -978,7 +978,7 @@ console.log("redx and redy are %i , %i", red.x, red.y);
 			}
 			if(black.x===black2.x && black.y===black2.y)
 			{
-console.log("The queen's coords are %i , %i", red2.x, red2.y);
+console.log("The queen's coords are %i , %i", black2.x, black2.y);
 				return true;
 			}
 		}
