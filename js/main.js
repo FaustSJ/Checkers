@@ -309,6 +309,7 @@ console.log("--make it a queen\n");
 				redQueen.events.onInputDown.add(selectRed, this, red);
 				oneIsSelected = false;
 				red.visible = false;
+				selectedRed = redQueen;
 				red = redQueen;
 				redQueensAmount += 1;
 				selectedRedIndex = redQueens.getChildIndex(red);
