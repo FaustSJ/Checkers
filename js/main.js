@@ -15,6 +15,7 @@ var reds;
 var blacks;
 var selectedRedIndex;
 var selectedRedStartPos = new Array(0,0);
+var selectedRed;
 var originalX=0;
 var originaly=0;
 var playerTurn=true;
@@ -210,6 +211,7 @@ console.log("In selectRed\n");
 	if(!oneIsSelected)
 	{
 		selectedRedIndex = -1;
+		selectedRed = red;
 		if(redQueensAmount>0)
 		{
 			if(isRedQueen(red))
@@ -243,7 +245,7 @@ function releaseRed()
 console.log("In releaseRed\n");
 		//update the list
 		listOfRedsCanJump();
-		var red = reds.getChildAt(selectedRedIndex);
+		var red = selectedRed;
 		
 		//if a jump is possible, can the selected one jump?	
 		var found = false;
@@ -300,7 +302,7 @@ console.log("-->checkIfRedCanMoveHere");
 			if((red.y===750) && !isRedQueen(red))
 			{
 console.log("--make it a queen\n");
-				var redQueen = redQueens.create(red.x, red.y, 'RedQueen');
+				var redQueen = redQueens.create(pickedX, pickedY, 'RedQueen');
 				redQueen.inputEnabled = true;
 				redQueen.anchor.x = 0.5;
 				redQueen.anchor.y = 0.5;
@@ -520,7 +522,7 @@ console.log("---a black has jumped to %i , %i \n", toX, toY);
 							if((black.y===50) && !isBlackQueen(black))
 							{
 console.log("--making black a queen\n");
-								var blackQueen = blackQueens.create(black.x, black.y, 'BlackQueen');
+								var blackQueen = blackQueens.create(toX, toY, 'BlackQueen');
 								blackQueen.anchor.x = 0.5;
 								blackQueen.anchor.y = 0.5;
 								black.visible = false;
@@ -550,7 +552,7 @@ console.log("---a black has jumped to %i , %i \n", toX, toY);
 							if((black.y===50) && !isBlackQueen(black))
 							{
 console.log("--making black a queen\n");
-								var blackQueen = blackQueens.create(black.x, black.y, 'BlackQueen');
+								var blackQueen = blackQueens.create(toX, toY, 'BlackQueen');
 								blackQueen.anchor.x = 0.5;
 								blackQueen.anchor.y = 0.5;
 								black.visible = false;
@@ -778,7 +780,7 @@ console.log("---no blacks can jump, moving a random black\n");
 					if((black.y===50) && !isBlackQueen(black))
 					{
 	console.log("--making black a queen");
-						var blackQueen = blackQueens.create(black.x, black.y, 'BlackQueen');
+						var blackQueen = blackQueens.create(toX, toY, 'BlackQueen');
 						blackQueen.anchor.x = 0.5;
 						blackQueen.anchor.y = 0.5;
 						black.visible = false;
@@ -801,7 +803,7 @@ console.log("---no blacks can jump, moving a random black\n");
 					if((black.y===50) && !isBlackQueen(black))
 					{
 	console.log("--making black a queen");
-						var blackQueen = blackQueens.create(black.x, black.y, 'BlackQueen');
+						var blackQueen = blackQueens.create(toX, toY, 'BlackQueen');
 						blackQueen.anchor.x = 0.5;
 						blackQueen.anchor.y = 0.5;
 						black.visible = false;
