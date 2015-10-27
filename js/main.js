@@ -356,7 +356,7 @@ console.log("<--releaseRed\n");
 		if(!recentlyJumped)
 		{
 			oneIsSelected = false;
-			if(red.x!==originalX)||(red.y!==originalY)
+			if((red.x!==originalX)||(red.y!==originalY))
 			{
 				playerTurn = false;
 			}
