@@ -15,6 +15,8 @@ var reds;
 var blacks;
 var selectedRedIndex;
 var selectedRedStartPos = new Array(0,0);
+var originalX=0;
+var originaly=0;
 var playerTurn=true;
 var redCanJump = false;
 var blackCanJump = false;
@@ -220,6 +222,8 @@ console.log("--Piece is a queen\n");
 		{
 			selectedRedIndex = reds.getChildIndex(red);
 		}
+		originalX = red.x;
+		originalY = red.y;
 		selectedRedStartPos[0] = red.x;
 		selectedRedStartPos[1] = red.y;
 		oneIsSelected = true;
@@ -236,9 +240,8 @@ function releaseRed()
 {
 console.log("In releaseRed\n");
 	if(oneIsSelected)
-	{
-		//if a jump is possible, can the selected one jump?
-		
+	{	
+		//if a jump is possible, can the selected one jump?	
 		var found = false;
 		for(a = 0; a<redsCanJump.length; a++)
 		{
@@ -287,11 +290,11 @@ console.log("-->Updating listOfRedsCanJump");
 	
 	console.log("--adjustedXPos: %i\n", pickedX);
 	console.log("--adjustedYPos: %i\n", pickedY);
-	
+
 		//checkIfRedCanMoveHere moves the piece, the checks its location.
 console.log("-->checkIfRedCanMoveHere");
 		if(checkIfRedCanMoveHere(red, selectedRedStartPos[0], selectedRedStartPos[1], pickedX, pickedY))
-		{	
+		{			
 			tween = game.add.tween(red).to({x: pickedX, y: pickedY}, 500, Phaser.Easing.Linear.None, true);
 			tween.onComplete.removeAll();
 			red.x = pickedX;
@@ -348,12 +351,12 @@ console.log("<--releaseRed\n");
 				livingRedQueensAmount += 1;
 				livingRedsAmount -= 1;
 			}
-		}
+
 		//If the selected piece has no more jumps it can make, move to next turn. 
 		if(!recentlyJumped)
 		{
 			oneIsSelected = false;
-			if(red.x!==selectedRedStartPos[0])
+			if(red.x!==originalX)||(red.y!==originalY)
 			{
 				playerTurn = false;
 			}
@@ -393,6 +396,7 @@ console.log("--toY: %i\n", toPosY);
 	if(toPosX===fromPosX)
 	{
 		console.log("Leaving with false, must move diagonally\n");
+		return false;
 	}
 		
 	//...aaand that it isn't going too far
@@ -471,7 +475,6 @@ console.log("<--checkIfRedCanMoveHere\n");
 			}
 			
 			console.log("Leaving with true, it can move\n");
-			recentlyJumped = false;
 			return true;
 		}
 	}
