@@ -245,6 +245,7 @@ console.log("In releaseRed\n");
 		var found = false;
 		for(a = 0; a<redsCanJump.length; a++)
 		{
+console.log("redsCanJump containsindex %i",redsCanJump[a]);
 			if((redsCanJump[a]===selectedRedIndex)&&(!isRedQueen(red)))
 			{
 				found = true;
