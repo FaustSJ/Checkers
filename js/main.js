@@ -1174,6 +1174,7 @@ function listOfRedsCanJump()
 	redsCanJump = [];
 	redQueensCanJump = [];
 	var red;
+	var count = 0;
 	for(p = 0; p<12; p++)
 	{
 		red = reds.getChildAt(p);
@@ -1184,7 +1185,8 @@ function listOfRedsCanJump()
 		if(checkIfTHISRedCanJump(red))
 		{
 			redsCanJump.push(p);
-console.log("redsCanJump containsindex %i",redsCanJump[a]);
+console.log("redsCanJump containsindex %i",redsCanJump[count]);
+			count++;
 		}
 	}
 	for( q=0; q<redQueensAmount; q++)
