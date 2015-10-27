@@ -238,11 +238,12 @@ console.log("Leaving selectRed\n");
 //			and the game checks if it is a valid move.
 function releaseRed()
 {
-console.log("In releaseRed\n");
 	if(oneIsSelected)
 	{	
+console.log("In releaseRed\n");
 		//update the list
 		listOfRedsCanJump();
+		var red = reds.getChildAt(selectedRedIndex);
 		
 		//if a jump is possible, can the selected one jump?	
 		var found = false;
@@ -271,7 +272,6 @@ console.log("Leaving releaseRed, a jump must be made!\n");
 
 		pickedX = game.input.x;
 		pickedY = game.input.y;
-		var red = reds.getChildAt(selectedRedIndex);
 	
 	console.log("--grabedRedX: %i\n", red.x);
 	console.log("--grabedRedY: %i\n", red.y);	
